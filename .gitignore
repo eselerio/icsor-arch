@@ -215,3 +215,4 @@ data/asm2d-tsn/simulation/composition_matrix_cache_*.pkl
 uv.lock
 data/asm2d-tsn/simulation/
 artifacts/
+docs/
