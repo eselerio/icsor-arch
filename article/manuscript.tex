@@ -1,0 +1,605 @@
+%% Elsevier single-column submission draft.
+%% Replace every bracketed placeholder with final manuscript content.
+%% Keep all referenced submission assets at the same folder level before zipping.
+\documentclass[a4paper,fleqn]{cas-sc}
+
+\usepackage[authoryear,longnamesfirst]{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{float}
+
+%%% Author macros
+\def\tsc#1{\csdef{#1}{\textsc{\lowercase{#1}}\xspace}}
+\tsc{WGM}
+\tsc{QE}
+
+\ExplSyntaxOn
+\keys_set:nn { stm / mktitle } { nologo }
+\cs_set:Npn \__first_footerline:
+{
+    \group_begin:
+    \small
+    \sffamily
+    \ifnum\theblind>0\relax
+    \else
+        \__short_authors:
+    \fi
+    \group_end:
+}
+\ExplSyntaxOff
+
+\newcommand{\draftguidance}[1]{%
+\begin{quote}
+\small
+\textbf{Guidance.} #1
+\end{quote}
+}
+
+\newcommand{\placeholderfigure}[3]{%
+\begin{figure}[htbp]
+\centering
+\fbox{%
+\parbox[c][2.15in][c]{0.82\textwidth}{%
+\centering
+\textbf{Figure Placeholder}\\[0.5em]
+#3
+}}
+\caption{#1}
+\label{#2}
+\end{figure}
+}
+
+\begin{document}
+\let\WriteBookmarks\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+
+% Keep author-identifying metadata blank here until the final submission stage.
+\shorttitle{Model-Agnostic Enforcement of Mass Conservation and Non-Negativity}
+\shortauthors{}
+
+\title[mode=title]{Model-Agnostic Enforcement of Mass Conservation and Non-Negativity in Tabular Surrogates of Activated Sludge Processes}
+
+\author{}
+
+\begin{abstract}
+Placeholder abstract text. Write one self-contained abstract paragraph, or a structured abstract if required by the target journal, covering the problem, the objective, the approach, the evidence base or study material, the main findings, and the principal takeaway.
+\end{abstract}
+
+\begin{graphicalabstract}
+\centering
+\fbox{%
+\parbox[c][2.10in][c]{0.82\textwidth}{%
+\centering
+\textbf{Graphical Abstract Placeholder}\\[0.5em]
+Summarize the article's central question, the overall approach, and the main takeaway in one standalone visual.
+}}
+\end{graphicalabstract}
+
+\begin{highlights}
+\item Insert one concise highlight stating the main contribution or purpose.
+\item Insert one concise highlight stating the main approach, evidence base, or result.
+\item Insert one concise highlight stating the broader significance, implication, or use case.
+\end{highlights}
+
+\begin{keywords}
+Placeholder keyword 1 \sep Placeholder keyword 2 \sep Placeholder keyword 3 \sep Placeholder keyword 4
+\end{keywords}
+
+\maketitle
+
+\draftguidance{This file is a flexible starting template. Rename, reorder, duplicate, or remove sections once the article plan is clear. The prompts below are intentionally general and should not be treated as commitments about the final content.}
+
+\section*{Nomenclature}
+\begin{tabbing}
+\hspace{3.9cm} \= \kill
+$A$ \> Full-row-rank invariant matrix defining the ASM conservation constraints \\
+$b_*$ \> Conservation target for one prediction, $b_* = A c_{in,*}$ \\
+$B$ \> Null-space basis used in the Kircher--Votsmeier projection when that notation is retained \\
+$c$ \> Generic ASM component concentration vector \\
+$c_+$ \> Strictly positive scaling target, $c_+ = \max(c_{raw},\varepsilon\mathbf{1})$ componentwise \\
+$c_{in}$ \> Influent ASM component concentration vector \\
+$c_{in,*}$ \> Influent ASM component vector for one deployment sample \\
+$c_{out}$ \> True steady-state effluent ASM component concentration vector \\
+$c_{raw}^{(m)}$ \> Raw effluent component prediction from surrogate model $m$ \\
+$\tilde{c}^{(m)}$ \> Projected effluent component prediction from surrogate model $m$ \\
+$\Delta\tilde{c}_W$ \> Projected component change in the scaled projection coordinates \\
+$d_c^{(m)}$ \> Component-space displacement caused by projection for model $m$ \\
+$d_y^{(m)}$ \> Reported-composite displacement caused by projection for model $m$ \\
+$\varepsilon$ \> Small positive lower bound used to construct projection scaling factors \\
+$F$ \> Number of ASM component targets; $F=20$ in this study \\
+$f_m$ \> Already trained tabular surrogate model $m$ \\
+$I_{comp}$ \> Matrix mapping ASM components to reported effluent composites \\
+$K$ \> Number of reported effluent-quality composites; $K=4$ in this study \\
+$M_{op}$ \> Number of operating variables; $M_{op}=2$ in this study \\
+$N_{rxn}$ \> Number of ASM2d-TSN reactions; $N_{rxn}=28$ in this study \\
+$N_{test}$ \> Number of held-out test samples; $N_{test}=2000$ in the fixed split \\
+$r$ \> Number of independent conservation constraints, equal to the row count of $A$ \\
+$s$ \> Componentwise inverse scaling vector, $s=1/c_+$ \\
+$u$ \> Operating-variable vector \\
+$u_*$ \> Operating variables for one deployment sample \\
+$v_{mc}$ \> Mass-conservation residual for a component prediction \\
+$v_{nn}$ \> Non-negativity violation magnitude for a component prediction \\
+$W_s$ \> Diagonal scaling matrix, $W_s=\mathrm{Diag}(s)$ \\
+$x_*$ \> Full model input for one deployment sample, $x_*=(u_*,c_{in,*})$ \\
+$y$ \> Reported effluent-quality composite vector \\
+$y_{raw}^{(m)}$ \> Reported composite vector computed from $c_{raw}^{(m)}$ \\
+$\tilde{y}^{(m)}$ \> Reported composite vector computed from $\tilde{c}^{(m)}$ \\
+$Z$ \> Orthonormal basis for the null space of $A$ used in this manuscript \\
+$\nu$ \> Stoichiometric/Petersen matrix for the ASM2d-TSN process model \\
+$\mathcal{F}(c_{in,*})$ \> Feasible component set satisfying conservation and non-negativity \\
+$\odot$ \> Elementwise multiplication \\
+$\top$ \> Matrix transpose \\
+ASM \> Activated Sludge Model \\
+ASM2d-TSN \> Activated Sludge Model No.\ 2d with two-step nitrification \\
+COD \> Chemical oxygen demand \\
+CSTR \> Continuous stirred tank reactor \\
+HRT \> Hydraulic retention time \\
+MAE \> Mean absolute error \\
+MAPE \> Mean absolute percentage error \\
+MSE \> Mean squared error \\
+PAO \> Phosphate-accumulating organisms \\
+PLS \> Partial least squares \\
+RMSE \> Root mean squared error \\
+SVR \> Support vector regression \\
+TN \> Total nitrogen \\
+TP \> Total phosphorus \\
+TSS \> Total suspended solids \\
+\end{tabbing}
+
+\section{Introduction}
+
+Water pollution remains a major environmental and public health challenge, and activated sludge systems are central to biological wastewater treatment because they remove carbon, nitrogen, phosphorus, and solids through coupled microbial and physicochemical transformations (Duan et al., 2022; Lin et al., 2022; Madhav et al., 2019). Activated Sludge Models (ASM) provide the mechanistic basis for analyzing these systems, but their coupled, multiplicative, and nonlinear reaction networks make design, simulation, and optimization computationally demanding (Aboagye et al., 2021; Henze et al., 2006; Padron-Paez et al., 2020; Xiao et al., 2025).
+
+Surrogate modeling has therefore become an important route for approximating wastewater treatment behavior at lower evaluation cost (Bhosekar \& Ierapetritou, 2018; Durkin et al., 2024; Tsochatzidi et al., 2025). Earlier approaches include linearization, fuzzy or reduced order approximation, response surface analysis, and multivariable polynomial fitting, while modern wastewater studies increasingly use tabular machine learning and neural network models for effluent quality prediction (Ahn et al., 2014; Asadi et al., 2017; Bagherzadeh et al., 2021; Kim et al., 2009; Li et al., 2020; Lim et al., 2011; Mao et al., 2024; Wang et al., 2025; Yang et al., 2014). Tabular foundation models extend this landscape by pretraining predictive behavior across many tables and adapting to new tasks through in-context or transfer learning; representative examples include TabPFN, CARTE, TabDPT, and TabICL (Hollmann et al., 2025; Kim et al., 2024; Ma et al., 2025; Qu et al., 2025).
+
+Predictive accuracy alone, however, does not ensure physical admissibility. A tabular surrogate may predict reported effluent quantities accurately while implying an impossible redistribution of the ASM component inventories that define chemical oxygen demand (COD), nitrogen, phosphorus, and solids transfer. This distinction matters because mass conservation and nonnegativity are defined on the effluent ASM component state before it is collapsed into reported COD, total nitrogen (TN), total phosphorus (TP), and total suspended solids (TSS). Unconstrained learned predictors can therefore produce physically impossible negative concentrations or loads, violate inlet-outlet material balances, distort interpretation of apparent treatment performance, weaken extrapolation when operating conditions shift, and reduce confidence in outputs used for monitoring, control, compliance screening, or design decisions. Accurate learned predictors can still exhibit conservation residuals unless corrected explicitly, and a prediction that conserves material but contains negative concentrations remains unusable (Sturm \& Silva, 2025). Because these requirements are properties of the predicted state rather than of any particular estimator, an ideal enforcement procedure should be model agnostic: it should act after prediction on tree ensembles, kernel regressors, linear methods, neural networks, and tabular foundation models alike.
+
+Recent scientific machine learning literature shows that enforcing physical consistency is possible but nontrivial. Several approaches impose conservation through analytic equality constraints, conservative flux formulations, stoichiometric network architectures, projection operators, completion strategies, or probabilistic reconciliation, thereby showing that learned models need not treat conservation as a purely diagnostic afterthought (Beucler et al., 2021; Hansen et al., 2024; Sturm \& Wexler, 2020, 2022). Model agnostic correction is especially appealing in this setting because it can act on a completed prediction without redesigning the surrogate that produced it. The closest such precedent in the cited literature is the species weighted correction of Sturm and Silva (2025), which acts as a conservation restoring nudge for learned atmospheric composition states. However, that nudge addresses the conservation manifold rather than the full feasible set: restoring exact invariants alone does not preclude negative component concentrations. Soft constraint methods, including physics informed neural networks, can similarly urge learned states toward physical plausibility, but penalty terms generally do not by themselves provide exact conservation or strict componentwise nonnegativity at deployment (Raissi et al., 2019; Hansen et al., 2024). Conversely, nonnegative output transformations or post hoc clipping can prevent negative components without ensuring that the conserved ASM inventories remain correct.
+
+A smaller body of work has reported simultaneous treatment of conservation and nonnegativity. Positivity preserving conservative corrections have been developed for mechanistic kinetics surrogates in atmospheric chemistry and heterogeneous catalysis, and mass preserving scaling has been used to maintain both total conservation and nonnegativity for advected aerosol superspecies (Kircher \& Votsmeier, 2025; Sturm et al., 2023). General hard constraint learning frameworks further show that equality and inequality constraints can be imposed together in broader machine learning settings (Min et al., 2024; Utkarsh et al., 2025). These studies demonstrate that dual physical guarantees are mathematically achievable and scientifically valuable. To the best of the present paper's knowledge, and on the basis of the source material reviewed here, the projection of Kircher and Votsmeier (2025) is the only identified model agnostic post-prediction methodology that simultaneously enforces mass conservation and componentwise nonnegativity. In the activated sludge setting considered here, the already trained tabular model is left unchanged; its raw effluent component vector is bounded below only to define positive scaling factors, projected onto the null space of the ASM invariant operator, and then mapped back to a corrected component vector that satisfies the influent-implied mass balance while remaining nonnegative. However, the state definitions, conservation operators, model access assumptions, deployment objectives, and application domains of prior constraint-enforcing studies differ substantially from model agnostic correction of steady state activated sludge component predictions, where heterogeneous tabular surrogates are trained on influent composition and operating conditions and are then evaluated through wastewater specific material inventories and reported effluent composites.
+
+This gap matters because activated sludge models couple conserved material inventories with biologically and chemically constrained component states. Violations of either mass conservation or nonnegativity can distort process interpretation, confound surrogate assisted optimization, and weaken confidence in data driven design recommendations. A model agnostic enforcement strategy would preserve component level bookkeeping, prevent impossible negative concentrations and loads, reduce reliance on ad hoc clipping or model specific reconciliation, and allow heterogeneous tabular surrogates to be compared under the same physical contract.
+
+The unresolved question is therefore whether heterogeneous tabular surrogates, including classical regressors and tabular foundation models, can be placed under one ASM component space correction that guarantees both mass conservation and nonnegativity. Prior wastewater machine learning studies have generally emphasized predictive accuracy for reported effluent variables (Bagherzadeh et al., 2021; Mao et al., 2024; Wang et al., 2025; Yang et al., 2025). As a representative recent example, Fuck et al. (2024) evaluate machine learning models for effluent quality prediction from simulated and real wastewater treatment plant data using predictive performance criteria, without explicitly enforcing both inlet-outlet mass conservation and nonnegative component states. In parallel, tabular foundation model studies have focused on general predictive benchmarks rather than stoichiometric feasibility in environmental process models (Hollmann et al., 2025; Kim et al., 2024; Ma et al., 2025; Qu et al., 2026).
+
+This article addresses that question through a physically grounded, model agnostic benchmark and enforcement analysis. The contribution is not a new projection algorithm or a new tabular learner, but the application of Kircher and Votsmeier's projection method to machine learning based effluent prediction and the evaluation of how simultaneous enforcement of exact conservation and componentwise nonnegativity affects multiple tabular models. The analysis is conducted for steady state predictions from a standalone continuous stirred tank reactor represented with a process model based on ASM2d with two step nitrification (Guerrero et al., 2011; Henze et al., 2006).
+
+\section{Methods}
+
+\subsection{Kircher and Votsmeier Projection Method}
+
+The physical-enforcement step used in this study is the positivity-preserving conservation projection of Kircher and Votsmeier (2025). The procedure is used here as a model agnostic post-prediction filter: each tabular surrogate is trained in the usual supervised-learning manner, produces a raw effluent ASM component vector, and is left unchanged while the external correction maps that vector onto the feasible component set. Thus the present contribution is not a new projection algorithm, but an application and evaluation of an existing simultaneous conservation-and-positivity projection for machine-learning-based effluent prediction.
+
+For a held-out sample, let $u_* \in \mathbb{R}^{M_{op}}$ denote the operating variables, let $c_{in,*} \in \mathbb{R}_+^F$ denote the influent ASM component vector, and write the full tabular input as $x_*=(u_*,c_{in,*})$. For surrogate model $m$, the raw component-space prediction is
+\begin{equation}
+\label{eq:raw_component_prediction}
+c_{raw}^{(m)} = f_m(x_*).
+\end{equation}
+The corrected component vector must satisfy both the influent-implied conservation target and componentwise non-negativity. With $A \in \mathbb{R}^{r \times F}$ denoting the invariant matrix and $b_* = A c_{in,*}$, the feasible set for this sample is
+\begin{equation}
+\label{eq:feasible_set}
+\mathcal{F}(c_{in,*}) =
+\left\{c \in \mathbb{R}_{+}^{F}: Ac = A c_{in,*}\right\}.
+\end{equation}
+The invariant matrix is derived from the ASM2d-TSN stoichiometric matrix. If $\nu \in \mathbb{R}^{28 \times 20}$ is the Petersen matrix in the adopted component basis, then $A$ is chosen so that
+\begin{equation}
+\label{eq:invariant_operator}
+A\nu^T=0 \quad \Rightarrow \quad A c_{out}=A c_{in}
+\end{equation}
+for admissible steady-state influent and effluent component vectors. In the benchmark construction, $A$ is obtained from a singular value decomposition of $\nu^T$; the retained basis vectors are transposed into row form, rounded for numerical stability, thresholded to remove negligible coefficients, and normalized by the first non-zero coefficient in each row. Conservation is therefore imposed on the ASM component state before any collapse to reported COD, TN, TP, or TSS.
+
+The projection begins by constructing a strictly positive scaling target from the raw prediction:
+\begin{equation}
+\label{eq:positive_scaling}
+c_+ = \max\left(c_{raw}^{(m)},\varepsilon\mathbf{1}\right), \qquad
+s = \frac{1}{c_+}, \qquad
+W_s=\mathrm{Diag}(s),
+\end{equation}
+where the maximum is applied componentwise and $\varepsilon>0$ is a small numerical lower bound. This lower-bounding step is used only to define the scaling factors; it is not treated as the corrected prediction and does not change the fitted surrogate. Components close to zero receive larger inverse weights in $s$, so the subsequent projection discourages movements that would drive trace components negative.
+
+\draftguidance{Before submission, insert the numerical value of $\varepsilon$ from the final execution code or run log. Do not infer it from unrelated solver tolerances.}
+
+Let $Z \in \mathbb{R}^{F \times (F-r)}$ be an orthonormal basis for the null space of $A$,
+\begin{equation}
+\label{eq:null_space_basis}
+AZ=0, \qquad Z^TZ=I.
+\end{equation}
+Because $A$ is fixed by the process stoichiometry and system boundary, $Z$ is computed once and reused at inference. The bounded raw change $(c_+ - c_{in,*})$ is then projected onto the conservation-preserving null space in the scaled coordinates:
+\begin{equation}
+\label{eq:kv_scaled_projection}
+\Delta\tilde{c}_W =
+W_s Z \left(Z^\top W_s^\top W_s Z\right)^{-1}
+Z^\top W_s \left(c_+ - c_{in,*}\right).
+\end{equation}
+The corrected effluent component prediction is obtained by unscaling the projected change and adding it to the influent reference,
+\begin{equation}
+\label{eq:corrected_component_prediction}
+\tilde{c}^{(m)} =
+c_{in,*} + \Delta\tilde{c}_W \odot \frac{1}{s}.
+\end{equation}
+The corrected vector replaces the raw component vector only for the projected-output evaluation. The raw vector is retained so that the accuracy and physical-admissibility effects of the correction can be measured directly.
+
+Reported effluent-quality outputs are computed after the component-space correction by the same external composition matrix used for every model:
+\begin{equation}
+\label{eq:reported_composites}
+y_{raw}^{(m)} = I_{comp}c_{raw}^{(m)}, \qquad
+\tilde{y}^{(m)} = I_{comp}\tilde{c}^{(m)}.
+\end{equation}
+This ordering keeps the enforcement target aligned with the physical variables on which conservation and non-negativity are defined.
+
+\subsection{Simulated Activated Sludge Process and Dataset Generation}
+
+The benchmark data were generated from a standalone steady-state continuous stirred tank reactor represented by Activated Sludge Model No.\ 2d with two-step nitrification (ASM2d-TSN). The activated sludge model basis follows Henze et al. (2006), and the two-step nitrification formulation, stoichiometric values, and simulation rate coefficients follow Guerrero et al. (2011). The process model contains $N_{rxn}=28$ coupled biological and chemical processes, including hydrolysis under aerobic, anoxic, and anaerobic conditions; aerobic heterotrophic growth on fermentable substrate and acetate; nitrate and nitrite denitrification pathways; fermentation; storage, growth, and lysis processes for phosphate-accumulating organisms; growth and lysis of ammonia-oxidizing and nitrite-oxidizing bacteria; and precipitation-redissolution reactions for phosphorus-bearing metal solids.
+
+The mechanistic state basis contains $F=20$ ASM components. The dissolved components are $S_O$, $S_F$, $S_A$, $S_{NH4}$, $S_{NO2}$, $S_{NO3}$, $S_{N2}$, $S_{PO4}$, $S_I$, and $S_{ALK}$, and the particulate components are $X_I$, $X_S$, $X_H$, $X_{PAO}$, $X_{PP}$, $X_{PHA}$, $X_{AOB}$, $X_{NOB}$, $X_{MeP}$, and $X_{MeOH}$. All surrogate models are trained to predict the 20-component effluent state. The four reported effluent-quality variables, COD, TN, TP, and TSS, are calculated externally as $y=I_{comp}c$ after prediction, with the rows of $I_{comp}$ encoding the component contributions to the reported carbon, nitrogen, phosphorus, and suspended-solids composites. The composition map is therefore common to the raw and projected outputs and to all model families.
+
+The simulation design sampled 22 inputs: hydraulic retention time, aeration, and the 20 influent component concentrations. Latin hypercube sampling with random seed 42 was used, and sampling continued until 10,000 valid steady-state samples were accepted. Table~\ref{tab:simulation_domain} lists the sampled domain. These bounds define the operating and influent envelope within which the surrogate comparison and physical-admissibility claims are made.
+
+\begin{table}[htbp]
+\centering
+\caption{Sampled operating and influent variables used to generate the steady-state ASM2d-TSN benchmark dataset.}
+\label{tab:simulation_domain}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{2.1cm}p{2.7cm}p{2.8cm}p{3.0cm}}
+\hline
+Variable & Category & Range & Unit \\
+\hline
+$\mathrm{HRT}$ & Operating & [6.0, 36.0] & h \\
+$\mathrm{Aeration}$ & Operating & [0.5, 2.5] & -- \\
+$S_O$ & Influent dissolved & [0.0, 0.5] & g O$_2$/m$^3$ \\
+$S_F$ & Influent dissolved & [20.0, 180.0] & g COD/m$^3$ \\
+$S_A$ & Influent dissolved & [5.0, 80.0] & g COD/m$^3$ \\
+$S_{NH4}$ & Influent dissolved & [12.0, 55.0] & g N/m$^3$ \\
+$S_{NO2}$ & Influent dissolved & [0.0, 3.0] & g N/m$^3$ \\
+$S_{NO3}$ & Influent dissolved & [0.0, 8.0] & g N/m$^3$ \\
+$S_{N2}$ & Influent dissolved & [0.0, 2.0] & g N/m$^3$ \\
+$S_{PO4}$ & Influent dissolved & [2.0, 18.0] & g P/m$^3$ \\
+$S_I$ & Influent dissolved & [10.0, 90.0] & g COD/m$^3$ \\
+$S_{ALK}$ & Influent dissolved & [80.0, 260.0] & mol/m$^3$ \\
+$X_I$ & Influent particulate & [20.0, 120.0] & g COD/m$^3$ \\
+$X_S$ & Influent particulate & [60.0, 280.0] & g COD/m$^3$ \\
+$X_H$ & Influent particulate & [15.0, 100.0] & g COD/m$^3$ \\
+$X_{PAO}$ & Influent particulate & [5.0, 60.0] & g COD/m$^3$ \\
+$X_{PP}$ & Influent particulate & [2.0, 20.0] & g P/m$^3$ \\
+$X_{PHA}$ & Influent particulate & [1.0, 30.0] & g COD/m$^3$ \\
+$X_{AOB}$ & Influent particulate & [0.5, 8.0] & g COD/m$^3$ \\
+$X_{NOB}$ & Influent particulate & [0.5, 8.0] & g COD/m$^3$ \\
+$X_{MeP}$ & Influent particulate & [0.0, 12.0] & g TSS/m$^3$ \\
+$X_{MeOH}$ & Influent particulate & [0.0, 12.0] & g TSS/m$^3$ \\
+\hline
+\end{tabular}
+\end{table}
+
+For each sampled operating-influent point, the steady-state ASM balance equations were solved under lower and upper state bounds of $10^{-8}$ and 1500 by nonlinear least squares. The variable, residual, and gradient tolerances were $10^{-9}$, and each solve was limited to 1200 function evaluations. Up to 25 candidate attempts were allowed for each target sample so that infeasible draws could be replaced while maintaining the prescribed dataset size. Two physically informed initializations were attempted before fallback dynamic relaxation; if neither initialization reached the residual threshold, the process model was dynamically relaxed for 20 days with a stiff backward differentiation formula integrator, and the terminal state from that relaxation was reused as a steady-state initial guess. Only converged states with maximum absolute residual no greater than $10^{-9}$ were retained.
+
+\begin{table}[htbp]
+\centering
+\caption{Simulation and acceptance settings used to construct the benchmark dataset.}
+\label{tab:simulation_settings}
+\scriptsize
+\begin{tabular}{p{3.7cm}p{7.2cm}}
+\hline
+Setting & Value or rule \\
+\hline
+Process model & Standalone steady-state CSTR based on ASM2d-TSN \\
+ASM components & 20 effluent component targets and 20 influent component references \\
+Reaction processes & 28 coupled biological and chemical processes \\
+Reported composites & COD, TN, TP, and TSS computed with $I_{comp}$ \\
+Sampling design & Latin hypercube sampling over 22 inputs \\
+Random seed & 42 \\
+Accepted samples & 10,000 converged steady states \\
+Steady-state solver & Nonlinear least squares under box constraints \\
+State bounds & $[10^{-8},1500]$ during the steady-state solve \\
+Solver tolerances & Variable, residual, and gradient tolerances of $10^{-9}$ \\
+Function evaluations & Maximum of 1200 per nonlinear solve \\
+Candidate attempts & Up to 25 attempts per target sample \\
+Fallback initialization & 20-day stiff BDF dynamic relaxation if two steady-state initializations fail \\
+Acceptance criterion & Maximum absolute residual no greater than $10^{-9}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+The first initialization blended the current influent state with the previous accepted effluent state when such a previous state was available, adjusted readily consumed substrates downward, preserved biomass pools, and estimated dissolved oxygen from hydraulic dilution and oxygen-transfer terms. The multistart initialization reused the primary state but applied stronger substrate depletion and biomass enrichment. Both candidate initial states were clipped to $[10^{-6},1500]$ before solving. These initialization rules were used only to obtain converged process-model samples; they were not used as features in the surrogate models.
+
+\subsection{Data Splitting, Preprocessing, Scaling, and Leakage Control}
+
+The accepted dataset was converted into a supervised tabular learning problem with 22 input features and 20 component-space targets. The features were HRT, aeration, and the 20 influent ASM component concentrations. The targets were the corresponding 20 effluent ASM component concentrations. The same row indices, input columns, target columns, influent constraint references, and composition matrix were used for all model families.
+
+A single row-wise 80--20 train-test split with random seed 42 was used for the fixed benchmark, yielding 8,000 training samples and 2,000 held-out test samples. The test set was reserved for final evaluation only. Hyperparameter tuning used data drawn from the training pool: 50\% of the training rows were selected for tuning, and that 4,000-row subset was split with a 20\% validation fraction, giving 3,200 tuning-training rows and 800 tuning-validation rows. No preprocessing fit, hyperparameter search, model choice, or projection setup used the held-out test targets.
+
+For the conventional tabular regressors, z-score preprocessing was fit only on the training split. Input scaling and component-target scaling were fit separately, and the reported COD, TN, TP, and TSS variables were not scaled as separate training targets because they were computed after component prediction. Validation and test rows were transformed using the training-fitted preprocessing objects. Predictions from scaled-target models were inverse-transformed back to physical ASM component units before projection, component-to-composite conversion, physical-admissibility metrics, and predictive-performance metrics. The Kircher and Votsmeier projection was therefore applied in physical component units rather than standardized coordinates. Invalid simulation draws were excluded through the convergence and residual-acceptance criteria described above; no additional missing-value imputation, outlier removal, or target filtering is documented in the available source material.
+
+\draftguidance{The project files available for this revision do not define TabICL-specific context construction, checkpoint, or preprocessing settings. Add those settings from the final TabICL execution log before submission; do not infer them from the conventional-regressor pipeline.}
+
+\begin{table}[htbp]
+\centering
+\caption{Data splitting, preprocessing, scaling, and leakage-control protocol.}
+\label{tab:data_protocol}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{2.8cm}p{3.0cm}p{3.0cm}p{3.0cm}}
+\hline
+Protocol item & Rule used & Data involved & Leakage-control role \\
+\hline
+Fixed split & Row-wise 80--20 split with seed 42 & 8,000 train and 2,000 test samples & Holds out final evaluation rows \\
+Tuning subset & 50\% of training pool & 4,000 rows from the training split & Keeps tuning inside training data \\
+Validation split & 20\% of tuning subset & 3,200 tuning-training and 800 tuning-validation rows & Selects hyperparameters without test access \\
+Feature scaling & Z-score scaling where enabled & Fit on training features only & Prevents test distribution leakage \\
+Target scaling & Z-score scaling where enabled & Fit on training component targets only & Keeps target transformation independent of test rows \\
+Inverse transform & Applied before evaluation & Raw model predictions in target space & Restores physical component units \\
+Projection timing & After prediction and inverse transform & Raw physical component predictions & Enforces feasibility without changing training \\
+Comparison samples & Identical test rows for raw and projected outputs & Held-out test split & Makes before/after comparisons paired \\
+Reporting map & Same $I_{comp}$ for all models & Raw and projected component predictions & Separates component constraints from reported composites \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Tabular Surrogate Models and Hyperparameter Optimization}
+
+The model set comprises conventional tabular regressors and one tabular foundation model comparator. The conventional models are XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, Support Vector Regression, $k$-Nearest Neighbors, Partial Least Squares, and a fully connected multilayer perceptron. TabICL is included as a tabular foundation model comparator because it represents the in-context-learning class of pretrained tabular models (Qu et al., 2025). No ICSOR model is evaluated in the present study.
+
+\begin{table}[htbp]
+\centering
+\caption{Surrogate models included in the component-space effluent prediction benchmark.}
+\label{tab:surrogate_models}
+\scriptsize
+\begin{tabular}{p{2.5cm}p{3.2cm}p{5.6cm}}
+\hline
+Model & Category & Role in the assessment \\
+\hline
+XGBoost & Gradient-boosted trees & Strong nonlinear tabular baseline for structured process data \\
+LightGBM & Gradient-boosted trees & Efficient boosted-tree comparator with leaf-wise tree growth \\
+CatBoost & Gradient-boosted trees & Boosted-tree comparator with a distinct implementation and regularization scheme \\
+AdaBoost & Boosting ensemble & Simpler sequential ensemble baseline \\
+Random Forest & Bagged tree ensemble & Nonparametric ensemble baseline with bootstrap-style tree aggregation disabled in the selected setting \\
+SVR & Kernel method & Nonlinear margin-based comparator in the standardized feature-target space \\
+$k$-NN & Instance-based method & Local interpolation baseline \\
+PLS & Linear latent-variable method & Low-dimensional linear comparator for multivariate component targets \\
+MLP & Neural network & Fully connected nonlinear tabular baseline with three hidden layers \\
+TabICL & Tabular foundation model & In-context-learning comparator for evaluating whether the projection also applies to foundation-model tabular predictions \\
+\hline
+\end{tabular}
+\end{table}
+
+Hyperparameter optimization for the conventional regressors used Optuna with a seeded tree-structured Parzen estimator sampler. The optimization objective was validation mean squared error in the shared 20-component effluent target space, minimized over 100 trials per model with no pruning and no wall-clock timeout. The selected settings were then fixed before final training and held-out test evaluation. The held-out 2,000-row test set was not used during hyperparameter optimization.
+
+\begin{table}[htbp]
+\centering
+\caption{Common Optuna design for conventional tabular surrogate models.}
+\label{tab:optuna_design}
+\scriptsize
+\begin{tabular}{ll}
+\hline
+Setting & Value \\
+\hline
+Objective & Validation mean squared error in effluent component space \\
+Optimization direction & Minimize \\
+Sampler & Tree-structured Parzen estimator \\
+Pruning policy & None \\
+Study seed & 42 \\
+Trials per model & 100 \\
+Training-pool fraction for tuning & 0.50 \\
+Validation fraction within tuning subset & 0.20 \\
+Tuning-training rows & 3,200 \\
+Tuning-validation rows & 800 \\
+Timeout & None \\
+\hline
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:model_hyperparameters} reports the selected conventional-model settings available in the project configuration and source manuscript material. TabICL is not listed with Optuna-selected settings because the available project files do not define a TabICL-specific search space or final execution configuration.
+
+\begin{table}[htbp]
+\centering
+\caption{Selected model settings retained for the tabular surrogate benchmark.}
+\label{tab:model_hyperparameters}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{2.0cm}p{8.7cm}}
+\hline
+Model & Settings \\
+\hline
+XGBoost & $n_{estimators}=309$, learning\_rate$=0.125$, max\_depth$=3$, min\_child\_weight$=6.84$, subsample$=0.915$, colsample\_bytree$=0.828$, reg\_alpha$=1.18 \times 10^{-3}$, reg\_lambda$=0.382$ \\
+LightGBM & $n_{estimators}=302$, learning\_rate$=0.0809$, num\_leaves$=16$, max\_depth$=8$, min\_child\_samples$=14$, subsample$=0.845$, colsample\_bytree$=0.869$, reg\_alpha$=3.17 \times 10^{-3}$, reg\_lambda$=3.36 \times 10^{-4}$ \\
+CatBoost & iterations$=236$, learning\_rate$=0.172$, depth$=4$, l2\_leaf\_reg$=0.0266$, bagging\_temperature$=0.0277$, random\_strength$=0.0657$ \\
+AdaBoost & $n_{estimators}=236$, learning\_rate$=0.999$, loss$=$square \\
+Random Forest & $n_{estimators}=390$, max\_depth$=14$, min\_samples\_split$=3$, min\_samples\_leaf$=1$, max\_features$=0.500$, bootstrap$=$false \\
+SVR & $C=0.118$, epsilon$=0.0458$, kernel$=$poly, gamma$=$scale, degree$=4$, tol$=8.96 \times 10^{-4}$, coef0$=0.889$ \\
+$k$-NN & n\_neighbors$=15$, weights$=$distance, algorithm$=$kd\_tree, leaf\_size$=40$, $p=2$, metric$=$manhattan \\
+PLS & n\_components$=6$, max\_iter$=887$, tol$=9.91 \times 10^{-5}$ \\
+MLP & hidden\_layer\_sizes$=(128,64,32)$, activation$=$logistic, solver$=$adam, alpha$=6.33 \times 10^{-4}$, batch\_size$=64$, learning\_rate\_init$=1.08 \times 10^{-3}$, max\_iter$=500$, tol$=1.63 \times 10^{-5}$, shuffle$=$false, early\_stopping$=$false \\
+TabICL & Foundation-model checkpoint, context construction, target handling, and inference settings to be supplied from the final TabICL execution record before submission \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Model Training, Prediction, and Projection Workflow}
+
+The same end-to-end workflow is applied to every model so that raw and corrected predictions differ only by the post-prediction projection. Table~\ref{tab:modeling_workflow} summarizes the workflow. The essential sequence is: fit preprocessing only on training data, tune hyperparameters only within the training pool, fit the final surrogate, generate held-out raw component predictions, inverse-transform those predictions when needed, apply the Kircher and Votsmeier projection in physical component units, compute reported composites with $I_{comp}$, and evaluate raw and corrected outputs on identical test samples.
+
+\begin{table}[htbp]
+\centering
+\caption{End-to-end modeling and projection workflow for each surrogate model.}
+\label{tab:modeling_workflow}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.7cm}p{3.3cm}p{3.0cm}p{4.2cm}}
+\hline
+Step & Operation & Data used & Reproducibility and leakage-control note \\
+\hline
+1 & Construct features and targets & Accepted 10,000-row dataset & Same 22 inputs and 20 component targets for all models \\
+2 & Split rows & 80\% train and 20\% test & Seed 42; test set held out for final evaluation \\
+3 & Fit preprocessing & Training rows only & Separate feature and component-target scalers where enabled \\
+4 & Tune hyperparameters & Tuning subset and validation subset from training pool & Validation MSE; no held-out test access \\
+5 & Train final surrogate & Training pool & Selected settings fixed before test evaluation \\
+6 & Predict raw components & Held-out test inputs & Raw predictions may violate conservation or non-negativity \\
+7 & Inverse-transform predictions & Training-fitted target scaler & Restores physical ASM component units \\
+8 & Apply projection & $c_{raw}^{(m)}$, $c_{in,*}$, $A$, $Z$, and $W_s$ & External correction; fitted surrogate unchanged \\
+9 & Compute composites & $I_{comp}c_{raw}^{(m)}$ and $I_{comp}\tilde{c}^{(m)}$ & Same reporting map for every model and prediction type \\
+10 & Evaluate outputs & Held-out targets and component references & Raw and projected predictions compared on paired samples \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Evaluation Metrics and Comparative Analysis}
+
+Predictive performance is evaluated after converting component predictions to reported effluent-quality outputs. For test sample $n$, reported composite $k$, and model $m$, let $y_{nk}$ be the simulated reported output, $\hat{y}_{nk}^{raw,m}$ the output computed from the raw component prediction, and $\tilde{y}_{nk}^{m}$ the output computed from the projected component prediction. The primary aggregate metrics are computed over the held-out test set and the four reported composites. The root mean squared error for a single reported target is
+\begin{equation}
+\label{eq:rmse_metric}
+\mathrm{RMSE}_{m,k}^{raw} =
+\left[
+\frac{1}{N_{test}}\sum_{n=1}^{N_{test}}
+\left(\hat{y}_{nk}^{raw,m}-y_{nk}\right)^2
+\right]^{1/2},
+\end{equation}
+with the same definition applied to $\tilde{y}_{nk}^{m}$ for projected outputs. The remaining predictive metrics are MSE, MAE, MAPE, and $R^2$. Aggregate $R^2$ is computed with uniform averaging across output variables, and MAPE uses a small denominator guard of $10^{-8}$ to avoid division by zero.
+
+Physical admissibility is evaluated in ASM component space because the conservation and non-negativity requirements are defined before reported-output collapse. For any component prediction $c$, the mass-conservation residual and non-negativity violation magnitude are
+\begin{equation}
+\label{eq:physical_residuals}
+v_{mc}(c) = \left\|A(c-c_{in})\right\|_2,
+\qquad
+v_{nn}(c) = \left\|\min(c,0)\right\|_1,
+\end{equation}
+where the minimum is taken componentwise. A sample is counted as violating mass conservation or non-negativity when the corresponding residual exceeds $10^{-10}$. Violation frequencies are reported as percentages of held-out test samples. The analysis compares these quantities before and after projection for every model, thereby separating predictive error from physical inadmissibility.
+
+The projection effect is also summarized directly. In component space, the displacement induced by the correction is
+\begin{equation}
+\label{eq:component_displacement}
+d_c^{(m)} =
+\left\|\tilde{c}^{(m)} - c_{raw}^{(m)}\right\|_2,
+\end{equation}
+and the corresponding reported-output displacement is
+\begin{equation}
+\label{eq:reported_displacement}
+d_y^{(m)} =
+\left\|I_{comp}\tilde{c}^{(m)} - I_{comp}c_{raw}^{(m)}\right\|_2.
+\end{equation}
+These displacement measures indicate whether the projection makes small feasibility-restoring adjustments or materially changes the surrogate output. The central comparison is therefore within-model and paired: each raw prediction and its projected counterpart are evaluated on the same test sample, against the same simulated target, with the same composition map.
+
+\begin{table}[htbp]
+\centering
+\caption{Metrics used to compare raw and projected surrogate predictions.}
+\label{tab:evaluation_metrics}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{2.3cm}p{3.5cm}p{2.4cm}p{2.4cm}}
+\hline
+Metric & Definition & Computed on & Interpretation \\
+\hline
+MSE & Mean squared prediction error & COD, TN, TP, TSS & Lower values indicate smaller squared predictive error \\
+RMSE & Square root of MSE & COD, TN, TP, TSS & Primary error scale for reported composites \\
+MAE & Mean absolute prediction error & COD, TN, TP, TSS & Average absolute deviation in reported units \\
+MAPE & Mean absolute percentage error with $10^{-8}$ denominator guard & COD, TN, TP, TSS & Relative predictive error \\
+$R^2$ & Coefficient of determination with uniform output averaging & COD, TN, TP, TSS & Higher values indicate stronger explained variation \\
+$v_{mc}$ & $\|A(c-c_{in})\|_2$ & ASM components & Magnitude of conservation residual \\
+$v_{nn}$ & $\|\min(c,0)\|_1$ & ASM components & Magnitude of negative concentration violations \\
+Violation frequency & Percent of samples with residual $>10^{-10}$ & ASM components & Frequency of infeasible predictions \\
+$d_c^{(m)}$ & $\|\tilde{c}^{(m)}-c_{raw}^{(m)}\|_2$ & ASM components & Size of component-space correction \\
+$d_y^{(m)}$ & $\|I_{comp}\tilde{c}^{(m)}-I_{comp}c_{raw}^{(m)}\|_2$ & COD, TN, TP, TSS & Size of reported-output change \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Results and Discussion}
+
+\draftguidance{Use this section to present the main findings and interpret their meaning. Keep the prose focused on what the evidence shows, how strongly it supports the article's claims, and what should remain in supplementary material instead of the main text.}
+
+\subsection{Primary Findings}
+
+\noindent\textbf{Paragraph 1: Main result.} Open with the most important finding, observation, comparison, or pattern, and tie it clearly to the research question or objective.
+
+\noindent\textbf{Paragraph 2: Supporting evidence.} Summarize the most relevant supporting evidence, including comparisons, trends, contrasts, or exceptions that matter for interpretation.
+
+\noindent\textbf{Paragraph 3: Interpretation.} Explain what the findings mean, how they relate to prior work or expectations, and where caution is warranted.
+
+\subsubsection{Robustness, Limits, and Supplementary Material}
+
+\draftguidance{Use this sub-subsection for robustness checks, boundary cases, practical implications, limitations, and a clear statement of what material belongs in the supplement instead of the main text.}
+
+\noindent\textbf{Paragraph 1: Robustness or variation.} Summarize any additional checks, sensitivity analyses, alternate interpretations, or condition-specific findings that help qualify the main result.
+
+\noindent\textbf{Paragraph 2: Limits and implications.} Explain the article's main limitations and the practical, theoretical, or methodological implications that follow from the results.
+
+\noindent\textbf{Paragraph 3: Supplementary boundary.} Close by stating what detailed evidence, extended tables, additional figures, appendices, or technical notes are better moved to supplementary material rather than repeated in the main text.
+
+\section*{References}
+
+\noindent Aboagye, E. A., Burnham, S. M., Dailey, J., Zia, R., Tran, C., Desai, M., \& Yenkie, K. M. (2021). Systematic design, optimization, and sustainability assessment for generation of efficient wastewater treatment networks. \textit{Water, 13}(9), 1326. doi: 10.3390/w13091326.
+
+\noindent Ahn, J. Y., Chu, K. H., Yoo, S. S., Mang, J. S., Sung, B. W., \& Ko, K. B. (2014). Determination of optimal operating factors via modeling for livestock wastewater treatment: Comparison of simulated and experimental data. \textit{International Biodeterioration \& Biodegradation, 95}, 46--54. doi: 10.1016/j.ibiod.2014.04.014.
+
+\noindent Asadi, A., Verma, A., Yang, K., \& Mejabi, B. (2017). Wastewater treatment aeration process optimization: A data mining approach. \textit{Journal of Environmental Management, 203}, 630--639. doi: 10.1016/j.jenvman.2016.07.047.
+
+\noindent Bagherzadeh, F., Mehrani, M. J., Basirifard, M., \& Roostaei, J. (2021). Comparative study on total nitrogen prediction in wastewater treatment plant and effect of various feature selection methods on machine learning algorithms performance. \textit{Journal of Water Process Engineering, 41}, 102033. doi: 10.1016/j.jwpe.2021.102033.
+
+\noindent Beucler, T., Pritchard, M., Rasp, S., Ott, J., Baldi, P., \& Gentine, P. (2021). Enforcing analytic constraints in neural networks emulating physical systems. \textit{Physical Review Letters, 126}(9), 098302. doi: 10.1103/PhysRevLett.126.098302.
+
+\noindent Bhosekar, A., \& Ierapetritou, M. (2018). Advances in surrogate based modeling, feasibility analysis, and optimization: A review. \textit{Computers \& Chemical Engineering, 108}, 250--267. doi: 10.1016/j.compchemeng.2017.09.017.
+
+\noindent Duan, S., Zhang, Y., \& Zheng, S. (2022). Heterotrophic nitrifying bacteria in wastewater biological nitrogen removal systems: A review. \textit{Critical Reviews in Environmental Science and Technology, 52}(13), 2302--2338. doi: 10.1080/10643389.2021.1877976.
+
+\noindent Durkin, A., Otte, L., \& Guo, M. (2024). Surrogate-based optimisation of process systems to recover resources from wastewater. \textit{Computers \& Chemical Engineering, 182}, 108584. doi: 10.1016/j.compchemeng.2024.108584.
+
+\noindent Fuck, J. V. R., Cechinel, M. A. P., Neves, J., de Andrade, R. C., Trist\~ao, R., Spogis, N., Riella, H. G., Soares, C., \& Padoin, N. (2024). Predicting effluent quality parameters for wastewater treatment plant: A machine learning-based methodology. \textit{Chemosphere, 352}, 141472. doi: 10.1016/j.chemosphere.2024.141472.
+
+\noindent Guerrero, J., Guisasola, A., \& Baeza, J. A. (2011). The nature of the carbon source rules the competition between PAO and denitrifiers in systems for simultaneous biological nitrogen and phosphorus removal. \textit{Water Research, 45}(16), 4793--4802. doi: 10.1016/j.watres.2011.06.019.
+
+\noindent Hansen, D., Maddix, D. C., Alizadeh, S., Gupta, G., \& Mahoney, M. W. (2024). Learning physical models that can respect conservation laws. \textit{Physica D: Nonlinear Phenomena, 457}, 133952. doi: 10.1016/j.physd.2023.133952.
+
+\noindent Henze, M., Gujer, W., Mino, T., \& van Loosedrecht, M. (2006). Activated Sludge Models ASM1, ASM2, ASM2d and ASM3. \textit{Water Intelligence Online, 5}(0). doi: 10.2166/9781780402369.
+
+\noindent Hollmann, N., M\"uller, S., Purucker, L., Krishnakumar, A., K\"orfer, M., Hoo, S. B., Schirrmeister, R. T., \& Hutter, F. (2025). Accurate predictions on small data with a tabular foundation model. \textit{Nature, 637}(8045), 319--326. doi: 10.1038/s41586-024-08328-6.
+
+\noindent Kim, M. J., Grinsztajn, L., \& Varoquaux, G. (2024). CARTE: Pretraining and transfer for tabular learning. \textit{Proceedings of the 41st International Conference on Machine Learning}, 23843--23866.
+
+\noindent Kim, M., Rao, A. S., \& Yoo, C. (2009). Dual optimization strategy for N and P removal in a biological wastewater treatment plant. \textit{Industrial and Engineering Chemistry Research, 48}(13), 6363--6371. doi: 10.1021/ie801689t.
+
+\noindent Kircher, T., \& Votsmeier, M. (2025). Machine learning surrogate models for mechanistic kinetics: Embedding atom balance and positivity. \textit{The Journal of Physical Chemistry Letters, 16}(19), 4715--4723. doi: 10.1021/acs.jpclett.5c00602.
+
+\noindent Li, M., Hu, S., Xia, J., Wang, J., Song, X., \& Shen, H. (2020). Dissolved oxygen model predictive control for activated sludge process model based on the fuzzy C-means cluster algorithm. \textit{International Journal of Control, Automation and Systems, 18}(9), 2435--2444. doi: 10.1007/s12555-019-0438-1.
+
+\noindent Lim, J., Lee, Y., Ataei, A., \& Yoo, C. (2011). Exploration of dual optimal conditions for COD and nitrogen removal in an MBR. \textit{Asia-Pacific Journal of Chemical Engineering, 6}(3), 433--440. doi: 10.1002/apj.563.
+
+\noindent Lin, L., Yang, H., \& Xu, X. (2022). Effects of water pollution on human health and disease heterogeneity: A review. \textit{Frontiers in Environmental Science, 10}, 880246. doi: 10.3389/fenvs.2022.880246.
+
+\noindent Ma, J., Thomas, V., Hosseinzadeh, R., Labach, A., Kamkari, H., Cresswell, J. C., Golestan, K., Yu, G., Caterini, A. L., \& Volkovs, M. (2025). TabDPT: Scaling tabular foundation models on real data. \textit{Advances in Neural Information Processing Systems}.
+
+\noindent Madhav, S., Ahamad, A., Singh, A. K., Kushawaha, J., Chauhan, J. S., Sharma, S., \& Singh, P. (2019). Water pollutants: Sources and impact on the environment and human health. In \textit{Sensors in water pollutants monitoring: Role of material} (pp. 43--62). doi: 10.1007/978-981-15-0671-0\_4.
+
+\noindent Mao, Z., Li, X., Zhang, X., Li, D., Lu, J., Li, J., \& Zheng, F. (2024). Optimization of effluent quality and energy consumption of aeration process in wastewater treatment plants using artificial intelligence. \textit{Journal of Water Process Engineering, 63}, 105384. doi: 10.1016/j.jwpe.2024.105384.
+
+\noindent Min, Y., Sonar, A., \& Azizan, N. (2024). Hard-constrained neural networks with universal approximation guarantees. \textit{arXiv preprint arXiv:2410.10807}.
+
+\noindent Padron-Paez, J. I., Almaraz, S. D. L., \& Rom\'an-Mart\'inez, A. (2020). Sustainable wastewater treatment plants design through multiobjective optimization. \textit{Computers \& Chemical Engineering, 140}, 106850. doi: 10.1016/j.compchemeng.2020.106850.
+
+\noindent Qu, J., Holzm\"uller, D., Varoquaux, G., \& Le Morvan, M. (2025). TabICL: A tabular foundation model for in-context learning on large data. \textit{arXiv preprint arXiv:2502.05564}.
+
+\noindent Qu, J., Holzm\"uller, D., Varoquaux, G., \& Le Morvan, M. (2026). TabICLv2: A better, faster, scalable, and open tabular foundation model. \textit{arXiv preprint arXiv:2602.11139}.
+
+\noindent Raissi, M., Perdikaris, P., \& Karniadakis, G. E. (2019). Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations. \textit{Journal of Computational Physics, 378}, 686--707. doi: 10.1016/j.jcp.2018.10.045.
+
+\noindent Sturm, P. M., Cappa, C. D., \& Wexler, A. S. (2023). Advecting superspecies: Efficiently modeling transport of organic aerosol with a mass-conserving dimensionality reduction method. \textit{Journal of Advances in Modeling Earth Systems, 15}(3), e2022MS003235. doi: 10.1029/2022MS003235.
+
+\noindent Sturm, P. M., \& Silva, S. J. (2025). A nudge to the truth: Atom conservation as a hard constraint in models of atmospheric composition using a species-weighted correction. \textit{ACS ES\&T Air, 5}(1), 279--289. doi: 10.1021/acsestair.4c00220.
+
+\noindent Sturm, P. M., \& Wexler, A. S. (2020). A mass- and energy-conserving framework for using machine learning to speed computations: A photochemistry example. \textit{Geoscientific Model Development, 13}(9), 4435--4442. doi: 10.5194/gmd-13-4435-2020.
+
+\noindent Sturm, P. M., \& Wexler, A. S. (2022). Conservation laws in a neural network architecture: Enforcing the atom balance of a Julia-based photochemical model (v0.2.0). \textit{Geoscientific Model Development, 15}(9), 3417--3431. doi: 10.5194/gmd-15-3417-2022.
+
+\noindent Tsochatzidi, A., Cenci, F., Aroniada, M., \& Papageorgiou, L. G. (2025). A novel surrogate-based optimisation framework for pharmaceutical process systems. \textit{International Journal of Pharmaceutics, 682}, 125861. doi: 10.1016/j.ijpharm.2025.125861.
+
+\noindent Utkarsh, Maddix, D. C., Ma, R., Mahoney, M. W., \& Wang, Y. (2025). End-to-end probabilistic framework for learning with hard constraints. \textit{arXiv preprint}.
+
+\noindent Wang, Y., Li, T., Bai, L., Yu, H., \& Qu, F. (2025). Comparison of interpretable machine learning models and mechanistic model for predicting effluent nitrogen in WWTP. \textit{Journal of Water Process Engineering, 77}, 108344. doi: 10.1016/j.jwpe.2025.108344.
+
+\noindent Xiao, Y., Zhao, B., Zhang, X., \& Yue, X. (2025). A new paradigm in activated sludge management: An interpretable framework integrating mechanistic dynamics with a data-driven surrogate model. \textit{Environmental Research}, 123435. doi: 10.1016/j.envres.2025.123435.
+
+\noindent Yang, T., Qiu, W., Ma, Y., Chadli, M., \& Zhang, L. (2014). Fuzzy model-based predictive control of dissolved oxygen in activated sludge processes. \textit{Neurocomputing, 136}, 88--95. doi: 10.1016/j.neucom.2014.01.025.
+
+\noindent Yang, S. J., Kim, J., Eom, J., Kim, M., Lee, M., \& Lee, K. H. (2025). Machine learning based prediction of waste activated sludge generation for optimization of WWTP operational efficiency. \textit{Environmental Research}, 122990. doi: 10.1016/j.envres.2025.122990.
+
+\end{document}

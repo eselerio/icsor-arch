@@ -1,0 +1,67 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+
+\newcommand{\draftguidance}[1]{%
+\begin{quote}
+\small
+\textbf{Guidance.} #1
+\end{quote}
+}
+
+\newcommand{\suppplaceholderfigure}[3]{%
+\begin{figure}[p]
+\centering
+\fbox{%
+\parbox[c][0.70\textheight][c]{0.90\textwidth}{%
+\centering
+\textbf{Supplementary Figure Placeholder}\\[0.75em]
+#3
+}}
+\caption{#1}
+\label{#2}
+\end{figure}
+}
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\title{Supplementary Material\\Placeholder manuscript title here}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\draftguidance{This file is optional and modular. Rename, reorder, duplicate, or remove sections once the main manuscript is planned. Include only supplementary items that are actually cited or needed.}
+
+\section*{Supplementary Overview}
+
+\draftguidance{Use this file for supporting material that helps document, justify, or extend the main manuscript without overloading the main text. This may include additional methods, derivations, data notes, robustness checks, extended figures, tables, appendices, or other supporting items.}
+
+\noindent\textbf{Opening paragraph.} State what this supplementary file contains, how it complements the main manuscript, and why the included items are better placed here than in the main text.
+
+\noindent\textbf{Organization paragraph.} Explain how the supplementary material is organized and how readers should navigate it alongside the main manuscript.
+
+\section{Supplementary Content}
+
+\draftguidance{Keep the structure broad until the article is planned. The subsection and sub-subsection below are generic placeholders that can be adapted to methods notes, extended results, appendices, additional figures, tables, or any other supporting material.}
+
+\subsection{Supporting Notes}
+
+\noindent\textbf{Paragraph 1: Supporting content.} Use this space for additional descriptions, derivations, implementation notes, data details, extended methods, or extended results that are useful but not essential in the main text.
+
+\noindent\textbf{Paragraph 2: Cross-reference logic.} Make sure every supplementary item is cited from the main manuscript where needed, and keep the ordering of figures, tables, sections, and appendices consistent.
+
+\subsubsection{Optional Figures, Tables, and Other Items}
+
+\noindent\textbf{Paragraph 3: Optional visual or tabular material.} Add supporting figures, tables, diagrams, appendices, or other attachments only when they directly support a claim, method, or result discussed in the main manuscript.
+
+\suppplaceholderfigure{[Insert caption for an optional supplementary figure, or replace this example with another kind of supporting item.]}
+{fig:supp_placeholder_1}
+{Replace this box with a supplementary figure only if one is needed. Otherwise remove it or replace it with a table, appendix section, derivation, data dictionary, checklist, or another supporting element that fits the final article.}
+
+\draftguidance{Duplicate, rename, or remove the example block above as needed. Keep filenames flat, numbering consistent, and cross-references synchronized with the main manuscript before submission.}
+
+\end{document}
