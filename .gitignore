@@ -216,3 +216,4 @@ uv.lock
 data/asm2d-tsn/simulation/
 artifacts/
 docs/
+.tools/
