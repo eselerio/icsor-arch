@@ -13,7 +13,7 @@
 \definecolor{DraftCream}{HTML}{FFF7E6}
 \definecolor{CoralRust}{HTML}{E76F51}
 
-\newcommand{\pending}{\textit{Pending final CUDA benchmark}}
+\newcommand{\pending}{\textit{Pending complete nine-model benchmark}}
 \newcommand{\draftnotice}[1]{%
 \begin{center}
 \fcolorbox{CoralRust}{DraftCream}{%
@@ -46,7 +46,7 @@
 
 \maketitle
 
-\draftnotice{The full CUDA benchmark has not yet been executed. All result cells and figure panels in this file therefore remain explicit placeholders. No numerical performance result should be inferred from this planned structure.}
+\draftnotice{The complete nine-model benchmark has not yet been executed. All result cells and figure panels in this file therefore remain explicit placeholders. No numerical performance result should be inferred from this planned structure.}
 
 \section{Scope and Reporting Convention}
 
@@ -80,33 +80,9 @@ The in-distribution analysis uses 10,000 accepted ASM2d-TSN steady states, 22 in
 
 The mechanistic simulator evaluates its 28 biological and chemical process rates directly, without an artificial rate ceiling or rate clipping. Bounds on solved state variables and initialization vectors do not modify the rate vector. The final supplement will report attempted, failed, and accepted simulation counts for the in-distribution and OOD designs.
 
-The model set comprises XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, support vector regression, $k$-nearest neighbors, partial least squares, a multilayer perceptron, and TabICLv2. The nine conventional methods use fold-local selection and preprocessing as specified in the main manuscript. TabICLv2 uses the fixed zero-shot configuration in Table~\ref{tab:s_tabiclv2_configuration}.
+The model set comprises XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, support vector regression, $k$-nearest neighbors, partial least squares, and a multilayer perceptron. All nine methods use fold-local selection and preprocessing as specified in the main manuscript.
 
-\begin{table}[htbp]
-\centering
-\caption{Fixed TabICLv2 configuration to be retained in every fold, data size, timing run, and final full-context construction for OOD scoring.}
-\label{tab:s_tabiclv2_configuration}
-\small
-\begin{tabular}{p{4.2cm}p{9.0cm}}
-\toprule
-Item & Fixed setting \\
-\midrule
-Interface & \texttt{TabICLRegressor}, package version 2.1.1 \\
-Checkpoint & \texttt{tabicl-regressor-v2-20260212.ckpt}; 114,324,594 bytes; SHA-256 \texttt{0db9cb538f114e79026bf08f45f41ad8}\newline\texttt{dd7ad2de2aaca9a5ca8cd3bd9748ae7a} \\
-Adaptation & Zero-shot; no checkpoint fine-tuning \\
-Target handling & One independent context for each of the 20 component targets \\
-Context rows & All applicable training rows; no row subsampling and no context-size cap \\
-Ensemble & Eight estimators \\
-Normalization & \texttt{none} and \texttt{power} \\
-Feature shuffle & Latin \\
-Prediction calls and internal batch & Each complete evaluation partition in one call per component; internal batch size 8 \\
-Key--value cache & Disabled \\
-Device and precision & Explicit \texttt{cuda:0}, float32; GPU-local offloading \\
-Acceleration modes & Automatic mixed precision disabled; FlashAttention~3 disabled; automatic checkpoint download disabled \\
-Repeatability & Seed 42; repeated predictions must agree within $10^{-4}$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+
 
 \section{Fold-Level In-Distribution Results}
 
@@ -141,7 +117,7 @@ Model & $N$ & Fold & $v_{mc}$ summary & Non-negative violation (\%) & $d_c^*$ & 
 \end{tabular}}
 \end{table}
 
-For each model--size cell, a following summary row will report the descriptive five-fold mean $\pm$ sample SD. The fold rows will remain available so that the summary can be checked directly. Preparation time means preprocessing plus conventional fitting for fitted learners and context preparation for TabICLv2; these operations will not be combined without an explicit label.
+For each model--size cell, a following summary row will report the descriptive five-fold mean $\pm$ sample SD. The fold rows will remain available so that the summary can be checked directly. Preparation time means fold-local preprocessing plus model fitting.
 
 \section{Per-Component Results}
 
@@ -205,7 +181,7 @@ Composite & Model & Prediction & Fold/summary & MSE & RMSE & MAE & Bias & $R^2$ 
 
 \section{Out-of-Distribution Results}
 
-The OOD supplement will preserve mild and severe extrapolation as separate strata and will report candidate attempts, solver failures, accepted states, and acceptance rates before any surrogate comparison. No OOD response will enter fitting, scaling, context construction, calibration, or model selection. Conventional methods will be refitted on all 10,000 in-distribution states with settings frozen before OOD scoring. TabICLv2 will construct one full 10,000-row context for each of the 20 targets with the fixed configuration in Table~\ref{tab:s_tabiclv2_configuration}.
+The OOD supplement will preserve mild and severe extrapolation as separate strata and will report candidate attempts, solver failures, accepted states, and acceptance rates before any surrogate comparison. No OOD response will enter fitting, scaling, calibration, or model selection. All nine methods will be refitted on the 10,000 in-distribution states with settings frozen before OOD scoring.
 
 For every model and severity stratum, the final OOD tables will contain raw and projected nMSE, nRMSE, and nMAE; component-level physical errors; COD, TN, TP, and TSS errors; mass-conservation and non-negativity diagnostics; projection displacement; and latency. Sample-level residual and displacement distributions will be supplied rather than only aggregate values.
 
@@ -261,7 +237,7 @@ Model & Fold & Selection scale & Selected settings \\
 
 \subsection{Timing Protocol and Results}
 
-The timing set contains 512 validation rows, constructed deterministically by cycling through the applicable validation inputs. Five warm-up calls precede 30 synchronized repetitions for each timed path. Timing is partitioned into preprocessing and fitting or context preparation, raw inference, projection, and end-to-end projected inference. The median 512-row latency within each fold is divided by 512; the five fold medians are then reported individually and as descriptive mean $\pm$ sample SD in milliseconds per sample. CUDA synchronization brackets accelerator measurements. TabICLv2 retains internal batch size 8, \texttt{cuda:0} float32, GPU-local offloading, disabled automatic mixed precision, disabled FlashAttention~3, and disabled key--value caching during timing. Hyperparameter-search time is reported separately.
+The timing set contains 512 validation rows, constructed deterministically by cycling through the applicable validation inputs. Five warm-up calls precede 30 repetitions for each timed path. Timing is partitioned into preprocessing and fitting, raw inference, projection, and end-to-end projected inference. The median 512-row latency within each fold is divided by 512; the five fold medians are then reported individually and as descriptive mean $\pm$ sample SD in milliseconds per sample. Hyperparameter-search time is reported separately.
 
 \begin{table}[htbp]
 \centering
@@ -280,7 +256,7 @@ Model & $N$ & Fold/summary & Preparation (s) & Raw inference (ms/sample) & Proje
 
 \subsection{Scientific Provenance and Reproducibility}
 
-The scientific provenance record will identify the benchmark data design, fold design, random seed, package and library versions, checkpoint identifier, hardware, operating system, thread limits, and numeric precision used for the accepted analysis.
+The scientific provenance record will identify the benchmark data design, fold design, random seed, package and library versions, hardware, operating system, thread limits, and numeric precision used for the accepted analysis.
 
 \begin{table}[htbp]
 \centering
@@ -295,9 +271,9 @@ Benchmark data design & Target of 10,000 accepted in-distribution states and 600
 Fold design & Five persistent outer folds across eleven nested data sizes \\
 Random seed & 42 \\
 Conventional-model package versions & \pending \\
-TabICLv2 package and interface & \texttt{TabICLRegressor} 2.1.1 \\
-TabICLv2 checkpoint identifier & \texttt{tabicl-regressor-v2-20260212.ckpt} \\
-Processor, CUDA accelerator, and memory & \pending \\
+
+
+Processor and memory & \pending \\
 Operating system and thread limits & \pending \\
 Numeric precision by computation stage & \pending \\
 \bottomrule
@@ -308,7 +284,7 @@ Numeric precision by computation stage & \pending \\
 
 \suppplaceholderfigure{Planned all-model in-distribution nRMSE learning curves. Lines will show five-fold means and bars or bands will show sample SD, described only as fold-to-fold variation.}
 {fig:s_all_model_learning_curves}
-{Replace with final nRMSE curves for all ten models at the eleven nested data sizes. Preserve the same fold assignments, model colors, and metric label used in the main manuscript.}
+{Replace with final nRMSE curves for all nine models at the eleven nested data sizes. Preserve the same fold assignments, model colors, and metric label used in the main manuscript.}
 
 \suppplaceholderfigure{Planned per-component raw and projected error atlas at the full in-distribution scale.}
 {fig:s_component_error_atlas}
@@ -327,12 +303,12 @@ Numeric precision by computation stage & \pending \\
 Before submission, the supplementary material will be checked to confirm that:
 
 \begin{enumerate}
-\item every displayed performance value comes from the completed final CUDA benchmark;
+\item every displayed performance value comes from the completed final nine-model benchmark;
 \item all five fold rows reconcile with each reported mean $\pm$ sample SD;
 \item nMSE, nRMSE, and nMAE labels are used only for the defined component-standardized metrics;
 \item raw and projected predictions remain paired on identical observations;
 \item all 20 components and four derived composites use the fixed manuscript order and units;
-\item the TabICLv2 execution record matches Table~\ref{tab:s_tabiclv2_configuration};
+
 \item the mechanistic rate vector was evaluated without artificial clipping;
 \item OOD targets remained untouched until final scoring;
 \item every placeholder is replaced only after a verified final result exists; and

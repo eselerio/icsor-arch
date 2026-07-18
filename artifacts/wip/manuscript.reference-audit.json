@@ -4,9 +4,9 @@
     "ProjectRoot":  "C:/Users/eselerio/Projects/icsor-arch",
     "Edited":  false,
     "RemovedUnverifiedMode":  false,
-    "TotalBodyCitations":  36,
-    "TotalReferencesBefore":  36,
-    "TotalReferencesAfter":  36,
+    "TotalBodyCitations":  26,
+    "TotalReferencesBefore":  32,
+    "TotalReferencesAfter":  32,
     "BodyCitations":  [
                           {
                               "Surname":  "Aboagye",
@@ -69,7 +69,7 @@
                               "NormalizedSurname":  "guerrero",
                               "Year":  "2011",
                               "YearBase":  "2011",
-                              "Source":  "Guerrero et al., 2011"
+                              "Source":  "Guerrero et al. (2011)"
                           },
                           {
                               "Surname":  "Hansen",
@@ -86,46 +86,11 @@
                               "Source":  "Henze et al., 2006"
                           },
                           {
-                              "Surname":  "Hollmann",
-                              "NormalizedSurname":  "hollmann",
-                              "Year":  "2025",
-                              "YearBase":  "2025",
-                              "Source":  "Hollmann et al., 2025"
-                          },
-                          {
-                              "Surname":  "Kim",
-                              "NormalizedSurname":  "kim",
-                              "Year":  "2009",
-                              "YearBase":  "2009",
-                              "Source":  "Kim et al., 2009"
-                          },
-                          {
-                              "Surname":  "Kim",
-                              "NormalizedSurname":  "kim",
-                              "Year":  "2024",
-                              "YearBase":  "2024",
-                              "Source":  "Kim et al., 2024"
-                          },
-                          {
                               "Surname":  "Kircher",
                               "NormalizedSurname":  "kircher",
                               "Year":  "2025",
                               "YearBase":  "2025",
-                              "Source":  "Kircher \u0026 Votsmeier, 2025"
-                          },
-                          {
-                              "Surname":  "Li",
-                              "NormalizedSurname":  "li",
-                              "Year":  "2020",
-                              "YearBase":  "2020",
-                              "Source":  "Li et al., 2020"
-                          },
-                          {
-                              "Surname":  "Lim",
-                              "NormalizedSurname":  "lim",
-                              "Year":  "2011",
-                              "YearBase":  "2011",
-                              "Source":  "Lim et al., 2011"
+                              "Source":  "Kircher and Votsmeier (2025)"
                           },
                           {
                               "Surname":  "Lin",
@@ -133,13 +98,6 @@
                               "Year":  "2022",
                               "YearBase":  "2022",
                               "Source":  "Lin et al., 2022"
-                          },
-                          {
-                              "Surname":  "Ma",
-                              "NormalizedSurname":  "ma",
-                              "Year":  "2025",
-                              "YearBase":  "2025",
-                              "Source":  "Ma et al., 2025"
                           },
                           {
                               "Surname":  "Madhav",
@@ -170,20 +128,6 @@
                               "Source":  "Padron-Paez et al., 2020"
                           },
                           {
-                              "Surname":  "Qu",
-                              "NormalizedSurname":  "qu",
-                              "Year":  "2025",
-                              "YearBase":  "2025",
-                              "Source":  "Qu et al., 2025"
-                          },
-                          {
-                              "Surname":  "Qu",
-                              "NormalizedSurname":  "qu",
-                              "Year":  "2026",
-                              "YearBase":  "2026",
-                              "Source":  "Qu et al., 2026"
-                          },
-                          {
                               "Surname":  "Raissi",
                               "NormalizedSurname":  "raissi",
                               "Year":  "2019",
@@ -210,13 +154,6 @@
                               "Year":  "2023",
                               "YearBase":  "2023",
                               "Source":  "Sturm et al., 2023"
-                          },
-                          {
-                              "Surname":  "Sturm",
-                              "NormalizedSurname":  "sturm",
-                              "Year":  "2025",
-                              "YearBase":  "2025",
-                              "Source":  "Sturm \u0026 Silva, 2025"
                           },
                           {
                               "Surname":  "Tsochatzidi",
@@ -249,13 +186,6 @@
                           {
                               "Surname":  "Yang",
                               "NormalizedSurname":  "yang",
-                              "Year":  "2014",
-                              "YearBase":  "2014",
-                              "Source":  "Yang et al., 2014"
-                          },
-                          {
-                              "Surname":  "Yang",
-                              "NormalizedSurname":  "yang",
                               "Year":  "2025",
                               "YearBase":  "2025",
                               "Source":  "Yang et al., 2025"
@@ -265,31 +195,43 @@
 
                              ],
     "RemovedUncited":  [
-
+                           {
+                               "Reference":  "Fuck (2024)",
+                               "Title":  "Predicting effluent quality parameters for wastewater treatment plant: A machine learning-based methodology"
+                           },
+                           {
+                               "Reference":  "Kim (2009)",
+                               "Title":  "Dual optimization strategy for N and P removal in a biological wastewater treatment plant"
+                           },
+                           {
+                               "Reference":  "Li (2020)",
+                               "Title":  "Dissolved oxygen model predictive control for activated sludge process model based on the fuzzy C-means cluster algorithm"
+                           },
+                           {
+                               "Reference":  "Lim (2011)",
+                               "Title":  "Exploration of dual optimal conditions for COD and nitrogen removal in an MBR"
+                           },
+                           {
+                               "Reference":  "Sturm (2025)",
+                               "Title":  "A nudge to the truth: Atom conservation as a hard constraint in models of atmospheric composition using a species-weighted correction"
+                           },
+                           {
+                               "Reference":  "Yang (2014)",
+                               "Title":  "Fuzzy model-based predictive control of dissolved oxygen in activated sludge processes"
+                           }
                        ],
     "RemovedUnverified":  [
 
                           ],
     "DoiActions":  [
-
+                       {
+                           "Reference":  "Padron-Paez (2020)",
+                           "Action":  "would-added",
+                           "DOI":  "10.1016/j.compchemeng.2020.106850",
+                           "Score":  196.25
+                       }
                    ],
     "CrossrefUnverifiedKept":  [
-                                   {
-                                       "Reference":  "Kim (2024)",
-                                       "Title":  "CARTE: Pretraining and transfer for tabular learning",
-                                       "Score":  97.14,
-                                       "Note":  "Low-confidence Crossref match.",
-                                       "BestTitle":  "Can Machine Translation Bridge Multilingual Pretraining and Cross-lingual Transfer Learning?",
-                                       "BestDoi":  "10.63317/268qji627hbu"
-                                   },
-                                   {
-                                       "Reference":  "Ma (2025)",
-                                       "Title":  "TabDPT: Scaling tabular foundation models on real data",
-                                       "Score":  90.86,
-                                       "Note":  "Low-confidence Crossref match.",
-                                       "BestTitle":  "FEDMEKI: A Benchmark for Scaling Medical Foundation Models via Federated Knowledge Injection",
-                                       "BestDoi":  "10.52202/079017-0033"
-                                   },
                                    {
                                        "Reference":  "Min (2024)",
                                        "Title":  "Hard-constrained neural networks with universal approximation guarantees",
@@ -299,28 +241,12 @@
                                        "BestDoi":  ""
                                    },
                                    {
-                                       "Reference":  "Qu (2025)",
-                                       "Title":  "TabICL: A tabular foundation model for in-context learning on large data",
-                                       "Score":  10,
-                                       "Note":  "Low-confidence Crossref match.",
-                                       "BestTitle":  "Preprint site arXiv is banning computer-science reviews: here’s why",
-                                       "BestDoi":  "10.1038/d41586-025-03664-7"
-                                   },
-                                   {
-                                       "Reference":  "Qu (2026)",
-                                       "Title":  "TabICLv2: A better, faster, scalable, and open tabular foundation model",
-                                       "Score":  10,
-                                       "Note":  "Low-confidence Crossref match.",
-                                       "BestTitle":  "ArXiv preprint server clamps down on AI slop",
-                                       "BestDoi":  "10.1126/science.z66g9k7"
-                                   },
-                                   {
                                        "Reference":  "Utkarsh (2025)",
                                        "Title":  "End-to-end probabilistic framework for learning with hard constraints",
                                        "Score":  60,
                                        "Note":  "Low-confidence Crossref match.",
-                                       "BestTitle":  "An End-to-End Deep Learning Framework for Multi-Scale Cross-Domain Weed Segmentation",
-                                       "BestDoi":  "10.13031/aim.202500763"
+                                       "BestTitle":  "End-to-end Learning of Probabilistic and Geometric Constellation Shaping with Iterative Receivers",
+                                       "BestDoi":  "10.1109/gcwkshps68340.2025.11591144"
                                    }
                                ],
     "ApaWarnings":  [
@@ -433,6 +359,19 @@
                        },
                        {
                            "Index":  9,
+                           "Reference":  "Fuck (2024)",
+                           "Title":  "Predicting effluent quality parameters for wastewater treatment plant: A machine learning-based methodology",
+                           "IsCited":  false,
+                           "ExistingDoi":  "10.1016/j.chemosphere.2024.141472",
+                           "CrossrefReliable":  true,
+                           "CrossrefScore":  172.5,
+                           "CrossrefDoi":  "10.1016/j.chemosphere.2024.141472",
+                           "CrossrefTitle":  "Predicting effluent quality parameters for wastewater treatment plant: A machine learning-based methodology",
+                           "CrossrefContainer":  "Chemosphere",
+                           "CrossrefNote":  "Reliable Crossref match."
+                       },
+                       {
+                           "Index":  10,
                            "Reference":  "Guerrero (2011)",
                            "Title":  "The nature of the carbon source rules the competition between PAO and denitrifiers in systems for simultaneous biological nitrogen and phosphorus removal",
                            "IsCited":  true,
@@ -445,7 +384,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  10,
+                           "Index":  11,
                            "Reference":  "Hansen (2024)",
                            "Title":  "Learning physical models that can respect conservation laws",
                            "IsCited":  true,
@@ -458,7 +397,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  11,
+                           "Index":  12,
                            "Reference":  "Henze (2006)",
                            "Title":  "Activated Sludge Models ASM1, ASM2, ASM2d and ASM3",
                            "IsCited":  true,
@@ -471,36 +410,10 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  12,
-                           "Reference":  "Hollmann (2025)",
-                           "Title":  "Accurate predictions on small data with a tabular foundation model",
-                           "IsCited":  true,
-                           "ExistingDoi":  "10.1038/s41586-024-08328-6",
-                           "CrossrefReliable":  true,
-                           "CrossrefScore":  187.5,
-                           "CrossrefDoi":  "10.1038/s41586-024-08328-6",
-                           "CrossrefTitle":  "Accurate predictions on small data with a tabular foundation model",
-                           "CrossrefContainer":  "Nature",
-                           "CrossrefNote":  "Reliable Crossref match."
-                       },
-                       {
                            "Index":  13,
-                           "Reference":  "Kim (2024)",
-                           "Title":  "CARTE: Pretraining and transfer for tabular learning",
-                           "IsCited":  true,
-                           "ExistingDoi":  "",
-                           "CrossrefReliable":  false,
-                           "CrossrefScore":  97.14,
-                           "CrossrefDoi":  "10.63317/268qji627hbu",
-                           "CrossrefTitle":  "Can Machine Translation Bridge Multilingual Pretraining and Cross-lingual Transfer Learning?",
-                           "CrossrefContainer":  "Proceedings of the Language Resources and Evaluation Conference",
-                           "CrossrefNote":  "Low-confidence Crossref match."
-                       },
-                       {
-                           "Index":  14,
                            "Reference":  "Kim (2009)",
                            "Title":  "Dual optimization strategy for N and P removal in a biological wastewater treatment plant",
-                           "IsCited":  true,
+                           "IsCited":  false,
                            "ExistingDoi":  "10.1021/ie801689t",
                            "CrossrefReliable":  true,
                            "CrossrefScore":  198,
@@ -510,7 +423,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  15,
+                           "Index":  14,
                            "Reference":  "Kircher (2025)",
                            "Title":  "Machine learning surrogate models for mechanistic kinetics: Embedding atom balance and positivity",
                            "IsCited":  true,
@@ -523,10 +436,10 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  16,
+                           "Index":  15,
                            "Reference":  "Li (2020)",
                            "Title":  "Dissolved oxygen model predictive control for activated sludge process model based on the fuzzy C-means cluster algorithm",
-                           "IsCited":  true,
+                           "IsCited":  false,
                            "ExistingDoi":  "10.1007/s12555-019-0438-1",
                            "CrossrefReliable":  true,
                            "CrossrefScore":  205,
@@ -536,10 +449,10 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  17,
+                           "Index":  16,
                            "Reference":  "Lim (2011)",
                            "Title":  "Exploration of dual optimal conditions for COD and nitrogen removal in an MBR",
-                           "IsCited":  true,
+                           "IsCited":  false,
                            "ExistingDoi":  "10.1002/apj.563",
                            "CrossrefReliable":  true,
                            "CrossrefScore":  205,
@@ -549,7 +462,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  18,
+                           "Index":  17,
                            "Reference":  "Lin (2022)",
                            "Title":  "Effects of water pollution on human health and disease heterogeneity: A review",
                            "IsCited":  true,
@@ -562,20 +475,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  19,
-                           "Reference":  "Ma (2025)",
-                           "Title":  "TabDPT: Scaling tabular foundation models on real data",
-                           "IsCited":  true,
-                           "ExistingDoi":  "",
-                           "CrossrefReliable":  false,
-                           "CrossrefScore":  90.86,
-                           "CrossrefDoi":  "10.52202/079017-0033",
-                           "CrossrefTitle":  "FEDMEKI: A Benchmark for Scaling Medical Foundation Models via Federated Knowledge Injection",
-                           "CrossrefContainer":  "Advances in Neural Information Processing Systems 37",
-                           "CrossrefNote":  "Low-confidence Crossref match."
-                       },
-                       {
-                           "Index":  20,
+                           "Index":  18,
                            "Reference":  "Madhav (2019)",
                            "Title":  "Water pollutants: Sources and impact on the environment and human health",
                            "IsCited":  true,
@@ -588,7 +488,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  21,
+                           "Index":  19,
                            "Reference":  "Mao (2024)",
                            "Title":  "Optimization of effluent quality and energy consumption of aeration process in wastewater treatment plants using artificial intelligence",
                            "IsCited":  true,
@@ -601,7 +501,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  22,
+                           "Index":  20,
                            "Reference":  "Min (2024)",
                            "Title":  "Hard-constrained neural networks with universal approximation guarantees",
                            "IsCited":  true,
@@ -614,11 +514,11 @@
                            "CrossrefNote":  "No Crossref candidates returned."
                        },
                        {
-                           "Index":  23,
+                           "Index":  21,
                            "Reference":  "Padron-Paez (2020)",
                            "Title":  "Sustainable wastewater treatment plants design through multiobjective optimization",
                            "IsCited":  true,
-                           "ExistingDoi":  "10.1016/j.compchemeng.2020.106850",
+                           "ExistingDoi":  "",
                            "CrossrefReliable":  true,
                            "CrossrefScore":  196.25,
                            "CrossrefDoi":  "10.1016/j.compchemeng.2020.106850",
@@ -627,33 +527,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  24,
-                           "Reference":  "Qu (2025)",
-                           "Title":  "TabICL: A tabular foundation model for in-context learning on large data",
-                           "IsCited":  true,
-                           "ExistingDoi":  "",
-                           "CrossrefReliable":  false,
-                           "CrossrefScore":  10,
-                           "CrossrefDoi":  "10.1038/d41586-025-03664-7",
-                           "CrossrefTitle":  "Preprint site arXiv is banning computer-science reviews: here’s why",
-                           "CrossrefContainer":  "Nature",
-                           "CrossrefNote":  "Low-confidence Crossref match."
-                       },
-                       {
-                           "Index":  25,
-                           "Reference":  "Qu (2026)",
-                           "Title":  "TabICLv2: A better, faster, scalable, and open tabular foundation model",
-                           "IsCited":  true,
-                           "ExistingDoi":  "",
-                           "CrossrefReliable":  false,
-                           "CrossrefScore":  10,
-                           "CrossrefDoi":  "10.1126/science.z66g9k7",
-                           "CrossrefTitle":  "ArXiv preprint server clamps down on AI slop",
-                           "CrossrefContainer":  "AAAS Articles DO Group",
-                           "CrossrefNote":  "Low-confidence Crossref match."
-                       },
-                       {
-                           "Index":  26,
+                           "Index":  22,
                            "Reference":  "Raissi (2019)",
                            "Title":  "Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations",
                            "IsCited":  true,
@@ -666,7 +540,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  27,
+                           "Index":  23,
                            "Reference":  "Sturm (2023)",
                            "Title":  "Advecting superspecies: Efficiently modeling transport of organic aerosol with a mass-conserving dimensionality reduction method",
                            "IsCited":  true,
@@ -679,10 +553,10 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  28,
+                           "Index":  24,
                            "Reference":  "Sturm (2025)",
                            "Title":  "A nudge to the truth: Atom conservation as a hard constraint in models of atmospheric composition using a species-weighted correction",
-                           "IsCited":  true,
+                           "IsCited":  false,
                            "ExistingDoi":  "10.1021/acsestair.4c00220",
                            "CrossrefReliable":  true,
                            "CrossrefScore":  193,
@@ -692,7 +566,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  29,
+                           "Index":  25,
                            "Reference":  "Sturm (2020)",
                            "Title":  "A mass- and energy-conserving framework for using machine learning to speed computations: A photochemistry example",
                            "IsCited":  true,
@@ -705,7 +579,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  30,
+                           "Index":  26,
                            "Reference":  "Sturm (2022)",
                            "Title":  "Conservation laws in a neural network architecture: Enforcing the atom balance of a Julia-based photochemical model (v0.2.0)",
                            "IsCited":  true,
@@ -718,7 +592,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  31,
+                           "Index":  27,
                            "Reference":  "Tsochatzidi (2025)",
                            "Title":  "A novel surrogate-based optimisation framework for pharmaceutical process systems",
                            "IsCited":  true,
@@ -731,20 +605,20 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  32,
+                           "Index":  28,
                            "Reference":  "Utkarsh (2025)",
                            "Title":  "End-to-end probabilistic framework for learning with hard constraints",
                            "IsCited":  true,
                            "ExistingDoi":  "",
                            "CrossrefReliable":  false,
                            "CrossrefScore":  60,
-                           "CrossrefDoi":  "10.13031/aim.202500763",
-                           "CrossrefTitle":  "An End-to-End Deep Learning Framework for Multi-Scale Cross-Domain Weed Segmentation",
-                           "CrossrefContainer":  "2025 Toronto, Ontario, Canada July 13-16, 2025",
+                           "CrossrefDoi":  "10.1109/gcwkshps68340.2025.11591144",
+                           "CrossrefTitle":  "End-to-end Learning of Probabilistic and Geometric Constellation Shaping with Iterative Receivers",
+                           "CrossrefContainer":  "2025 IEEE Globecom Workshops (GC Wkshps)",
                            "CrossrefNote":  "Low-confidence Crossref match."
                        },
                        {
-                           "Index":  33,
+                           "Index":  29,
                            "Reference":  "Wang (2025)",
                            "Title":  "Comparison of interpretable machine learning models and mechanistic model for predicting effluent nitrogen in WWTP",
                            "IsCited":  true,
@@ -757,7 +631,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  34,
+                           "Index":  30,
                            "Reference":  "Xiao (2025)",
                            "Title":  "A new paradigm in activated sludge management: An interpretable framework integrating mechanistic dynamics with a data-driven surrogate model",
                            "IsCited":  true,
@@ -770,10 +644,10 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  35,
+                           "Index":  31,
                            "Reference":  "Yang (2014)",
                            "Title":  "Fuzzy model-based predictive control of dissolved oxygen in activated sludge processes",
-                           "IsCited":  true,
+                           "IsCited":  false,
                            "ExistingDoi":  "10.1016/j.neucom.2014.01.025",
                            "CrossrefReliable":  true,
                            "CrossrefScore":  187.5,
@@ -783,7 +657,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  36,
+                           "Index":  32,
                            "Reference":  "Yang (2025)",
                            "Title":  "Machine learning based prediction of waste activated sludge generation for optimization of WWTP operational efficiency",
                            "IsCited":  true,
@@ -796,11 +670,5 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        }
                    ],
-    "Build":  {
-                  "ExitCode":  0,
-                  "PDFs":  [
-                               "C:\\Users\\eselerio\\Projects\\icsor-arch\\docs\\latex_pdfs\\20260620_220005\\manuscript.pdf"
-                           ],
-                  "Output":  "note: Running TeX ...\nFontconfig error: Cannot load default config file: No such file: (null)\nwarning: manuscript.tex:90: Overfull \\hbox (117.0831pt too wide) detected at line 90\nwarning: manuscript.tex:240: Overfull \\hbox (53.68161pt too wide) in paragraph at lines 239--240\nwarning: manuscript.tex:256: Underfull \\hbox (badness 1237) in paragraph at lines 255--256\nnote: Rerunning TeX because \"manuscript.aux\" changed ...\nwarning: manuscript.tex:90: Overfull \\hbox (117.0831pt too wide) detected at line 90\nwarning: manuscript.tex:240: Overfull \\hbox (53.68161pt too wide) in paragraph at lines 239--240\nwarning: manuscript.tex:256: Underfull \\hbox (badness 1237) in paragraph at lines 255--256\nwarning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.\nnote: Running xdvipdfmx ...\nwarning: Object @page.0 already defined.\nwarning: Object @table.1 already defined.\nwarning: Object @figure.1 already defined.\nnote: Writing `C:\\Users\\eselerio\\Projects\\icsor-arch\\docs\\latex_pdfs\\20260620_220005\\manuscript.pdf` (60.07421875 KiB)\nnote: Writing `C:\\Users\\eselerio\\Projects\\icsor-arch\\docs\\latex_pdfs\\20260620_220005\\manuscript.log` (27.916015625 KiB)\nnote: Skipped writing 3 intermediate files (use --keep-intermediates to keep them)\n{\n    \"OutputFolder\":  \"C:\\\\Users\\\\eselerio\\\\Projects\\\\icsor-arch\\\\docs\\\\latex_pdfs\\\\20260620_220005\",\n    \"SourceRoot\":  \"C:\\\\Users\\\\eselerio\\\\Projects\\\\icsor-arch\\\\artifacts\\\\wip\",\n    \"Engine\":  \"tectonic\",\n    \"TeXFiles\":  [\n                     \"manuscript.tex\"\n                 ],\n    \"PDFs\":  [\n                 \"C:\\\\Users\\\\eselerio\\\\Projects\\\\icsor-arch\\\\docs\\\\latex_pdfs\\\\20260620_220005\\\\manuscript.pdf\"\n             ]\n}"
-              }
+    "Build":  null
 }

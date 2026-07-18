@@ -1,10 +1,10 @@
 # Figure Style Guide for the Physical-Enforcement Benchmark
 
-This internal authoring guide applies to the current study of post-prediction mass-conservation and non-negativity enforcement across nine conventional regressors and TabICLv2.
+This internal authoring guide applies to the current study of post-prediction mass-conservation and non-negativity enforcement across nine conventional regressors.
 
 The manuscript currently uses an inline graphical abstract, an evaluation-workflow diagram, an in-distribution data-scarcity figure, a projection-effect figure, and an OOD comparison figure. The supplement plans all-model learning curves, a per-component error atlas, physical-admissibility diagnostics, and OOD residual distributions.
 
-All numerical result graphics remain illustrative placeholders until the full CUDA benchmark has completed. Keep placeholder wording visible in every draft caption and do not substitute estimated, partial, or CPU-only values.
+Numerical result graphics are final only after the complete nine-model benchmark and validation checks have finished. Do not substitute estimated or partial values.
 
 ## Scientific Contract
 
@@ -18,8 +18,6 @@ Every final results figure must use the same benchmark contract as the tables:
 - COD, TN, TP, and TSS shown only as secondary quantities derived from the component vector;
 - mild and severe OOD strata kept separate; and
 - no result presented as final before the complete benchmark and validation checks finish.
-
-TabICLv2 labels refer specifically to the fixed zero-shot `TabICLRegressor` 2.1.1 case using the verified `tabicl-regressor-v2-20260212.ckpt`, no fine-tuning, one full context per component target with no row subsampling or context-size cap, eight estimators, `none`/`power` normalization, Latin feature shuffling, internal batch size 8, and `cuda:0` float32 with GPU-local offloading. Each complete evaluation partition is passed in one call per component. Automatic checkpoint download, mixed precision, FlashAttention 3, and key--value caching are all disabled. Figures normally need only the short label `TabICLv2`; the complete configuration belongs in the methods and supplement.
 
 ## Descriptive Fold Summaries
 
@@ -120,7 +118,6 @@ For multi-model curves, keep one color and marker per model throughout the manus
 | k-NN | muted amber | triangle right |
 | PLS | dark gray | diamond |
 | MLP | muted plum | pentagon |
-| TabICLv2 | mineral green | diamond |
 
 No model should receive a privileged visual highlight. The scientific intervention is the shared projection, represented through raw/projected semantics.
 
@@ -131,7 +128,7 @@ No model should receive a privileged visual highlight. The scientific interventi
 The workflow should read left to right:
 
 1. accepted mechanistic states and the 22 inputs;
-2. nine conventional learners plus one TabICLv2 case;
+2. nine conventional learners;
 3. raw 20-component prediction;
 4. Kircher--Votsmeier projection; and
 5. paired accuracy, physical, OOD, and timing evaluation.
@@ -140,13 +137,13 @@ Use rounded boxes, one arrow direction, and no model-specific architecture detai
 
 ### In-Distribution Data-Scarcity Figure
 
-The left panel shows `nRMSE` against total dataset size. The right panel shows conventional training time or TabICLv2 context-preparation time against the same x-axis.
+The left panel shows `nRMSE` against total dataset size. The right panel shows model training time against the same x-axis.
 
 - Plot five-fold means as lines with markers.
 - Plot sample SD as symmetric bars or a light band.
 - State `five-fold mean with sample SD` in the caption.
 - Use all eleven nested sizes in final exports, even if a draft layout displays fewer ticks.
-- Label the right panel `Training or context-preparation time (s)`.
+- Label the right panel `Training time (s)`.
 - Use a logarithmic time axis only if the observed range warrants it.
 - Keep inference latency out of the setup-time panel; report it separately.
 
@@ -170,7 +167,7 @@ If model names make vertical bars crowded, use horizontal paired points instead.
 
 ### All-Model Learning Curves
 
-Show all ten models over all eleven data sizes. If one panel is too dense, split conventional fitted learners and TabICLv2/other high-cost methods into aligned panels with identical axes. Do not rank models by eye through line thickness; use equal widths and the fixed color/marker mapping.
+Show all nine models over all eleven data sizes. If one panel is too dense, split the learners into aligned panels with identical axes. Do not rank models by eye through line thickness; use equal widths and the fixed color/marker mapping.
 
 ### Per-Component Error Atlas
 
@@ -188,13 +185,13 @@ Show sample-level residual or displacement distributions separately for mild and
 
 ## Placeholder Treatment
 
-While the full CUDA run is unavailable:
+Until the complete benchmark is available:
 
 - retain `Illustrative placeholder—not experimental data` at the start of every numerical figure caption;
 - keep draft-only footer text if a figure is exported externally;
 - do not remove placeholder panels simply because final values are unavailable;
 - do not interpolate missing folds or data sizes; and
-- do not mix completed conventional-model outputs with provisional TabICLv2 outputs in a nominally final figure.
+- do not mix completed and provisional model outputs in a nominally final figure.
 
 Recommended draft footer:
 
@@ -232,7 +229,7 @@ Before any result figure is treated as final, confirm that:
 3. sample SD uses denominator four;
 4. metric labels are exactly nMSE, nRMSE, nMAE, or a clearly unit-bearing physical metric;
 5. raw and projected outputs refer to identical rows;
-6. the TabICLv2 series uses the fixed zero-shot configuration;
+6. every model series uses its frozen accepted configuration;
 7. OOD severity and in-distribution results are not pooled;
 8. captions describe fold summaries as five-fold mean with sample SD;
 9. placeholder wording is removed only after every value is verified; and

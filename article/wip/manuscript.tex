@@ -61,7 +61,7 @@
 \author{}
 
 \begin{abstract}
-Artificial intelligence and machine-learning tools are increasingly used as fast surrogates for activated-sludge simulation, yet wastewater studies have largely judged these models by predictive accuracy without requiring physically admissible outputs. To our knowledge, this work is designed as the first demonstration, for tabular surrogates of an activated-sludge process, of a model-agnostic post-prediction method that simultaneously enforces mass conservation and componentwise non-negativity. We transfer the positivity-preserving conservative projection of Kircher and Votsmeier to steady-state effluent prediction; we do not introduce a new projection algorithm. To test its generality and practical cost, nine conventionally fitted tabular learners and one representative tabular foundation model map operating conditions and influent composition to a 20-component effluent state. Supporting analyses use five-fold cross-validation across eleven dataset sizes, computational timing, and separately simulated inputs beyond the training envelope. \textit{The numerical findings currently shown are explicitly illustrative placeholders pending execution of the final benchmark.} The final analysis will quantify how enforcement changes predictive error while verifying conservation and non-negativity within numerical tolerance. The study is structured to separate a guaranteed physical contract from empirical predictive performance and to test the same correction after heterogeneous tabular predictors, including a foundation-model case, without retraining them.
+Artificial intelligence and machine-learning tools are increasingly used as fast surrogates for activated-sludge simulation, yet wastewater studies have largely judged these models by predictive accuracy without requiring physically admissible outputs. To our knowledge, this work is designed as the first demonstration, for tabular surrogates of an activated-sludge process, of a model-agnostic post-prediction method that simultaneously enforces mass conservation and componentwise non-negativity. We transfer the positivity-preserving conservative projection of Kircher and Votsmeier to steady-state effluent prediction; we do not introduce a new projection algorithm. Nine tabular learners spanning boosting, bagging, kernel, neighbor, latent-variable, and neural-network methods map operating conditions and influent composition to a 20-component effluent state. Supporting analyses use five-fold cross-validation across eleven dataset sizes, computational timing, and separately simulated inputs beyond the training envelope. \textit{The numerical findings currently shown are explicit placeholders pending execution of the complete benchmark.} The final analysis will quantify how enforcement changes predictive error while verifying conservation and non-negativity within numerical tolerance. The study separates the guaranteed physical contract from empirical predictive performance and applies the same correction to heterogeneous predictors without retraining.
 \end{abstract}
 
 \begin{graphicalabstract}
@@ -73,7 +73,7 @@ Artificial intelligence and machine-learning tools are increasingly used as fast
   arrow/.style={-{Latex[length=2.4mm]}, very thick, draw=MineralGreen}
 ]
 \node[box] (sim) {Steady-state activated-sludge simulation\\familiar and extrapolation states};
-\node[box, right=of sim] (ml) {Nine conventional learners\\one foundation-model case};
+\node[box, right=of sim] (ml) {Nine conventional\\tabular learners};
 \node[box, right=of ml] (split) {Raw component\\prediction};
 \node[box, right=of split, fill=MutedAmber!25] (proj) {Kircher--Votsmeier correction\\physically admissible output};
 \draw[arrow] (sim) -- (ml);
@@ -86,13 +86,13 @@ Artificial intelligence and machine-learning tools are increasingly used as fast
 \begin{highlights}
 \item A model-agnostic correction enforces mass conservation and non-negativity together.
 \item The benchmark is designed as the first such activated-sludge demonstration.
-\item Nine conventional learners and one foundation-model case test broad applicability.
+\item Nine conventional learners test applicability across heterogeneous model classes.
 \item Data scarcity, computation, and extrapolation will be assessed alongside accuracy.
 \item The analysis separates guaranteed physical validity from predictive performance.
 \end{highlights}
 
 \begin{keywords}
-activated sludge model \sep surrogate modeling \sep tabular machine learning \sep tabular foundation model \sep mass conservation \sep non-negativity
+activated sludge model \sep surrogate modeling \sep tabular machine learning \sep mass conservation \sep non-negativity
 \end{keywords}
 
 \maketitle
@@ -156,7 +156,7 @@ PAO \> Phosphate-accumulating organisms \\
 PLS \> Partial least squares \\
 $R^2$ \> Coefficient of determination \\
 SVR \> Support vector regression \\
-TabICLv2 \> Tabular foundation model for in-context learning, version 2 \\
+
 ID \> In-distribution \\
 TN \> Total nitrogen \\
 TP \> Total phosphorus \\
@@ -167,7 +167,7 @@ TSS \> Total suspended solids \\
 
 Water pollution remains a major environmental and public-health challenge. Activated-sludge systems are central to biological wastewater treatment because they remove carbon, nitrogen, phosphorus, and suspended solids through coupled microbial and physicochemical transformations (Duan et al., 2022; Lin et al., 2022; Madhav et al., 2019). Activated Sludge Models (ASM) provide a mechanistic description of these transformations, but their nonlinear reaction networks can make repeated simulation, design, and optimization expensive (Aboagye et al., 2021; Henze et al., 2006; Padron-Paez et al., 2020; Xiao et al., 2025).
 
-Surrogate models offer faster approximations of this mechanistic behavior (Bhosekar \& Ierapetritou, 2018; Durkin et al., 2024; Tsochatzidi et al., 2025). Wastewater applications now include linear and kernel methods, tree ensembles, neural networks, and pretrained tabular foundation models (Ahn et al., 2014; Asadi et al., 2017; Bagherzadeh et al., 2021; Mao et al., 2024; Wang et al., 2025). The rapid adoption of artificial intelligence and machine-learning tools makes physical safeguards increasingly important: faster prediction is useful only when the predicted state remains meaningful. Tabular foundation models extend the model landscape by learning across many datasets and adapting through context or transfer (Hollmann et al., 2025; Kim et al., 2024; Ma et al., 2025; Qu et al., 2026). TabICLv2 is used here as one representative of that broader category.
+Surrogate models offer faster approximations of this mechanistic behavior (Bhosekar \& Ierapetritou, 2018; Durkin et al., 2024; Tsochatzidi et al., 2025). Wastewater applications now include linear and kernel methods, tree ensembles, and neural networks (Ahn et al., 2014; Asadi et al., 2017; Bagherzadeh et al., 2021; Mao et al., 2024; Wang et al., 2025). The rapid adoption of artificial intelligence and machine-learning tools makes physical safeguards increasingly important: faster prediction is useful only when the predicted state remains meaningful.
 
 Predictive accuracy alone does not guarantee a physically admissible activated-sludge state. Conservation and non-negativity apply to the underlying component vector before it is converted into chemical oxygen demand (COD), total nitrogen (TN), total phosphorus (TP), and total suspended solids (TSS). A surrogate can therefore approximate these reported quantities while violating material inventories or predicting negative concentrations. Either failure can mislead process interpretation, optimization, monitoring, or design. A prediction that conserves mass but contains a negative component is no more usable than a non-negative prediction that creates or destroys a conserved inventory.
 
@@ -177,7 +177,7 @@ Kircher and Votsmeier (2025) address both requirements with a scaled, conservati
 
 To our knowledge, this study is designed as the first demonstration of model-agnostic, simultaneous enforcement of mass conservation and componentwise non-negativity across tabular surrogates for an activated-sludge process. The benchmark will transfer and systematically evaluate the Kircher--Votsmeier correction; it does not claim a new projection algorithm or a new learning model. The intended primary contribution is the activated-sludge demonstration itself, which addresses a long-overlooked requirement that becomes more consequential as artificial intelligence and machine-learning tools enter environmental modeling workflows.
 
-The benchmark is designed to provide supporting evidence for that contribution. Nine conventionally fitted learners and TabICLv2 as one tabular foundation-model representative predict the 20-component steady-state effluent of a continuous stirred tank reactor. The final analysis will measure predictive accuracy, data-scarcity stability, training and inference cost, conservation residuals, negative components, and performance on inputs beyond the training envelope. TabICLv2 supplies one planned foundation-model case study: its eventual predictive results will apply to the tested checkpoint and context design, while the model-agnostic correction interface is relevant in principle to any foundation model that returns the required component vector. This distinction keeps category-level claims about compatibility separate from model-specific claims about accuracy or computation.
+The benchmark is designed to provide supporting evidence for that contribution. Nine conventionally fitted learners predict the 20-component steady-state effluent of a continuous stirred tank reactor. The final analysis will measure predictive accuracy, data-scarcity stability, training and inference cost, conservation residuals, negative components, and performance on inputs beyond the training envelope. The shared post-prediction interface allows the physical correction to be evaluated independently of model architecture.
 
 \section{Methods}
 
@@ -367,7 +367,7 @@ Hyperparameters were selected without access to the scored outer fold. Within ea
 
 For conventional regressors requiring standardization, separate z-score transformations were fitted to inputs and targets within each outer training fold. The training-fold means and standard deviations were then applied to validation observations. Predictions were returned to physical component units before projection, constraint evaluation, and conversion to the four reported water-quality quantities. No missing-value imputation, response-dependent outlier removal, or target filtering was used.
 
-TabICLv2 is the sole representative of the tabular foundation-model category in the fixed benchmark specification. It is configured for zero-shot prediction with \texttt{TabICLRegressor} from package version 2.1.1 and the regression checkpoint \texttt{tabicl-regressor-v2-20260212.ckpt} (114,324,594 bytes; SHA-256 \texttt{0db9cb538f114e79026bf08f45f41ad8}\allowbreak\texttt{dd7ad2de2aaca9a5ca8cd3bd9748ae7a}); automatic checkpoint downloading and checkpoint fine-tuning are disabled. Because the interface is single-target, one independent training-fold context is constructed for each of the 20 effluent components and the resulting predictions are concatenated in the fixed component order. Every context uses all available outer-training rows: there is no row subsampling and no context-size cap. Each complete evaluation partition is supplied in one prediction call per component to avoid partition-dependent preprocessing. The fixed inference ensemble uses eight estimators, \texttt{none} and \texttt{power} normalization, Latin feature shuffling, and internal batch size eight. The key--value cache is disabled. Execution is assigned explicitly to \texttt{cuda:0} in float32 with GPU-local offloading; automatic mixed precision and FlashAttention~3 are disabled. Seed 42 is fixed, and repeated predictions are required to agree within $10^{-4}$. These checkpoint and inference settings are prespecified, held constant across folds and data sizes, and excluded from the conventional-model hyperparameter search.
+
 
 \begin{table}[htbp]
 \centering
@@ -394,7 +394,7 @@ Reporting map & Common $I_{comp}$ & Raw and projected components & Keeps composi
 
 \subsection{Tabular Surrogate Models and Hyperparameter Optimization}
 
-Table~\ref{tab:surrogate_models} groups the ten surrogate methods by model class and documents how each handles multiple outputs, scaling, and model selection. The nine conventional learners are Extreme Gradient Boosting (XGBoost), Light Gradient Boosting Machine (LightGBM), Categorical Boosting (CatBoost), Adaptive Boosting (AdaBoost), Random Forest, support vector regression (SVR), $k$-nearest neighbors ($k$-NN), partial least squares (PLS), and a multilayer perceptron (MLP). TabICLv2 is the pretrained tabular foundation-model representative (Qu et al., 2026).
+Table~\ref{tab:surrogate_models} groups the nine surrogate methods by model class and documents how each handles multiple outputs, scaling, and model selection. The learners are Extreme Gradient Boosting (XGBoost), Light Gradient Boosting Machine (LightGBM), Categorical Boosting (CatBoost), Adaptive Boosting (AdaBoost), Random Forest, support vector regression (SVR), $k$-nearest neighbors ($k$-NN), partial least squares (PLS), and a multilayer perceptron (MLP).
 
 \begin{table}[htbp]
 \centering
@@ -415,7 +415,7 @@ SVR & Kernel method & One regressor per component & Fold-local input/target scal
 $k$-NN & Instance based & Native multi-output & Fold-local input/target scaling & Inner Optuna \\
 PLS & Linear latent variable & Joint 20-component regression & Fold-local input/target scaling & Inner Optuna \\
 MLP & Neural network & Joint 20-component regression & Fold-local input/target scaling & Inner Optuna \\
-TabICLv2 & Foundation model & One context per component & Built-in \texttt{none}/\texttt{power} ensemble normalization & Fixed zero-shot checkpoint \\
+
 \hline
 \end{tabular}}
 \end{table}
@@ -445,11 +445,11 @@ Timeout & None \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:model_hyperparameters} records the prespecified conventional-model search domains rather than provisional selected values. The final supplement will report every fold-specific selection and the separate full-data selection. The TabICLv2 row records its fixed zero-shot configuration, which is not tuned with Optuna.
+Table~\ref{tab:model_hyperparameters} records the prespecified model search domains rather than provisional selected values. The final supplement will report every fold-specific selection and the separate full-data selection.
 
 \begin{table}[htbp]
 \centering
-\caption{Prespecified conventional-model search domains and fixed zero-shot TabICLv2 configuration. Integer bounds are inclusive; log-uniform domains are identified explicitly.}
+\caption{Prespecified model search domains. Integer bounds are inclusive; log-uniform domains are identified explicitly.}
 \label{tab:model_hyperparameters}
 \scriptsize
 \setlength{\tabcolsep}{3pt}
@@ -466,14 +466,14 @@ SVR & $C$ 0.1--100 (log); epsilon $10^{-3}$--1 (log); kernel $\{$radial, linear,
 $k$-NN & neighbors 1--15; uniform or distance weights; automatic, ball-tree, $k$d-tree, or brute search; leaf size 15--60; $p\in\{1,2,3\}$; Minkowski, Euclidean, or Manhattan distance \\
 PLS & components 1--6; maximum iterations 200--1000; tolerance $10^{-8}$--$10^{-4}$ (log) \\
 MLP & fixed hidden widths $(128,64,32)$ and Adam solver; activation $\{$ReLU, tanh, logistic$\}$; $L_2$ $10^{-6}$--$10^{-2}$ (log); batch size $\{32,64,128,256\}$; learning rate $10^{-4}$--$10^{-2}$ (log); tolerance $10^{-5}$--$10^{-3}$ (log); shuffle true or false \\
-TabICLv2 & \texttt{TabICLRegressor} 2.1.1; verified 114,324,594-byte checkpoint; zero-shot; one complete context per component; 8 estimators; $\{$\texttt{none}, \texttt{power}$\}$ normalization; Latin feature shuffle; internal batch size 8; no fine-tuning, subsampling, context cap, key--value cache, automatic download, mixed precision, or FlashAttention~3; \texttt{cuda:0} float32 with GPU-local offloading \\
+
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Model Training, Prediction, and Projection Workflow}
 
-The same evaluation workflow is applied to every model so that raw and corrected predictions differ only by the post-prediction projection. Table~\ref{tab:modeling_workflow} summarizes cross-validation and evaluation beyond the training domain, hereafter called out-of-distribution (OOD) evaluation. Conventional preprocessing is fitted within the relevant training fold, whereas TabICLv2 constructs full fold-local zero-shot contexts. Projection is applied only after predictions have been returned to physical units.
+The same evaluation workflow is applied to every model so that raw and corrected predictions differ only by the post-prediction projection. Table~\ref{tab:modeling_workflow} summarizes cross-validation and evaluation beyond the training domain, hereafter called out-of-distribution (OOD) evaluation. Preprocessing is fitted within the relevant training fold. Projection is applied only after predictions have been returned to physical units.
 
 \begin{table}[htbp]
 \centering
@@ -486,13 +486,13 @@ The same evaluation workflow is applied to every model so that raw and corrected
 Step & Operation & Data used & Reproducibility and leakage-control note \\
 \hline
 1 & Select nested subset and outer fold & In-distribution mechanistic states & Same subset and validation indices for every model \\
-2 & Select or apply settings & Outer training partition only & Four-fold inner search for conventional models; fixed TabICLv2 configuration \\
-3 & Prepare preprocessing or zero-shot context & $0.8N$ outer training rows & Fold-local transforms or full TabICLv2 context; settings fixed across sizes \\
+2 & Select settings & Outer training partition only & Four-fold inner search for every model \\
+3 & Fit preprocessing and learner & $0.8N$ outer training rows & Fold-local transforms and frozen outer-fold settings \\
 4 & Predict and inverse-transform & $0.2N$ outer validation rows & Raw component vector restored to physical units \\
 5 & Apply projection & $c_{raw,i}^{(m)}$, $c_{in,i}$, $A$, $Z$, $W_{s,i}^{(m)}$ & Underlying predictor remains unchanged \\
 6 & Score paired outputs & Same outer validation rows & Accuracy, violations, displacement, and timing by fold \\
 7 & Repeat at every size & Eleven nested totals & Descriptive mean $\pm$ sample SD across five folds \\
-8 & Refit or construct final contexts & All accepted in-distribution states & Conventional refit or 20 full TabICLv2 contexts; settings frozen before extrapolation testing \\
+8 & Select and refit final models & All accepted in-distribution states & Separate full-data search; settings frozen before extrapolation testing \\
 9 & Evaluate extrapolation set & New states beyond in-distribution bounds & No refitting, recalibration, or target access \\
 \hline
 \end{tabular}
@@ -517,7 +517,7 @@ Step & Operation & Data used & Reproducibility and leakage-control note \\
 \draw[arrow] (raw) -- (project);
 \draw[arrow] (raw) -- (score);
 \draw[arrow] (project) -- (score);
-\node[flowbox, below=of data] (ood) {Conventional full refit or\\20 full TabICLv2 contexts\\$\rightarrow$ untouched extrapolation set};
+\node[flowbox, below=of data] (ood) {Nine full-data refits\\$\rightarrow$ untouched extrapolation set};
 \draw[arrow] (data) -- (ood);
 \draw[arrow] (ood) -- (score);
 \end{tikzpicture}
@@ -552,7 +552,7 @@ d_{c,i}^{*,(m)}=\left\|\left(\tilde c_i^{(m)}-c_{raw,i}^{(m)}\right)\oslash\sigm
 \end{equation}
 Here $\oslash$ denotes elementwise division and $\sigma$ is the vector of training-fold component standard deviations. Negative $\Delta\mathrm{nRMSE}$ denotes an accuracy benefit from projection; positive values denote a cost. Physical-unit, per-component negative magnitudes and displacements are also retained as secondary diagnostics.
 
-Wall-clock timing is partitioned into preprocessing and model fitting or context preparation, raw batch inference, projection alone, and end-to-end projected inference. Hyperparameter search time is reported separately. The timing protocol constructs a deterministic 512-row timing set by cycling through the outer validation inputs, thereby holding the number of scored rows constant even when a fold contains fewer than 512 unique observations. TabICLv2 retains its fixed internal batch size of eight, while each complete 512-row partition is supplied in one prediction call per component. Five warm-up calls precede 30 synchronized repetitions for each timed path. The median 512-row latency within a fold is divided by 512 and reported in milliseconds per sample; the five fold medians are then summarized as the arithmetic mean $\pm$ sample SD. Projection timing includes scaling, the weighted solve, feasibility checks, and positivity backtracking.
+Wall-clock timing is partitioned into preprocessing and model fitting, raw batch inference, projection alone, and end-to-end projected inference. Hyperparameter search time is reported separately. The timing protocol constructs a deterministic 512-row timing set by cycling through the outer validation inputs, thereby holding the number of scored rows constant even when a fold contains fewer than 512 unique observations. Five warm-up calls precede 30 repetitions for each timed path. The median 512-row latency within a fold is divided by 512 and reported in milliseconds per sample; the five fold medians are then summarized as the arithmetic mean $\pm$ sample SD. Projection timing includes scaling, the weighted solve, feasibility checks, and positivity backtracking.
 
 \begin{table}[htbp]
 \centering
@@ -581,7 +581,7 @@ Inference latency & Raw, projection-only, and end-to-end time & Validation batch
 
 \subsection{Out-of-Distribution Extrapolation Design}
 
-After cross-validation, one final setting per conventional model is selected by a four-fold search that uses only the 10,000 in-distribution states and the same objective and search budget. Each conventional model and its preprocessing are then refitted on the complete in-distribution pool. TabICLv2 retains its fixed zero-shot configuration and constructs one full 10,000-row in-distribution context for each of the 20 component targets, without subsampling or a context-size cap. These steps are completed before any OOD target is accessed.
+After cross-validation, one final setting per model is selected by a four-fold search that uses only the 10,000 in-distribution states and the same objective and search budget. Each model and its preprocessing are then refitted on the complete in-distribution pool before any OOD target is accessed.
 
 The OOD validation set is generated with new mechanistic simulations. No OOD response is used for refitting, scaling, calibration, or model selection. Four influential inputs are perturbed beyond their configured maxima, while the remaining inputs stay inside their original ranges. Mild excursions have normalized distance $(x_j-U_j)/(U_j-L_j)$ between 0.10 and 0.25; severe excursions have distance between 0.35 and 0.60. Candidate generation targets a 70\% one-variable and 30\% two-variable mixture; realized candidate and accepted-set proportions are reported separately. Every retained point is therefore outside the in-distribution hyperrectangle and, consequently, outside the convex hull of the training data. OOD standardized errors use the population standard deviations of all 10,000 in-distribution targets.
 
@@ -606,7 +606,7 @@ The target is 600 accepted steady states per severity band. The same solver, ini
 
 \subsection{Computational Environment and Reproducibility}
 
-All pseudorandom operations use seed 42 and preserve the shared subset and fold indices. Double precision is used for mechanistic states, invariant construction, projection, and metrics. TabICLv2 is the explicit exception for model inference: \texttt{TabICLRegressor} 2.1.1 with \texttt{tabicl-regressor-v2-20260212.ckpt} is configured for CUDA in float32, with batch size 8 and both automatic mixed precision and FlashAttention~3 disabled. The key--value cache is disabled. The final report will identify the processor, accelerator, memory, operating system, package versions, and thread limits. The illustrative timing values below assume one fixed workstation and the batching protocol above; they are not transferable performance measurements.
+All pseudorandom operations use seed 42 and preserve the shared subset and fold indices. Double precision is used for mechanistic states, invariant construction, projection, and metrics. The final report will identify the processor, memory, operating system, package versions, and thread limits. Timing values are specific to the accepted workstation and batching protocol and are not transferable performance measurements.
 
 \section{Results and Discussion}
 
@@ -634,13 +634,13 @@ Severe out-of-distribution & 656\illustrative & 600 & 91.5\illustrative & $8.8\t
 
 Simultaneous physical enforcement is the primary result that the benchmark is designed to test. In the illustrative profile, every surrogate produces a nonzero conservation residual before correction, and 3.2--15.0\% of full-size predictions contain at least one negative component. After the Kircher--Votsmeier projection and selective positivity backtracking, every paired prediction satisfies both requirements within the declared numerical tolerance. Table~\ref{tab:illustrative_projection} later reports the model-level values, while Figure~\ref{fig:illustrative_projection_delta} shows the associated change in predictive error across data sizes.
 
-If verified by the final outputs, this pattern will demonstrate the contribution that is independent of any model leaderboard: one post-prediction procedure can place heterogeneous tabular outputs under the same physical contract without retraining or redesigning the predictor. To our knowledge, that would provide the first such demonstration for activated-sludge tabular surrogates. The conventional learners are intended to test compatibility across several established model classes, and the TabICLv2 case is intended to test the same interface with a context-conditioned tabular foundation model.
+If verified by the final outputs, this pattern will demonstrate the contribution that is independent of any model leaderboard: one post-prediction procedure can place heterogeneous tabular outputs under the same physical contract without retraining or redesigning the predictor. To our knowledge, that would provide the first such demonstration for activated-sludge tabular surrogates. The nine learners test compatibility across several established model classes.
 
 \subsection{In-Distribution Accuracy and Computational Efficiency}
 
-At the full illustrative scale, LightGBM has the lowest raw nRMSE ($0.106\pm0.006$), followed by CatBoost ($0.109\pm0.006$) and XGBoost ($0.112\pm0.007$) (Table~\ref{tab:illustrative_full_benchmark}). These are descriptive five-fold means $\pm$ sample SDs; the close summaries do not establish an inferential ordering. The multilayer perceptron reaches $0.120\pm0.010$ after a substantially longer fit, whereas TabICLv2 reaches $0.126\pm0.007$. Partial least squares is computationally inexpensive but has the largest full-scale error ($0.205\pm0.008$), illustrating why runtime cannot be interpreted without accuracy.
+The complete full-scale benchmark will replace this paragraph with the nine-model five-fold accuracy and training-time findings. Close fold summaries will be treated descriptively and will not be presented as an inferential ordering.
 
-The illustrative timing profile separates model preparation from deployment cost. LightGBM combines a 1.60-s fit with $0.010$ ms per raw prediction, while support vector regression requires 31.0 s to fit and $0.240$ ms per prediction. TabICLv2 has little conventional fitting cost because the reported 0.08 s covers context preparation, but its 1.85-ms latency for one complete 20-component prediction is the largest in the comparison. Projection adds $0.044\pm0.003$ ms per sample. This overhead is material for very fast predictors such as partial least squares but small relative to TabICLv2 inference. The TabICLv2 timing is specific to \texttt{tabicl-regressor-v2-20260212.ckpt}, its 20 full fold-local contexts, and the fixed inference configuration; other foundation models may distribute adaptation and inference cost differently.
+The complete timing analysis will distinguish hyperparameter search, fitting, raw inference, projection, and end-to-end projected inference. All latency values will represent a complete 20-component prediction.
 
 \begin{table}[htbp]
 \centering
@@ -661,7 +661,7 @@ SVR & $.145\pm.009$ & $.0211\pm.0026$ & $.092\pm.006$ & $.956\pm.004$ & $31.0\pm
 $k$-NN & $.158\pm.011$ & $.0251\pm.0035$ & $.100\pm.007$ & $.948\pm.005$ & $.05\pm.01$ & $.310\pm.015$ \\
 PLS & $.205\pm.008$ & $.0421\pm.0033$ & $.130\pm.005$ & $.911\pm.004$ & $.12\pm.01$ & $.004\pm.001$ \\
 MLP & $.120\pm.010$ & $.0145\pm.0024$ & $.076\pm.006$ & $.970\pm.005$ & $18.5\pm2.10$ & $.018\pm.004$ \\
-TabICLv2 & $.126\pm.007$ & $.0159\pm.0018$ & $.080\pm.004$ & $.967\pm.004$ & $.08\pm.01^{a}$ & $1.850\pm.090$ \\
+
 \bottomrule
 \end{tabular}}
 \parbox{0.96\textwidth}{\scriptsize $^{a}$Context preparation, not conventional parameter fitting. All values are illustrative and must be replaced.}
@@ -669,9 +669,9 @@ TabICLv2 & $.126\pm.007$ & $.0159\pm.0018$ & $.080\pm.004$ & $.967\pm.004$ & $.0
 
 \subsection{Data-Scarcity Scaling and Predictive Stability}
 
-The illustrative learning curves in Figure~\ref{fig:illustrative_scaling} show two regimes. TabICLv2, the foundation-model representative, has the lowest displayed nRMSE at $N=500$ ($0.245\pm0.028$), but its improvement slows and LightGBM has lower displayed values at larger scales. This model-specific observation does not isolate pretraining as the cause or establish a general small-data advantage for foundation models. The multilayer perceptron begins with the largest error and fold-to-fold variation ($0.420\pm0.065$) yet improves sharply as samples are added. Partial least squares is relatively stable at the smallest scale but reaches an early plateau. Across all displayed models, the illustrative sample SDs contract as $N$ increases; this is a descriptive pattern across the five folds, not an inferential comparison.
+The complete learning-curve analysis will compare all nine models at all eleven nested sample totals and will report five-fold means with sample SD without attributing differences to untested mechanisms.
 
-The timing panel shows different scaling costs. LightGBM grows nearly linearly but remains below two seconds, the multilayer perceptron retains a larger optimization cost, and support vector regression rises nonlinearly to 31 s. TabICLv2 context preparation remains short, although its inference latency increases with context size and is reported separately in Table~\ref{tab:illustrative_full_benchmark}. That shift from fitting cost toward context-based inference is specific to TabICLv2; other foundation models use different adaptation mechanisms. These profiles motivate reporting learning and computational curves on the same sample-size axis.
+The completed timing panel will place predictive learning curves and model-training costs on the same sample-size axis while keeping inference latency in the dedicated timing table.
 
 \begin{figure}[htbp]
 \centering
@@ -697,12 +697,9 @@ The timing panel shows different scaling costs. LightGBM grows nearly linearly b
 \addplot+[color=MutedPlum,mark=triangle*,error bars/.cd,y dir=both,y explicit]
  coordinates {(500,.420)+-(0,.065) (2400,.230)+-(0,.036) (4300,.173)+-(0,.024) (6200,.147)+-(0,.017) (8100,.131)+-(0,.013) (10000,.120)+-(0,.010)};
 \addlegendentry{MLP}
-\addplot+[color=MineralGreen,mark=diamond*,error bars/.cd,y dir=both,y explicit]
- coordinates {(500,.245)+-(0,.028) (2400,.168)+-(0,.017) (4300,.144)+-(0,.012) (6200,.134)+-(0,.009) (8100,.129)+-(0,.008) (10000,.126)+-(0,.007)};
-\addlegendentry{TabICLv2}
 
 \nextgroupplot[
- xlabel={Total dataset size $N$}, ylabel={Training or setup time (s)},
+ xlabel={Total dataset size $N$}, ylabel={Training time (s)},
  ymode=log, title={Computational scaling},
  legend style={at={(0.5,-0.31)},anchor=north,legend columns=2}
 ]
@@ -714,11 +711,9 @@ The timing panel shows different scaling costs. LightGBM grows nearly linearly b
 \addlegendentry{SVR}
 \addplot+[color=MutedPlum,mark=diamond*] coordinates {(500,3.8) (2400,6.4) (4300,9.7) (6200,13.0) (8100,16.0) (10000,18.5)};
 \addlegendentry{MLP}
-\addplot+[color=MineralGreen,mark=pentagon*] coordinates {(500,.03) (2400,.04) (4300,.05) (6200,.06) (8100,.07) (10000,.08)};
-\addlegendentry{TabICLv2 setup}
 \end{groupplot}
 \end{tikzpicture}
-\caption{Illustrative placeholder---not experimental data: cross-validated nRMSE learning curves (left, descriptive five-fold means with sample-SD bars) and training or context-preparation time (right).}
+\caption{Illustrative placeholder---not experimental data: cross-validated nRMSE learning curves (left, descriptive five-fold means with sample-SD bars) and training time (right).}
 \label{fig:illustrative_scaling}
 \end{figure}
 
@@ -747,7 +742,7 @@ SVR & $.145\rightarrow.142$ & 10.0 & 1.20 & 1.50 & 9.4 \\
 $k$-NN & $.158\rightarrow.153$ & 13.0 & 1.45 & 1.80 & 12.2 \\
 PLS & $.205\rightarrow.207$ & 7.0 & 2.10 & 2.70 & 6.4 \\
 MLP & $.120\rightarrow.116$ & 7.5 & .82 & 1.05 & 7.0 \\
-TabICLv2 & $.126\rightarrow.125$ & 3.2 & .76 & .96 & 2.8 \\
+
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -804,7 +799,7 @@ SVR & $.238\rightarrow.229$ & $.362\rightarrow.346$ & 18 & 36 \\
 $k$-NN & $.315\rightarrow.291$ & $.642\rightarrow.574$ & 24 & 55 \\
 PLS & $.278\rightarrow.281$ & $.352\rightarrow.361$ & 12 & 22 \\
 MLP & $.226\rightarrow.210$ & $.448\rightarrow.401$ & 16 & 41 \\
-TabICLv2 & $.216\rightarrow.209$ & $.390\rightarrow.365$ & 10 & 27 \\
+
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -816,15 +811,15 @@ TabICLv2 & $.216\rightarrow.209$ & $.390\rightarrow.365$ & 10 & 27 \\
  ybar,bar width=4.5pt,
  width=0.95\textwidth,height=0.43\textwidth,
  ylabel={Severe-shift nRMSE},
- symbolic x coords={xgb,lgbm,cat,ada,rf,svr,knn,pls,mlp,tabicl},
- xtick=data,xticklabels={XGBoost,LightGBM,CatBoost,AdaBoost,Random Forest,SVR,$k$-NN,PLS,MLP,TabICLv2},
+ symbolic x coords={xgb,lgbm,cat,ada,rf,svr,knn,pls,mlp},
+ xtick=data,xticklabels={XGBoost,LightGBM,CatBoost,AdaBoost,Random Forest,SVR,$k$-NN,PLS,MLP},
  x tick label style={rotate=40,anchor=east,font=\scriptsize},
  ymajorgrids,grid style={dotted,gray!35},
  legend style={at={(0.5,-0.27)},anchor=north,legend columns=2,font=\scriptsize,draw=none},
 ]
-\addplot[fill=CoralRust!75,draw=CoralRust] coordinates {(xgb,.430)(lgbm,.405)(cat,.418)(ada,.690)(rf,.515)(svr,.362)(knn,.642)(pls,.352)(mlp,.448)(tabicl,.390)};
+\addplot[fill=CoralRust!75,draw=CoralRust] coordinates {(xgb,.430)(lgbm,.405)(cat,.418)(ada,.690)(rf,.515)(svr,.362)(knn,.642)(pls,.352)(mlp,.448)};
 \addlegendentry{Raw}
-\addplot[fill=MineralGreen!75,draw=MineralGreen] coordinates {(xgb,.397)(lgbm,.372)(cat,.384)(ada,.623)(rf,.470)(svr,.346)(knn,.574)(pls,.361)(mlp,.401)(tabicl,.365)};
+\addplot[fill=MineralGreen!75,draw=MineralGreen] coordinates {(xgb,.397)(lgbm,.372)(cat,.384)(ada,.623)(rf,.470)(svr,.346)(knn,.574)(pls,.361)(mlp,.401)};
 \addlegendentry{Projected}
 \end{axis}
 \end{tikzpicture}
@@ -836,20 +831,20 @@ TabICLv2 & $.216\rightarrow.209$ & $.390\rightarrow.365$ & 10 & 27 \\
 
 Taken together, the illustrative values demonstrate the intended decision process rather than a completed model ranking. More importantly, they show how the final benchmark will evaluate the paper's primary contribution: whether the same Kircher--Votsmeier layer removes both declared physical violations across heterogeneous tabular predictors without retraining them. Its illustrative absolute latency is small, although its final relative cost will depend on the speed of the underlying predictor. The placeholders also show how enforcement could improve prediction error when part of a raw residual lies in infeasible directions, while the partial-least-squares example shows how exact feasibility could instead carry a modest accuracy cost.
 
-For tabular foundation models, the TabICLv2 case is designed to test whether a context-conditioned predictor can use the same post-prediction physical interface as conventionally fitted learners. A verified result would be category-relevant evidence of compatibility: a foundation model that returns the required component vector can, in principle, be corrected without access to its internal parameters. The eventual accuracy, small-data behavior, latency, and extrapolation performance will remain specific to \texttt{tabicl-regressor-v2-20260212.ckpt}, the zero-shot one-context-per-component design, and the stated inference settings. They should not be treated as expected behavior for every tabular foundation model.
+
 
 The extrapolation comparison sets another boundary on the claim. A projected state can conserve mass and remain non-negative while still differing from the mechanistic solution. The method is therefore a common physical contract for surrogate-assisted screening, optimization, and monitoring, not a substitute for predictive-distribution assessment or mechanistic validation beyond the sampled domain.
 
 The planned evidence is simulated and steady state, rather than plant-observed and dynamic. It therefore cannot establish trajectory-wise conservation in an operating treatment plant. Moreover, the five invariants and non-negativity do not imply full kinetic, thermodynamic, or operational feasibility.
 
-Any extrapolation conclusions will depend on the selected exterior intervals and on which mechanistic simulations converge. Computational comparisons will likewise depend on hardware, batching, thread control, search budget, and model configuration. No finite benchmark can cover every machine-learning architecture; the selected conventional learners represent several common model families rather than an exhaustive inventory. Similarly, only one tabular foundation model and checkpoint are considered. Its final results can establish evidence of compatibility with the correction, but not category-wide accuracy or efficiency. Complete fold-level summaries, physical-unit component metrics, extrapolation residual distributions, and fold-specific hyperparameters are planned for the supplementary material.
+Any extrapolation conclusions will depend on the selected exterior intervals and on which mechanistic simulations converge. Computational comparisons will likewise depend on hardware, batching, thread control, search budget, and model configuration. No finite benchmark can cover every machine-learning architecture; the selected learners represent several common model families rather than an exhaustive inventory. Complete fold-level summaries, physical-unit component metrics, extrapolation residual distributions, and fold-specific hyperparameters are provided in the supplementary material after the accepted run.
 
 \FloatBarrier
 \section{Conclusion}
 
 To our knowledge, this study aims to provide the first model-agnostic demonstration of simultaneous enforcement of mass conservation and non-negativity across tabular surrogates for an activated-sludge process. Applying the Kircher--Votsmeier correction after prediction is designed to impose one physical contract without retraining or redesigning the underlying model. This planned contribution addresses a requirement that wastewater surrogate studies have largely overlooked even as artificial intelligence and machine-learning tools become more common.
 
-The benchmarking analysis is designed to support that primary contribution by testing conventional learners and one representative tabular foundation model across data scarcity, computational cost, and extrapolation beyond the training range. If verified, the foundation-model case will provide evidence of compatibility with the correction interface; it will not establish the accuracy or efficiency of the wider category. Most importantly, the study design separates two different claims: the correction can guarantee mass conservation and non-negativity within numerical tolerance, whereas predictive accuracy remains an empirical property of the learner and the data domain.
+The benchmarking analysis is designed to support that primary contribution by testing nine conventional learners across data scarcity, computational cost, and extrapolation beyond the training range. Most importantly, the study separates two claims: the correction can guarantee mass conservation and non-negativity within numerical tolerance, whereas predictive accuracy remains an empirical property of the learner and the data domain.
 
 The numerical results currently displayed are illustrative placeholders rather than scientific findings. When final outputs replace them, the same paired analysis will quantify the accuracy cost or benefit of enforcement, its computational overhead, and the extent to which raw predictions degrade beyond familiar operating conditions. Those measurements will determine whether the planned activated-sludge demonstration is supported while leaving the mathematical correction mechanism unchanged.
 
@@ -879,9 +874,9 @@ The numerical results currently displayed are illustrative placeholders rather t
 
 \noindent Henze, M., Gujer, W., Mino, T., \& van Loosdrecht, M. (2006). Activated Sludge Models ASM1, ASM2, ASM2d and ASM3. \textit{Water Intelligence Online, 5}(0). doi: 10.2166/9781780402369.
 
-\noindent Hollmann, N., M\"uller, S., Purucker, L., Krishnakumar, A., K\"orfer, M., Hoo, S. B., Schirrmeister, R. T., \& Hutter, F. (2025). Accurate predictions on small data with a tabular foundation model. \textit{Nature, 637}(8045), 319--326. doi: 10.1038/s41586-024-08328-6.
 
-\noindent Kim, M. J., Grinsztajn, L., \& Varoquaux, G. (2024). CARTE: Pretraining and transfer for tabular learning. \textit{Proceedings of the 41st International Conference on Machine Learning}, 23843--23866.
+
+
 
 \noindent Kim, M., Rao, A. S., \& Yoo, C. (2009). Dual optimization strategy for N and P removal in a biological wastewater treatment plant. \textit{Industrial and Engineering Chemistry Research, 48}(13), 6363--6371. doi: 10.1021/ie801689t.
 
@@ -893,7 +888,7 @@ The numerical results currently displayed are illustrative placeholders rather t
 
 \noindent Lin, L., Yang, H., \& Xu, X. (2022). Effects of water pollution on human health and disease heterogeneity: A review. \textit{Frontiers in Environmental Science, 10}, 880246. doi: 10.3389/fenvs.2022.880246.
 
-\noindent Ma, J., Thomas, V., Hosseinzadeh, R., Labach, A., Kamkari, H., Cresswell, J. C., Golestan, K., Yu, G., Caterini, A. L., \& Volkovs, M. (2025). TabDPT: Scaling tabular foundation models on real data. \textit{Advances in Neural Information Processing Systems}.
+
 
 \noindent Madhav, S., Ahamad, A., Singh, A. K., Kushawaha, J., Chauhan, J. S., Sharma, S., \& Singh, P. (2019). Water pollutants: Sources and impact on the environment and human health. In \textit{Sensors in water pollutants monitoring: Role of material} (pp. 43--62). doi: 10.1007/978-981-15-0671-0\_4.
 
@@ -903,7 +898,7 @@ The numerical results currently displayed are illustrative placeholders rather t
 
 \noindent Padron-Paez, J. I., Almaraz, S. D. L., \& Rom\'an-Mart\'inez, A. (2020). Sustainable wastewater treatment plants design through multiobjective optimization. \textit{Computers \& Chemical Engineering, 140}, 106850. doi: 10.1016/\allowbreak j.compchemeng.\allowbreak 2020.\allowbreak 106850.
 
-\noindent Qu, J., Holzm\"uller, D., Varoquaux, G., \& Le Morvan, M. (2026). TabICLv2: A better, faster, scalable, and open tabular foundation model. \textit{arXiv preprint arXiv:2602.11139}.
+
 
 \noindent Raissi, M., Perdikaris, P., \& Karniadakis, G. E. (2019). Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations. \textit{Journal of Computational Physics, 378}, 686--707. doi: 10.1016/j.jcp.2018.10.045.
 
