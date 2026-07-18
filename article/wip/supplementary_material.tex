@@ -1,0 +1,342 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{xcolor}
+
+\definecolor{DeepTeal}{HTML}{264653}
+\definecolor{DraftCream}{HTML}{FFF7E6}
+\definecolor{CoralRust}{HTML}{E76F51}
+
+\newcommand{\pending}{\textit{Pending final CUDA benchmark}}
+\newcommand{\draftnotice}[1]{%
+\begin{center}
+\fcolorbox{CoralRust}{DraftCream}{%
+\parbox{0.92\textwidth}{\small\textbf{Draft-results notice.} #1}}
+\end{center}
+}
+
+\newcommand{\suppplaceholderfigure}[3]{%
+\begin{figure}[p]
+\centering
+\fbox{%
+\parbox[c][0.56\textheight][c]{0.90\textwidth}{%
+\centering
+\textbf{Supplementary Figure Placeholder}\\[0.75em]
+#3
+}}
+\caption{#1}
+\label{#2}
+\end{figure}
+}
+
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\title{Supplementary Material\\Model-Agnostic Enforcement of Mass Conservation and Non-Negativity in Tabular Surrogates of Activated Sludge Processes}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\draftnotice{The full CUDA benchmark has not yet been executed. All result cells and figure panels in this file therefore remain explicit placeholders. No numerical performance result should be inferred from this planned structure.}
+
+\section{Scope and Reporting Convention}
+
+This supplement is planned to provide the complete fold-level, component-level, composite, out-of-distribution (OOD), computational, and scientific-provenance material supporting the main manuscript. The final version will be populated from one accepted benchmark execution and will retain the same row identifiers, fold assignments, target order, raw/projected pairing, and metric definitions used in the main analysis.
+
+At every in-distribution data size, the five outer-fold values will be retained individually. A model--size summary will be the arithmetic mean plus or minus the sample standard deviation across those five values,
+\begin{equation}
+\bar q=\frac{1}{5}\sum_{f=1}^{5}q_f,
+\qquad
+s_q=\sqrt{\frac{1}{4}\sum_{f=1}^{5}(q_f-\bar q)^2}.
+\end{equation}
+The notation ``mean $\pm$ sample SD'' is descriptive of fold-to-fold variation. No hypothesis tests are planned.
+
+For observation $i$ and component $j$, let
+\begin{equation}
+e_{ij}=\frac{\hat c_{ij}-c_{out,ij}}{\sigma_j},
+\end{equation}
+where $\sigma_j$ is fitted on the applicable training fold. With $F=20$ components and $n$ observations in a scored fold, the primary aggregate labels are
+\begin{equation}
+\mathrm{nMSE}=\frac{1}{Fn}\sum_{i=1}^{n}\sum_{j=1}^{F}e_{ij}^{2},
+\quad
+\mathrm{nRMSE}=\sqrt{\mathrm{nMSE}},
+\quad
+\mathrm{nMAE}=\frac{1}{Fn}\sum_{i=1}^{n}\sum_{j=1}^{F}|e_{ij}|.
+\end{equation}
+These labels will not be shortened to MSE, RMSE, or MAE when the component-standardized aggregate is meant. Physical-unit component and composite metrics will be labeled separately with their units.
+
+\section{Benchmark Contract}
+
+The in-distribution analysis uses 10,000 accepted ASM2d-TSN steady states, 22 inputs, and 20 effluent-component targets. The nested totals are 500, 1450, 2400, 3350, 4300, 5250, 6200, 7150, 8100, 9050, and 10,000. One seed-42 ordering and one persistent five-fold assignment are shared by every model and data size. Raw and Kircher--Votsmeier-projected predictions are scored as paired outputs on identical validation rows.
+
+The mechanistic simulator evaluates its 28 biological and chemical process rates directly, without an artificial rate ceiling or rate clipping. Bounds on solved state variables and initialization vectors do not modify the rate vector. The final supplement will report attempted, failed, and accepted simulation counts for the in-distribution and OOD designs.
+
+The model set comprises XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, support vector regression, $k$-nearest neighbors, partial least squares, a multilayer perceptron, and TabICLv2. The nine conventional methods use fold-local selection and preprocessing as specified in the main manuscript. TabICLv2 uses the fixed zero-shot configuration in Table~\ref{tab:s_tabiclv2_configuration}.
+
+\begin{table}[htbp]
+\centering
+\caption{Fixed TabICLv2 configuration to be retained in every fold, data size, timing run, and final full-context construction for OOD scoring.}
+\label{tab:s_tabiclv2_configuration}
+\small
+\begin{tabular}{p{4.2cm}p{9.0cm}}
+\toprule
+Item & Fixed setting \\
+\midrule
+Interface & \texttt{TabICLRegressor}, package version 2.1.1 \\
+Checkpoint & \texttt{tabicl-regressor-v2-20260212.ckpt}; 114,324,594 bytes; SHA-256 \texttt{0db9cb538f114e79026bf08f45f41ad8}\newline\texttt{dd7ad2de2aaca9a5ca8cd3bd9748ae7a} \\
+Adaptation & Zero-shot; no checkpoint fine-tuning \\
+Target handling & One independent context for each of the 20 component targets \\
+Context rows & All applicable training rows; no row subsampling and no context-size cap \\
+Ensemble & Eight estimators \\
+Normalization & \texttt{none} and \texttt{power} \\
+Feature shuffle & Latin \\
+Prediction calls and internal batch & Each complete evaluation partition in one call per component; internal batch size 8 \\
+Key--value cache & Disabled \\
+Device and precision & Explicit \texttt{cuda:0}, float32; GPU-local offloading \\
+Acceleration modes & Automatic mixed precision disabled; FlashAttention~3 disabled; automatic checkpoint download disabled \\
+Repeatability & Seed 42; repeated predictions must agree within $10^{-4}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Fold-Level In-Distribution Results}
+
+The final fold-level export will contain one row for every model, nested data size, outer fold, and prediction type (raw or projected). It will preserve the fold identifier rather than reporting only aggregates. Table~\ref{tab:s_fold_accuracy} defines the accuracy block; Table~\ref{tab:s_fold_physics_timing} defines the physical and computational block.
+
+\begin{table}[htbp]
+\centering
+\caption{Planned fold-level in-distribution accuracy results. Every cell remains pending until the final benchmark is complete.}
+\label{tab:s_fold_accuracy}
+\scriptsize
+\begin{tabular}{lllrrrrr}
+\toprule
+Model & $N$ & Fold/prediction & nMSE & nRMSE & nMAE & Macro-$R^2$ & Rows scored \\
+\midrule
+\multicolumn{8}{c}{\pending} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Planned fold-level physical diagnostics and timings. Raw and projected results will remain paired.}
+\label{tab:s_fold_physics_timing}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllrrrrrrr}
+\toprule
+Model & $N$ & Fold & $v_{mc}$ summary & Non-negative violation (\%) & $d_c^*$ & Backtracking (\%) & Preparation (s) & Raw latency & Projection latency \\
+\midrule
+\multicolumn{10}{c}{\pending} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+For each model--size cell, a following summary row will report the descriptive five-fold mean $\pm$ sample SD. The fold rows will remain available so that the summary can be checked directly. Preparation time means preprocessing plus conventional fitting for fitted learners and context preparation for TabICLv2; these operations will not be combined without an explicit label.
+
+\section{Per-Component Results}
+
+The fixed target order is $S_O$, $S_F$, $S_A$, $S_{NH4}$, $S_{NO2}$, $S_{NO3}$, $S_{N2}$, $S_{PO4}$, $S_I$, $S_{ALK}$, $X_I$, $X_S$, $X_H$, $X_{PAO}$, $X_{PP}$, $X_{PHA}$, $X_{AOB}$, $X_{NOB}$, $X_{MeP}$, and $X_{MeOH}$. The final component appendix will report, for each component, model, fold, and prediction type:
+
+\begin{itemize}
+\item physical-unit MSE, RMSE, MAE, signed bias, and maximum absolute error;
+\item component-standardized nMSE$_j$, nRMSE$_j$, and nMAE$_j$ using the training-fold $\sigma_j$;
+\item the count and magnitude of negative raw predictions;
+\item the physical-unit and standardized displacement introduced by projection; and
+\item the corresponding descriptive five-fold mean $\pm$ sample SD at each data size.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Planned full-size per-component accuracy and projection summary. Units will follow the component definitions in the main manuscript.}
+\label{tab:s_component_results}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllrrrrrrrrr}
+\toprule
+Component & Model & Prediction & Fold/summary & MSE$_j$ & RMSE$_j$ & MAE$_j$ & Bias$_j$ & MaxAE$_j$ & nMSE$_j$ & nRMSE$_j$ & nMAE$_j$ & Displacement \\
+\midrule
+\multicolumn{13}{c}{\pending} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Planned per-component negative-prediction and projection-displacement diagnostics. Magnitudes and displacement units will be stated for each component.}
+\label{tab:s_component_physics}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllrrrr}
+\toprule
+Component & Model & Fold/summary & Raw negative count & Raw negative magnitude & Physical displacement & Standardized displacement \\
+\midrule
+\multicolumn{7}{c}{\pending} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\section{Composite Water-Quality Results}
+
+COD, TN, TP, and TSS are secondary reported quantities computed only after prediction by the common linear composition map $y=I_{comp}c$. Models are not trained directly on these four composites. The final supplement will state the component coefficients used for each composite and will report physical-unit MSE, RMSE, MAE, bias, and $R^2$ separately for raw and projected predictions. Those physical-unit labels will remain distinct from the primary component-standardized nMSE, nRMSE, and nMAE.
+
+\begin{table}[htbp]
+\centering
+\caption{Planned composite results at the full in-distribution scale, reported by fold and as descriptive five-fold mean $\pm$ sample SD.}
+\label{tab:s_composite_results}
+\scriptsize
+\begin{tabular}{llllrrrrr}
+\toprule
+Composite & Model & Prediction & Fold/summary & MSE & RMSE & MAE & Bias & $R^2$ \\
+\midrule
+\multicolumn{9}{c}{\pending} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Out-of-Distribution Results}
+
+The OOD supplement will preserve mild and severe extrapolation as separate strata and will report candidate attempts, solver failures, accepted states, and acceptance rates before any surrogate comparison. No OOD response will enter fitting, scaling, context construction, calibration, or model selection. Conventional methods will be refitted on all 10,000 in-distribution states with settings frozen before OOD scoring. TabICLv2 will construct one full 10,000-row context for each of the 20 targets with the fixed configuration in Table~\ref{tab:s_tabiclv2_configuration}.
+
+For every model and severity stratum, the final OOD tables will contain raw and projected nMSE, nRMSE, and nMAE; component-level physical errors; COD, TN, TP, and TSS errors; mass-conservation and non-negativity diagnostics; projection displacement; and latency. Sample-level residual and displacement distributions will be supplied rather than only aggregate values.
+
+\begin{table}[htbp]
+\centering
+\caption{Planned OOD simulation acceptance summary.}
+\label{tab:s_ood_acceptance}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Severity & Attempted & Failed & Accepted & Acceptance (\%) & Maximum accepted residual \\
+\midrule
+Mild & \multicolumn{5}{c}{\pending} \\
+Severe & \multicolumn{5}{c}{\pending} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Planned OOD predictive and physical summary for paired raw/projected outputs.}
+\label{tab:s_ood_results}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllrrrrrr}
+\toprule
+Severity & Model & Prediction & nMSE & nRMSE & nMAE & Macro-$R^2$ & $v_{mc}$ & Negative (\%) & $d_c^*$ \\
+\midrule
+\multicolumn{10}{c}{\pending} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\section{Hyperparameters, Timings, and Scientific Provenance}
+
+\subsection{Conventional-Model Hyperparameters}
+
+The final supplement will give the winning inner-search configuration for each conventional model and outer fold, together with the search objective, trial count, sampler, seed, and largest-scale training-row count. Modal settings may be summarized, but they will not replace the fold-specific records. Any setting used for the final 10,000-row refit will be labeled separately.
+
+\begin{longtable}{p{2.4cm}p{1.2cm}p{2.0cm}p{8.0cm}}
+\caption{Planned fold-specific conventional-model hyperparameter record.}\label{tab:s_hyperparameters}\\
+\toprule
+Model & Fold & Selection scale & Selected settings \\
+\midrule
+\endfirsthead
+\toprule
+Model & Fold & Selection scale & Selected settings \\
+\midrule
+\endhead
+\multicolumn{4}{c}{\pending} \\
+\bottomrule
+\end{longtable}
+
+\subsection{Timing Protocol and Results}
+
+The timing set contains 512 validation rows, constructed deterministically by cycling through the applicable validation inputs. Five warm-up calls precede 30 synchronized repetitions for each timed path. Timing is partitioned into preprocessing and fitting or context preparation, raw inference, projection, and end-to-end projected inference. The median 512-row latency within each fold is divided by 512; the five fold medians are then reported individually and as descriptive mean $\pm$ sample SD in milliseconds per sample. CUDA synchronization brackets accelerator measurements. TabICLv2 retains internal batch size 8, \texttt{cuda:0} float32, GPU-local offloading, disabled automatic mixed precision, disabled FlashAttention~3, and disabled key--value caching during timing. Hyperparameter-search time is reported separately.
+
+\begin{table}[htbp]
+\centering
+\caption{Planned timing results by model, data size, and fold.}
+\label{tab:s_timings}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllrrrrr}
+\toprule
+Model & $N$ & Fold/summary & Preparation (s) & Raw inference (ms/sample) & Projection (ms/sample) & End-to-end (ms/sample) & Peak device memory \\
+\midrule
+\multicolumn{8}{c}{\pending} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection{Scientific Provenance and Reproducibility}
+
+The scientific provenance record will identify the benchmark data design, fold design, random seed, package and library versions, checkpoint identifier, hardware, operating system, thread limits, and numeric precision used for the accepted analysis.
+
+\begin{table}[htbp]
+\centering
+\caption{Planned scientific-provenance and computational-environment record for the accepted benchmark.}
+\label{tab:s_provenance}
+\small
+\begin{tabular}{p{4.2cm}p{9.0cm}}
+\toprule
+Record & Final value \\
+\midrule
+Benchmark data design & Target of 10,000 accepted in-distribution states and 600 accepted states per OOD severity stratum \\
+Fold design & Five persistent outer folds across eleven nested data sizes \\
+Random seed & 42 \\
+Conventional-model package versions & \pending \\
+TabICLv2 package and interface & \texttt{TabICLRegressor} 2.1.1 \\
+TabICLv2 checkpoint identifier & \texttt{tabicl-regressor-v2-20260212.ckpt} \\
+Processor, CUDA accelerator, and memory & \pending \\
+Operating system and thread limits & \pending \\
+Numeric precision by computation stage & \pending \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Planned Supplementary Figures}
+
+\suppplaceholderfigure{Planned all-model in-distribution nRMSE learning curves. Lines will show five-fold means and bars or bands will show sample SD, described only as fold-to-fold variation.}
+{fig:s_all_model_learning_curves}
+{Replace with final nRMSE curves for all ten models at the eleven nested data sizes. Preserve the same fold assignments, model colors, and metric label used in the main manuscript.}
+
+\suppplaceholderfigure{Planned per-component raw and projected error atlas at the full in-distribution scale.}
+{fig:s_component_error_atlas}
+{Replace with final component-standardized and physical-unit panels in the fixed 20-component order. Clearly separate raw predictions, projected predictions, and projection displacement.}
+
+\suppplaceholderfigure{Planned physical-admissibility diagnostics by model and data size.}
+{fig:s_physical_diagnostics}
+{Replace with final conservation residual, negative-component frequency and magnitude, backtracking rate, and projection-displacement panels. Use a logarithmic scale only where zero handling is stated explicitly.}
+
+\suppplaceholderfigure{Planned mild and severe OOD residual and projection-displacement distributions.}
+{fig:s_ood_distributions}
+{Replace with final paired raw/projected sample-level distributions for both OOD severity strata. Keep physical admissibility separate from predictive error.}
+
+\section{Final Population Checklist}
+
+Before submission, the supplementary material will be checked to confirm that:
+
+\begin{enumerate}
+\item every displayed performance value comes from the completed final CUDA benchmark;
+\item all five fold rows reconcile with each reported mean $\pm$ sample SD;
+\item nMSE, nRMSE, and nMAE labels are used only for the defined component-standardized metrics;
+\item raw and projected predictions remain paired on identical observations;
+\item all 20 components and four derived composites use the fixed manuscript order and units;
+\item the TabICLv2 execution record matches Table~\ref{tab:s_tabiclv2_configuration};
+\item the mechanistic rate vector was evaluated without artificial clipping;
+\item OOD targets remained untouched until final scoring;
+\item every placeholder is replaced only after a verified final result exists; and
+\item the provenance table reports only scientifically relevant configuration and environment fields.
+\end{enumerate}
+
+\end{document}
