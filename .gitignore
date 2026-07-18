@@ -213,7 +213,6 @@ docs/journal/revision_plots
 data/asm2d-tsn/simulation/composition_matrix_cache_*.json
 data/asm2d-tsn/simulation/composition_matrix_cache_*.pkl
 data/asm2d-tsn/simulation/
-data/tabicl/*.ckpt
 artifacts/*
 !artifacts/wip/
 artifacts/wip/*

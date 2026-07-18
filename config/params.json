@@ -7,7 +7,7 @@
     "resume_policy": "matching_contract_only",
     "threads": 12,
     "solver_chains": 12,
-    "hardware_profile": "cuda_float32_16gb_minimum",
+    "hardware_profile": "cpu_multicore",
     "profiles": {
       "full": {},
       "smoke": {
@@ -49,9 +49,6 @@
             "warmup_runs": 0,
             "measured_runs": 1
           }
-        },
-        "tabiclv2": {
-          "enabled": false
         }
       }
     }
@@ -132,9 +129,9 @@
       }
     },
     "solver": {
-      "lower_bound": 1e-8,
+      "lower_bound": 1e-08,
       "upper_bound": 1500,
-      "initial_guess_floor": 0.000001,
+      "initial_guess_floor": 1e-06,
       "warm_start_previous_weight": 0.55,
       "warm_start_influent_weight": 0.45,
       "initial_s_a_fraction": 0.7,
@@ -150,13 +147,13 @@
       "multistart_aob_to_nh4_ratio": 0.08,
       "multistart_nob_to_no2_ratio": 0.25,
       "dynamic_relaxation_days": 20,
-      "dynamic_absolute_tolerance": 1e-8,
-      "dynamic_relative_tolerance": 0.000001,
+      "dynamic_absolute_tolerance": 1e-08,
+      "dynamic_relative_tolerance": 1e-06,
       "dynamic_max_step": 0.25,
-      "residual_tolerance": 1e-9,
-      "variable_tolerance": 1e-9,
-      "gradient_tolerance": 1e-9,
-      "acceptance_residual_max": 1e-9,
+      "residual_tolerance": 1e-09,
+      "variable_tolerance": 1e-09,
+      "gradient_tolerance": 1e-09,
+      "acceptance_residual_max": 1e-09,
       "max_nfev": 1200
     },
     "influent_state_ranges": {
@@ -1122,7 +1119,7 @@
     "primary_solver": "qr",
     "fallback_solver": "svd",
     "normal_equations": false,
-    "eps": 1e-8,
+    "eps": 1e-08,
     "eta": 1e-12,
     "tau": 1e-10,
     "svd_tolerance": 1e-12
@@ -1156,16 +1153,42 @@
       "measured_runs": 30
     },
     "scaling_policies": {
-      "xgboost_regressor": {"features": false, "targets": false},
-      "lightgbm_regressor": {"features": false, "targets": false},
-      "catboost_regressor": {"features": false, "targets": false},
-      "adaboost_regressor": {"features": false, "targets": true},
-      "random_forest_regressor": {"features": false, "targets": false},
-      "svr_regressor": {"features": true, "targets": true},
-      "knn_regressor": {"features": true, "targets": true},
-      "pls_regressor": {"features": true, "targets": true},
-      "ann_deep_regressor": {"features": true, "targets": true},
-      "tabiclv2": {"features": false, "targets": false}
+      "xgboost_regressor": {
+        "features": false,
+        "targets": false
+      },
+      "lightgbm_regressor": {
+        "features": false,
+        "targets": false
+      },
+      "catboost_regressor": {
+        "features": false,
+        "targets": false
+      },
+      "adaboost_regressor": {
+        "features": false,
+        "targets": true
+      },
+      "random_forest_regressor": {
+        "features": false,
+        "targets": false
+      },
+      "svr_regressor": {
+        "features": true,
+        "targets": true
+      },
+      "knn_regressor": {
+        "features": true,
+        "targets": true
+      },
+      "pls_regressor": {
+        "features": true,
+        "targets": true
+      },
+      "ann_deep_regressor": {
+        "features": true,
+        "targets": true
+      }
     },
     "reporting": {
       "fold_summary": "mean_and_sample_standard_deviation",
@@ -1173,7 +1196,12 @@
       "confidence_intervals": false,
       "zero_variance_policy": "fail",
       "ood_normalization": "full_id_training_population_standard_deviation",
-      "metrics": ["nMSE", "nRMSE", "nMAE", "macro_R2"]
+      "metrics": [
+        "nMSE",
+        "nRMSE",
+        "nMAE",
+        "macro_R2"
+      ]
     },
     "models": {
       "xgboost_regressor": {
@@ -1236,7 +1264,7 @@
           },
           "reg_alpha": {
             "type": "float",
-            "low": 0.000001,
+            "low": 1e-06,
             "high": 1,
             "log": true
           },
@@ -1330,13 +1358,13 @@
           },
           "reg_alpha": {
             "type": "float",
-            "low": 0.000001,
+            "low": 1e-06,
             "high": 1,
             "log": true
           },
           "reg_lambda": {
             "type": "float",
-            "low": 0.000001,
+            "low": 1e-06,
             "high": 10,
             "log": true
           }
@@ -1567,7 +1595,7 @@
           },
           "tol": {
             "type": "float",
-            "low": 0.00001,
+            "low": 1e-05,
             "high": 0.01,
             "log": true
           },
@@ -1668,7 +1696,7 @@
           "n_components": 6,
           "scale": false,
           "max_iter": 887,
-          "tol": 0.00009908557607069363,
+          "tol": 9.908557607069363e-05,
           "copy": true
         },
         "search_space": {
@@ -1686,7 +1714,7 @@
           },
           "tol": {
             "type": "float",
-            "low": 1e-8,
+            "low": 1e-08,
             "high": 0.0001,
             "log": true
           }
@@ -1715,7 +1743,7 @@
           "batch_size": 64,
           "learning_rate_init": 0.001077730383683112,
           "max_iter": 500,
-          "tol": 0.000016250289106734963,
+          "tol": 1.6250289106734963e-05,
           "shuffle": false,
           "early_stopping": false,
           "random_state": 42,
@@ -1732,7 +1760,7 @@
           },
           "alpha": {
             "type": "float",
-            "low": 0.000001,
+            "low": 1e-06,
             "high": 0.01,
             "log": true
           },
@@ -1753,7 +1781,7 @@
           },
           "tol": {
             "type": "float",
-            "low": 0.00001,
+            "low": 1e-05,
             "high": 0.001,
             "log": true
           },
@@ -1772,56 +1800,5 @@
         }
       }
     }
-  },
-  "tabiclv2": {
-    "enabled": true,
-    "mode": "zero_shot",
-    "package": {
-      "name": "tabicl",
-      "version": "2.1.1"
-    },
-    "checkpoint": {
-      "path": "data/tabicl/tabicl-regressor-v2-20260212.ckpt",
-      "size_bytes": 114324594,
-      "sha256": "0db9cb538f114e79026bf08f45f41ad8dd7ad2de2aaca9a5ca8cd3bd9748ae7a"
-    },
-    "multioutput_strategy": "independent_regressors",
-    "context": {
-      "complete_training_context": true,
-      "subsampling": false,
-      "context_cap": null
-    },
-    "fine_tuning": false,
-    "precision": "float32",
-    "nondeterminism_tolerance": 0.0001,
-    "regressor": {
-      "n_estimators": 8,
-      "norm_methods": [
-        "none",
-        "power"
-      ],
-      "feat_shuffle_method": "latin",
-      "outlier_threshold": 4,
-      "batch_size": 8,
-      "kv_cache": false,
-      "allow_auto_download": false,
-      "device": "cuda:0",
-      "use_amp": false,
-      "use_fa3": false,
-      "offload_mode": "gpu",
-      "random_state": 42,
-      "n_jobs": null,
-      "verbose": false
-    },
-    "cuda": {
-      "required": true,
-      "device_index": 0,
-      "deterministic_algorithms": true,
-      "cudnn_benchmark": false,
-      "allow_tf32": false,
-      "cublas_workspace_config": ":4096:8"
-    }
   }
 }
-
-

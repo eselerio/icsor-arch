@@ -1,6 +1,5 @@
 {
   "workbook": "data/asm2d-tsn/asm2d_tsn_workbook.xlsx",
-  "tabiclv2_checkpoint": "data/tabicl/tabicl-regressor-v2-20260212.ckpt",
   "results_root": "results",
   "run_root_pattern": "results/{run_id}"
 }
