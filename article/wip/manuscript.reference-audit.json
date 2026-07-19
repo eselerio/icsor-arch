@@ -1,12 +1,12 @@
 ﻿{
-    "TexFile":  "C:\\Users\\eselerio\\Projects\\icsor-arch\\article\\wip\\manuscript.tex",
-    "SourceRoot":  "C:\\Users\\eselerio\\Projects\\icsor-arch\\article\\wip",
+    "TexFile":  "C:\\Users\\eselerio\\Projects\\icsor-arch\\artifacts\\wip\\manuscript.tex",
+    "SourceRoot":  "C:\\Users\\eselerio\\Projects\\icsor-arch\\artifacts\\wip",
     "ProjectRoot":  "C:/Users/eselerio/Projects/icsor-arch",
     "Edited":  false,
     "RemovedUnverifiedMode":  false,
-    "TotalBodyCitations":  32,
-    "TotalReferencesBefore":  32,
-    "TotalReferencesAfter":  32,
+    "TotalBodyCitations":  34,
+    "TotalReferencesBefore":  34,
+    "TotalReferencesAfter":  34,
     "BodyCitations":  [
                           {
                               "Surname":  "Aboagye",
@@ -121,6 +121,13 @@
                               "Source":  "Lin et al., 2022"
                           },
                           {
+                              "Surname":  "Liu",
+                              "NormalizedSurname":  "liu",
+                              "Year":  "2009",
+                              "YearBase":  "2009",
+                              "Source":  "Liu et al., 2009"
+                          },
+                          {
                               "Surname":  "Madhav",
                               "NormalizedSurname":  "madhav",
                               "Year":  "2019",
@@ -154,6 +161,13 @@
                               "Year":  "2019",
                               "YearBase":  "2019",
                               "Source":  "Raissi et al., 2019"
+                          },
+                          {
+                              "Surname":  "Simon",
+                              "NormalizedSurname":  "simon",
+                              "Year":  "2013",
+                              "YearBase":  "2013",
+                              "Source":  "Simon et al., 2013"
                           },
                           {
                               "Surname":  "Sturm",
@@ -249,6 +263,14 @@
                                    {
                                        "Reference":  "Min (2024)",
                                        "Title":  "Hard-constrained neural networks with universal approximation guarantees",
+                                       "Score":  0,
+                                       "Note":  "No Crossref candidates returned.",
+                                       "BestTitle":  "",
+                                       "BestDoi":  ""
+                                   },
+                                   {
+                                       "Reference":  "Simon (2013)",
+                                       "Title":  "A blockwise descent algorithm for group-penalized multiresponse and multinomial regression",
                                        "Score":  0,
                                        "Note":  "No Crossref candidates returned.",
                                        "BestTitle":  "",
@@ -477,6 +499,19 @@
                        },
                        {
                            "Index":  17,
+                           "Reference":  "Liu (2009)",
+                           "Title":  "Blockwise coordinate descent procedures for the multi-task lasso, with applications to neural semantic basis discovery",
+                           "IsCited":  true,
+                           "ExistingDoi":  "10.1145/1553374.1553458",
+                           "CrossrefReliable":  true,
+                           "CrossrefScore":  205,
+                           "CrossrefDoi":  "10.1145/1553374.1553458",
+                           "CrossrefTitle":  "Blockwise coordinate descent procedures for the multi-task lasso, with applications to neural semantic basis discovery",
+                           "CrossrefContainer":  "Proceedings of the 26th Annual International Conference on Machine Learning",
+                           "CrossrefNote":  "Reliable Crossref match."
+                       },
+                       {
+                           "Index":  18,
                            "Reference":  "Madhav (2019)",
                            "Title":  "Water pollutants: Sources and impact on the environment and human health",
                            "IsCited":  true,
@@ -489,7 +524,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  18,
+                           "Index":  19,
                            "Reference":  "Mao (2024)",
                            "Title":  "Optimization of effluent quality and energy consumption of aeration process in wastewater treatment plants using artificial intelligence",
                            "IsCited":  true,
@@ -502,7 +537,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  19,
+                           "Index":  20,
                            "Reference":  "Min (2024)",
                            "Title":  "Hard-constrained neural networks with universal approximation guarantees",
                            "IsCited":  true,
@@ -515,7 +550,7 @@
                            "CrossrefNote":  "No Crossref candidates returned."
                        },
                        {
-                           "Index":  20,
+                           "Index":  21,
                            "Reference":  "Padron-Paez (2020)",
                            "Title":  "Sustainable wastewater treatment plants design through multiobjective optimization",
                            "IsCited":  true,
@@ -528,7 +563,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  21,
+                           "Index":  22,
                            "Reference":  "Raissi (2019)",
                            "Title":  "Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations",
                            "IsCited":  true,
@@ -541,7 +576,20 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  22,
+                           "Index":  23,
+                           "Reference":  "Simon (2013)",
+                           "Title":  "A blockwise descent algorithm for group-penalized multiresponse and multinomial regression",
+                           "IsCited":  true,
+                           "ExistingDoi":  "10.48550/arXiv.1311.6529",
+                           "CrossrefReliable":  false,
+                           "CrossrefScore":  0,
+                           "CrossrefDoi":  "",
+                           "CrossrefTitle":  "",
+                           "CrossrefContainer":  "",
+                           "CrossrefNote":  "No Crossref candidates returned."
+                       },
+                       {
+                           "Index":  24,
                            "Reference":  "Sturm (2023)",
                            "Title":  "Advecting superspecies: Efficiently modeling transport of organic aerosol with a mass-conserving dimensionality reduction method",
                            "IsCited":  true,
@@ -554,7 +602,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  23,
+                           "Index":  25,
                            "Reference":  "Sturm (2020)",
                            "Title":  "A mass- and energy-conserving framework for using machine learning to speed computations: A photochemistry example",
                            "IsCited":  true,
@@ -567,7 +615,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  24,
+                           "Index":  26,
                            "Reference":  "Sturm (2022)",
                            "Title":  "Conservation laws in a neural network architecture: Enforcing the atom balance of a Julia-based photochemical model (v0.2.0)",
                            "IsCited":  true,
@@ -580,7 +628,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  25,
+                           "Index":  27,
                            "Reference":  "Tsochatzidi (2025)",
                            "Title":  "A novel surrogate-based optimisation framework for pharmaceutical process systems",
                            "IsCited":  true,
@@ -593,7 +641,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  26,
+                           "Index":  28,
                            "Reference":  "Utkarsh (2025)",
                            "Title":  "End-to-end probabilistic framework for learning with hard constraints",
                            "IsCited":  true,
@@ -606,7 +654,7 @@
                            "CrossrefNote":  "Low-confidence Crossref match."
                        },
                        {
-                           "Index":  27,
+                           "Index":  29,
                            "Reference":  "Wang (2025)",
                            "Title":  "Comparison of interpretable machine learning models and mechanistic model for predicting effluent nitrogen in WWTP",
                            "IsCited":  true,
@@ -619,7 +667,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  28,
+                           "Index":  30,
                            "Reference":  "Wold (2001)",
                            "Title":  "PLS-regression: A basic tool of chemometrics",
                            "IsCited":  true,
@@ -632,7 +680,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  29,
+                           "Index":  31,
                            "Reference":  "Xiao (2025)",
                            "Title":  "A new paradigm in activated sludge management: An interpretable framework integrating mechanistic dynamics with a data-driven surrogate model",
                            "IsCited":  true,
@@ -645,7 +693,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  30,
+                           "Index":  32,
                            "Reference":  "Yang (2025)",
                            "Title":  "Machine learning based prediction of waste activated sludge generation for optimization of WWTP operational efficiency",
                            "IsCited":  true,
@@ -658,7 +706,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  31,
+                           "Index":  33,
                            "Reference":  "Yuan (2006)",
                            "Title":  "Model selection and estimation in regression with grouped variables",
                            "IsCited":  true,
@@ -671,7 +719,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  32,
+                           "Index":  34,
                            "Reference":  "Zou (2005)",
                            "Title":  "Regularization and variable selection via the elastic net",
                            "IsCited":  true,
