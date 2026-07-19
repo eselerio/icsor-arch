@@ -1,10 +1,10 @@
 # Figure Style Guide for the Physical-Enforcement Benchmark
 
-This internal authoring guide applies to the current study of post-prediction mass-conservation and non-negativity enforcement across nine conventional regressors.
+This internal authoring guide applies to the current study of post-prediction mass-conservation and non-negativity enforcement across 13 CPU-based statistical regressors.
 
-The manuscript currently uses an inline graphical abstract, an evaluation-workflow diagram, an in-distribution data-scarcity figure, a projection-effect figure, and an OOD comparison figure. The supplement plans all-model learning curves, a per-component error atlas, physical-admissibility diagnostics, and OOD residual distributions.
+The manuscript uses an inline graphical abstract, an evaluation-workflow diagram, an in-distribution data-scarcity figure, a projection-effect figure, and an OOD comparison figure. The supplement uses all-model learning curves, a per-component error atlas, physical-admissibility diagnostics, and OOD residual distributions.
 
-Numerical result graphics are final only after the complete nine-model benchmark and validation checks have finished. Do not substitute estimated or partial values.
+Numerical graphics are populated only from one completed, article-eligible 13-model bundle whose terminal assertions and manifest hash have been verified. The external article finalizer consumes the manifest-tracked source tables and renders the submission figures according to this guide. Notebook-generated images are diagnostic exports; where their geometry differs from this guide, the external finalizer is authoritative. Estimated, partial, and cross-run values are prohibited.
 
 ## Scientific Contract
 
@@ -17,7 +17,7 @@ Every final results figure must use the same benchmark contract as the tables:
 - primary aggregate metrics labeled exactly `nMSE`, `nRMSE`, and `nMAE`;
 - COD, TN, TP, and TSS shown only as secondary quantities derived from the component vector;
 - mild and severe OOD strata kept separate; and
-- no result presented as final before the complete benchmark and validation checks finish.
+- every displayed value resolves to the single accepted run and its manifest-tracked source rows.
 
 ## Descriptive Fold Summaries
 
@@ -95,6 +95,9 @@ COLORS = {
     "brick_red": "#BC4749",
     "slate_gray": "#8D99AE",
     "dark_gray": "#5C6770",
+    "olive_gray": "#6B705C",
+    "blue_green": "#4D908E",
+    "umber": "#9C6644",
 }
 ```
 
@@ -105,19 +108,23 @@ For paired prediction-state figures, semantics take priority over model identity
 - zero or tolerance reference: dark gray, dashed; and
 - mechanistic target, if shown: deep teal or black.
 
-For multi-model curves, keep one color and marker per model throughout the manuscript and supplement. The recommended final mapping is:
+For multi-model displays, keep the exact notebook color and marker assignment throughout the manuscript and supplement. The fixed roster order and mapping are:
 
-| Model | Color | Marker |
-|---|---:|:---:|
-| XGBoost | steel blue | circle |
-| LightGBM | deep teal | circle |
-| CatBoost | coral rust | square |
-| AdaBoost | warm sand | square |
-| Random Forest | slate gray | triangle down |
-| SVR | brick red | triangle up |
-| k-NN | muted amber | triangle right |
-| PLS | dark gray | diamond |
-| MLP | muted plum | pentagon |
+| Model | Notebook key | Hex color | Matplotlib marker | Shape |
+|---|---|---:|:---:|---|
+| XGBoost | `xgboost_regressor` | `#577590` | `o` | circle |
+| LightGBM | `lightgbm_regressor` | `#264653` | `s` | square |
+| CatBoost | `catboost_regressor` | `#E76F51` | `^` | triangle up |
+| AdaBoost | `adaboost_regressor` | `#F4A261` | `v` | triangle down |
+| Random Forest | `random_forest_regressor` | `#8D99AE` | `D` | diamond |
+| Extra Trees | `extra_trees_regressor` | `#6B705C` | `d` | thin diamond |
+| SVR | `svr_regressor` | `#BC4749` | `P` | filled plus |
+| k-NN | `knn_regressor` | `#E9C46A` | `>` | triangle right |
+| PLS | `pls_regressor` | `#5C6770` | `<` | triangle left |
+| Multi-task Elastic Net | `multitask_elastic_net_regressor` | `#2A9D8F` | `h` | hexagon |
+| Multi-task Lasso | `multitask_lasso_regressor` | `#4D908E` | `+` | plus |
+| MLP | `ann_deep_regressor` | `#6D597A` | `p` | pentagon |
+| TabNet | `tabnet_regressor` | `#9C6644` | `*` | star |
 
 No model should receive a privileged visual highlight. The scientific intervention is the shared projection, represented through raw/projected semantics.
 
@@ -128,7 +135,7 @@ No model should receive a privileged visual highlight. The scientific interventi
 The workflow should read left to right:
 
 1. accepted mechanistic states and the 22 inputs;
-2. nine conventional learners;
+2. 13 CPU-based learners;
 3. raw 20-component prediction;
 4. Kircher--Votsmeier projection; and
 5. paired accuracy, physical, OOD, and timing evaluation.
@@ -137,37 +144,38 @@ Use rounded boxes, one arrow direction, and no model-specific architecture detai
 
 ### In-Distribution Data-Scarcity Figure
 
-The left panel shows `nRMSE` against total dataset size. The right panel shows model training time against the same x-axis.
+The external finalizer renders one aligned two-panel figure from the accepted ID fold summaries and timing summaries. The left panel shows raw-prediction `nRMSE` against total dataset size. The right panel shows model setup time against the same x-axis.
 
 - Plot five-fold means as lines with markers.
 - Plot sample SD as symmetric bars or a light band.
 - State `five-fold mean with sample SD` in the caption.
-- Use all eleven nested sizes in final exports, even if a draft layout displays fewer ticks.
-- Label the right panel `Training time (s)`.
-- Use a logarithmic time axis only if the observed range warrants it.
+- Use all 13 models and all eleven nested sizes.
+- Label the right panel `Model setup time (s)` and use a logarithmic y-axis after confirming all plotted values are positive.
+- Preserve the fixed roster order, colors, and markers in both panels.
 - Keep inference latency out of the setup-time panel; report it separately.
+- Do not substitute the notebook's single-panel learning-curve image for this required two-panel composition.
 
 ### Projection-Effect Figure
 
-Plot
+Render a model-by-sample-size heat map of
 
 ```text
 ΔnRMSE = nRMSE_projected − nRMSE_raw
 ```
 
-against total dataset size. A horizontal zero line is mandatory. Negative values denote lower nRMSE after projection and positive values denote higher nRMSE after projection. Use the same model colors as the learning curves. Final curves must show five-fold means with sample-SD bars or bands; the caption must also state that feasibility and predictive error are distinct outcomes.
+using the accepted paired fold results. Rows follow the fixed 13-model roster and columns follow the eleven nested totals in ascending order. Each cell is the arithmetic mean of the five within-fold projected-minus-raw differences. Use a zero-centered diverging color scale with symmetric limits; negative values denote lower nRMSE after projection and positive values denote higher nRMSE. Report paired fold dispersion in the linked table or supplement rather than encoding it as a second heat-map variable. Do not render projection-effect curves. The caption must state that feasibility and predictive error are distinct outcomes.
 
 ### OOD Raw/Projected Figure
 
-Use grouped bars, paired points, or slope markers for raw versus projected nRMSE within each model. Keep mild and severe strata in separate panels if both are shown. The legend must map raw to coral rust and projected to mineral green. Avoid implying that projected means accurate: a note or caption should state that projection restores the declared physical contract but need not reduce extrapolation error.
+The main-text severe-OOD figure uses horizontal paired marks: one roster-ordered row per model, raw and projected nRMSE points connected by a thin neutral line. Put nRMSE on the horizontal axis and the fixed 13-model roster on the vertical axis. Map raw to coral rust and projected to mineral green, with distinct marker or fill treatment for grayscale accessibility. Do not use grouped bars, do not reorder models by observed performance, and do not pool mild and severe results. Mild OOD remains in the linked table and supplementary displays. The caption must state that projection restores the declared physical contract but need not reduce extrapolation error.
 
-If model names make vertical bars crowded, use horizontal paired points instead. Preserve the same model order in all OOD panels.
+The finalizer uses the severe-OOD source-data export rather than the notebook's diagnostic bar rendering.
 
 ## Supplementary Figure Recipes
 
 ### All-Model Learning Curves
 
-Show all nine models over all eleven data sizes. If one panel is too dense, split the learners into aligned panels with identical axes. Do not rank models by eye through line thickness; use equal widths and the fixed color/marker mapping.
+Show all 13 models over all eleven data sizes. If one panel is too dense, split the learners into aligned panels with identical axes. Do not rank models by eye through line thickness; use equal widths and the fixed color/marker mapping.
 
 ### Per-Component Error Atlas
 
@@ -183,23 +191,15 @@ Keep mass-conservation residual, non-negativity frequency/magnitude, backtrackin
 
 Show sample-level residual or displacement distributions separately for mild and severe OOD inputs. Paired raw/projected points are preferable when row identity matters. Use identical limits across severity panels when direct comparison is intended.
 
-## Placeholder Treatment
+## Final Population and Rendering
 
-Until the complete benchmark is available:
+The external finalizer must fail closed unless the run is marked complete and article-eligible, the manifest digest verifies, all 13 model keys and all expected row cardinalities are present, and raw/projected rows pair exactly. It must then:
 
-- retain `Illustrative placeholder—not experimental data` at the start of every numerical figure caption;
-- keep draft-only footer text if a figure is exported externally;
-- do not remove placeholder panels simply because final values are unavailable;
-- do not interpolate missing folds or data sizes; and
-- do not mix completed and provisional model outputs in a nominally final figure.
-
-Recommended draft footer:
-
-```text
-Illustrative layout only; replace after the complete final benchmark.
-```
-
-Remove the footer only when every plotted value has passed the final cross-check.
+- calculate displayed summaries from the accepted source rows using the definitions in this guide;
+- preserve the manuscript's retained figure roles, labels, and model order;
+- render the required two-panel scaling figure, projection heat map, and horizontal severe-OOD paired marks even when notebook diagnostic images use a different layout;
+- leave no missing field, fold, model, or size silently blank and never interpolate it; and
+- emit captions and graphics without run-status notices, local paths, or development annotations.
 
 ## Accessibility and Layout Checks
 
@@ -224,7 +224,7 @@ Remove the footer only when every plotted value has passed the final cross-check
 
 Before any result figure is treated as final, confirm that:
 
-1. the figure comes from the completed benchmark rather than illustrative arrays;
+1. the figure comes from the one verified, article-eligible completed bundle;
 2. all five folds use the persistent shared assignment;
 3. sample SD uses denominator four;
 4. metric labels are exactly nMSE, nRMSE, nMAE, or a clearly unit-bearing physical metric;
@@ -232,5 +232,5 @@ Before any result figure is treated as final, confirm that:
 6. every model series uses its frozen accepted configuration;
 7. OOD severity and in-distribution results are not pooled;
 8. captions describe fold summaries as five-fold mean with sample SD;
-9. placeholder wording is removed only after every value is verified; and
+9. every displayed value and model label has been cross-checked against its source row; and
 10. no reader-facing internal path or development record remains.
