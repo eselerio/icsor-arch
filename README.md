@@ -2,7 +2,7 @@
 
 The article benchmark is a single, restartable workflow in [main.ipynb](main.ipynb). Configuration lives in [config/params.json](config/params.json); [config/paths.json](config/paths.json) contains only repository-relative input and result paths.
 
-The study evaluates nine conventional surrogate methods: XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, support vector regression, k-nearest neighbors, partial least squares, and a multilayer perceptron. The workflow runs entirely on multicore CPUs and uses no external pretrained weights.
+The study evaluates 13 CPU-based surrogate methods: XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, Extra Trees, support vector regression, k-nearest neighbors, partial least squares (PLS), Multi-task Elastic Net, Multi-task Lasso, a multilayer perceptron, and TabNet. PLS and the two multi-task linear estimators form the prespecified `Interpretable models` reporting category. Every method predicts the same 20-component effluent vector; the workflow uses no GPU or external pretrained weights.
 
 ## Requirements
 
@@ -18,7 +18,7 @@ uv sync --frozen
 
 ## Run the notebook
 
-The default `full` profile uses run ID `article_final_v1`. It generates 10,000 accepted in-distribution states and 600 accepted states in each of the mild and severe extrapolation regimes, then performs the complete nine-model nested benchmark.
+The default `full` profile uses run ID `article_final_v2`. It generates 10,000 accepted in-distribution states and 600 accepted states in each of the mild and severe extrapolation regimes, then performs the complete 13-model nested benchmark.
 
 For a short integration check:
 
@@ -53,7 +53,7 @@ Copy-Item main.ipynb results/interactive/main.session.ipynb
 uv run jupyter lab --ServerApp.root_dir=. results/interactive/main.session.ipynb
 ```
 
-The full run is computationally substantial. It performs 100 sequential TPE trials for every outer-fold model selection and a separate 100-trial full-data search for each of nine methods, in addition to mechanistic sampling, evaluation at eleven nested sizes, timing, and OOD refits. Allow multi-day wall time; matching-contract resume is designed for interruptions.
+The full run is computationally substantial. It performs 100 sequential TPE trials for every outer-fold model selection and a separate 100-trial full-data search for each of 13 methods, in addition to mechanistic sampling, evaluation at eleven nested sizes, timing, and OOD refits. TabNet is fitted with deterministic CPU PyTorch operations and a fold-selected fixed epoch count. Allow multi-day wall time. Matching-contract resume safely reuses completed units, but do not deliberately terminate an active Optuna trial: an unclean interruption can leave a stale `RUNNING` database row that must be reconciled before strict completion validation.
 
 ## Results and resume behavior
 
@@ -61,6 +61,23 @@ Each run writes beneath `results/{run_id}`. Resume is permitted only when the co
 
 Smoke outputs always carry `article_eligible=false`. Only a successfully completed full profile can supply article values.
 
-The run root contains input snapshots, accepted datasets and every solver attempt, matrix operators, split assignments, tuning databases and trial tables, row-level raw and projected predictions, component and composite metrics, timing repetitions, fitted model bundles, and publication assets. `manifest.json` inventories and hashes the completed bundle; `manifest.sha256` checks the manifest itself.
+The run root contains input snapshots, accepted datasets and every solver attempt, matrix operators, split assignments, tuning databases and trial tables, row-level raw and projected predictions, component and composite metrics, timing repetitions, fitted model bundles, and publication assets. The fitted bundles are internal run artifacts whose notebook-defined wrapper classes are reloaded by the same execution kernel for OOD evaluation; they are not advertised as standalone deployment packages. For trusted artifacts, `load_surrogate_bundle()` in `scripts/load_surrogate_bundle.py` provides a bounded inference-compatibility loader and a read-only check that loads all 13 bundles and compares fresh predictions with the stored OOD rows:
+
+```powershell
+uv run python scripts/load_surrogate_bundle.py `
+  --smoke-check-run-root results/article_smoke_13model_final_v2
+```
+
+The helper optionally verifies a manifest-recorded SHA-256 digest, but joblib remains pickle-based and must not be used with untrusted files. `manifest.json` inventories and hashes the completed bundle; `manifest.sha256` checks the manifest itself.
 
 The scientific writing workspace is `artifacts/wip/`. Publication numbers and figures must be copied only from the completed full result bundle and verified against its asset inventory before the manuscript and supplement are rebuilt.
+
+After the full run has written `COMPLETED.json`, build the manuscript-ready audit bundle with:
+
+```powershell
+uv run python scripts/build_final_paper_assets.py `
+  --run-root results/article_final_v2 `
+  --output-dir artifacts/wip/generated/article_final_v2
+```
+
+The finalizer is read-only with respect to the immutable run. It verifies every manifest hash, independently reproduces metrics and physical diagnostics from prediction rows, checks all 78 searches and expected table grids, and writes source CSVs, LaTeX row fragments, vector figures, and a derived-asset hash manifest outside `results/article_final_v2`.
