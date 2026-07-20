@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Graphical abstract: model-agnostic physical enforcement in activated-sludge surrogates</title>
+  <desc id="desc">A left-to-right workflow from mechanistic activated-sludge simulations through thirteen statistical surrogates, a conservative non-negativity-preserving projection, paired evaluation, and the central scientific insight.</desc>
+
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#264653" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L11,6 L1,11 Z" fill="#5C6770"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L11,6 L1,11 Z" fill="#2A9D8F"/>
+    </marker>
+    <linearGradient id="contractGlow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F2FBF8"/>
+      <stop offset="1" stop-color="#D7F0E8"/>
+    </linearGradient>
+    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.4" fill="#577590" opacity="0.10"/>
+    </pattern>
+    <style>
+      .title { font: 700 38px Inter, "Segoe UI", Arial, sans-serif; fill: #264653; letter-spacing: .2px; }
+      .subtitle { font: 400 19px Inter, "Segoe UI", Arial, sans-serif; fill: #5C6770; }
+      .stage { font: 700 15px Inter, "Segoe UI", Arial, sans-serif; letter-spacing: 2.2px; }
+      .heading { font: 700 25px Inter, "Segoe UI", Arial, sans-serif; fill: #264653; }
+      .body { font: 400 18px Inter, "Segoe UI", Arial, sans-serif; fill: #40545B; }
+      .small { font: 500 15px Inter, "Segoe UI", Arial, sans-serif; fill: #5C6770; }
+      .micro { font: 600 13px Inter, "Segoe UI", Arial, sans-serif; fill: #5C6770; letter-spacing: .5px; }
+      .white { fill: #FFFFFF; }
+      .darkText { fill: #264653; }
+      .greenText { fill: #167268; }
+      .amberText { fill: #745D18; }
+      .coralText { fill: #A64832; }
+      .plumText { fill: #5D4966; }
+      .center { text-anchor: middle; }
+      .line { fill: none; stroke: #5C6770; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .fine { fill: none; stroke: #8D99AE; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .greenLine { fill: none; stroke: #2A9D8F; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .amberLine { fill: none; stroke: #D6A72E; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .coralLine { fill: none; stroke: #E76F51; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <!-- Canvas -->
+  <rect width="1920" height="1080" fill="#FFFFFF"/>
+  <rect width="1920" height="1080" fill="url(#dotGrid)"/>
+  <rect x="42" y="38" width="1836" height="1004" rx="30" fill="#FFFFFF" stroke="#DCE5E7" stroke-width="2"/>
+
+  <!-- Header -->
+  <text x="86" y="105" class="title">Physically trustworthy surrogates for activated-sludge processes</text>
+  <text x="87" y="143" class="subtitle">One post-prediction layer · thirteen heterogeneous learners · one shared physical contract</text>
+  <line x1="87" y1="174" x2="1833" y2="174" stroke="#D9E2E4" stroke-width="2"/>
+
+  <!-- Stage connectors, drawn behind cards -->
+  <path d="M360 537 H425" class="line" marker-end="url(#arrow)"/>
+  <path d="M712 537 H775" class="line" marker-end="url(#arrow)"/>
+  <path d="M1170 537 H1235" class="greenLine" marker-end="url(#arrowGreen)"/>
+  <path d="M1518 537 H1583" class="line" marker-end="url(#arrow)"/>
+
+  <!-- STAGE 1: mechanistic data -->
+  <g id="mechanistic-data" filter="url(#shadow)">
+    <rect x="80" y="244" width="280" height="586" rx="24" fill="#F5FAFB" stroke="#577590" stroke-width="2.5"/>
+    <rect x="80" y="244" width="280" height="52" rx="24" fill="#577590"/>
+    <rect x="80" y="272" width="280" height="24" fill="#577590"/>
+  </g>
+  <text x="220" y="278" class="stage white center">01 · MECHANISTIC DATA</text>
+
+  <!-- Reactor icon -->
+  <g aria-label="stirred tank reactor">
+    <path d="M139 370 H301 V478 C301 523 265 553 220 553 C175 553 139 523 139 478 Z" fill="#E1F2F3" stroke="#264653" stroke-width="3"/>
+    <path d="M139 426 H301 V478 C301 523 265 553 220 553 C175 553 139 523 139 478 Z" fill="#BFE4DE" opacity="0.85"/>
+    <line x1="220" y1="333" x2="220" y2="490" class="line"/>
+    <line x1="188" y1="486" x2="252" y2="486" class="line"/>
+    <path d="M181 486 Q220 462 259 486" class="line"/>
+    <rect x="199" y="323" width="42" height="27" rx="7" fill="#264653"/>
+    <path d="M105 401 H139" class="greenLine" marker-end="url(#arrowGreen)"/>
+    <path d="M301 455 H336" class="greenLine" marker-end="url(#arrowGreen)"/>
+    <circle cx="179" cy="458" r="7" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="201" cy="440" r="5" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="251" cy="462" r="6" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="271" cy="438" r="4" fill="#FFFFFF" opacity="0.9"/>
+    <text x="220" y="594" class="heading center">ASM2d-TSN</text>
+    <text x="220" y="626" class="body center">steady-state simulation</text>
+  </g>
+
+  <!-- Input/output chips -->
+  <g>
+    <rect x="109" y="660" width="102" height="38" rx="19" fill="#EAF2F4" stroke="#577590"/>
+    <text x="160" y="684" class="small center">22 inputs</text>
+    <path d="M220 679 H238" class="fine" marker-end="url(#arrow)"/>
+    <rect x="248" y="660" width="84" height="38" rx="19" fill="#DDF3EC" stroke="#2A9D8F"/>
+    <text x="290" y="684" class="small center">20 states</text>
+    <text x="220" y="743" class="heading center">10,000</text>
+    <text x="220" y="771" class="body center">accepted steady states</text>
+    <text x="220" y="802" class="small center">Latin hypercube · seed 42</text>
+  </g>
+
+  <!-- STAGE 2: surrogate learning -->
+  <g id="surrogate-learning" filter="url(#shadow)">
+    <rect x="425" y="244" width="287" height="586" rx="24" fill="#FBF8FC" stroke="#6D597A" stroke-width="2.5"/>
+    <rect x="425" y="244" width="287" height="52" rx="24" fill="#6D597A"/>
+    <rect x="425" y="272" width="287" height="24" fill="#6D597A"/>
+  </g>
+  <text x="568.5" y="278" class="stage white center">02 · SURROGATE LEARNING</text>
+
+  <!-- Network icon -->
+  <g aria-label="statistical surrogate model network">
+    <rect x="470" y="338" width="197" height="225" rx="22" fill="#F3EDF5" stroke="#B8A4BF" stroke-width="2"/>
+    <circle cx="496" cy="387" r="9" fill="#577590"/>
+    <circle cx="496" cy="451" r="9" fill="#577590"/>
+    <circle cx="496" cy="515" r="9" fill="#577590"/>
+    <circle cx="555" cy="372" r="10" fill="#6D597A"/>
+    <circle cx="555" cy="429" r="10" fill="#6D597A"/>
+    <circle cx="555" cy="486" r="10" fill="#6D597A"/>
+    <circle cx="555" cy="535" r="10" fill="#6D597A"/>
+    <circle cx="622" cy="405" r="11" fill="#2A9D8F"/>
+    <circle cx="622" cy="493" r="11" fill="#2A9D8F"/>
+    <g stroke="#9D8CA4" stroke-width="1.7" opacity="0.8">
+      <line x1="505" y1="387" x2="545" y2="372"/><line x1="505" y1="387" x2="545" y2="429"/><line x1="505" y1="387" x2="545" y2="486"/>
+      <line x1="505" y1="451" x2="545" y2="372"/><line x1="505" y1="451" x2="545" y2="429"/><line x1="505" y1="451" x2="545" y2="486"/><line x1="505" y1="451" x2="545" y2="535"/>
+      <line x1="505" y1="515" x2="545" y2="429"/><line x1="505" y1="515" x2="545" y2="486"/><line x1="505" y1="515" x2="545" y2="535"/>
+      <line x1="565" y1="372" x2="611" y2="405"/><line x1="565" y1="429" x2="611" y2="405"/><line x1="565" y1="429" x2="611" y2="493"/>
+      <line x1="565" y1="486" x2="611" y2="405"/><line x1="565" y1="486" x2="611" y2="493"/><line x1="565" y1="535" x2="611" y2="493"/>
+    </g>
+    <circle cx="644" cy="350" r="31" fill="#6D597A"/>
+    <text x="644" y="358" class="heading white center">13</text>
+  </g>
+  <text x="568.5" y="614" class="heading center">Heterogeneous learners</text>
+  <text x="568.5" y="650" class="body center">boosting · trees · kernels</text>
+  <text x="568.5" y="678" class="body center">linear models · neural networks</text>
+
+  <!-- Raw prediction mini-chart -->
+  <g transform="translate(473 717)">
+    <line x1="0" y1="42" x2="191" y2="42" class="fine"/>
+    <rect x="12" y="12" width="16" height="30" rx="3" fill="#E76F51"/>
+    <rect x="39" y="22" width="16" height="20" rx="3" fill="#E76F51"/>
+    <rect x="66" y="6" width="16" height="36" rx="3" fill="#E76F51"/>
+    <rect x="93" y="42" width="16" height="18" rx="3" fill="#E76F51"/>
+    <rect x="120" y="17" width="16" height="25" rx="3" fill="#E76F51"/>
+    <rect x="147" y="42" width="16" height="10" rx="3" fill="#E76F51"/>
+    <rect x="174" y="25" width="16" height="17" rx="3" fill="#E76F51"/>
+  </g>
+  <text x="568.5" y="805" class="small center coralText">raw 20-component prediction</text>
+
+  <!-- STAGE 3: model-agnostic physical layer -->
+  <g id="physical-layer" filter="url(#shadow)">
+    <rect x="775" y="190" width="395" height="790" rx="28" fill="#FFFCF3" stroke="#D6A72E" stroke-width="2.8"/>
+    <rect x="775" y="190" width="395" height="78" rx="28" fill="#E9C46A"/>
+    <rect x="775" y="238" width="395" height="30" fill="#E9C46A"/>
+  </g>
+  <text x="972.5" y="247" class="stage amberText center">03 · MODEL-AGNOSTIC PHYSICAL LAYER</text>
+
+  <!-- Projection funnel -->
+  <g aria-label="conservative projection">
+    <text x="972.5" y="320" class="heading center amberText">Conservative projection</text>
+    <path d="M844 365 H1101 L1019 451 V505 H926 V451 Z" fill="#FFF0BF" stroke="#D6A72E" stroke-width="3"/>
+    <g transform="translate(866 389)">
+      <circle cx="0" cy="0" r="8" fill="#E76F51"/><circle cx="40" cy="-3" r="7" fill="#E76F51"/>
+      <circle cx="78" cy="4" r="8" fill="#E76F51"/><circle cx="119" cy="-5" r="7" fill="#E76F51"/>
+      <circle cx="158" cy="2" r="8" fill="#E76F51"/><circle cx="199" cy="-2" r="7" fill="#E76F51"/>
+      <circle cx="18" cy="31" r="7" fill="#577590"/><circle cx="64" cy="29" r="8" fill="#577590"/>
+      <circle cx="105" cy="34" r="7" fill="#577590"/><circle cx="148" cy="28" r="8" fill="#577590"/>
+      <circle cx="185" cy="34" r="7" fill="#577590"/>
+    </g>
+    <path d="M972 505 V535" class="amberLine" marker-end="url(#arrow)"/>
+    <text x="972.5" y="558" class="small center">weighted null-space solve</text>
+    <text x="972.5" y="584" class="small center">+ positivity backtracking</text>
+  </g>
+
+  <!-- Shield/physical contract -->
+  <g aria-label="physical contract shield">
+    <path d="M972 613 C1012 638 1053 642 1085 644 V708 C1085 760 1044 802 972 826 C900 802 859 760 859 708 V644 C891 642 932 638 972 613 Z" fill="url(#contractGlow)" stroke="#2A9D8F" stroke-width="3.5"/>
+    <!-- balance icon -->
+    <line x1="972" y1="659" x2="972" y2="724" class="greenLine"/>
+    <line x1="929" y1="676" x2="1015" y2="676" class="greenLine"/>
+    <path d="M929 676 L912 708 H946 Z" fill="none" stroke="#2A9D8F" stroke-width="3"/>
+    <path d="M1015 676 L998 708 H1032 Z" fill="none" stroke="#2A9D8F" stroke-width="3"/>
+    <path d="M953 744 L967 758 L997 725" class="greenLine" stroke-width="6"/>
+  </g>
+  <text x="972.5" y="888" class="heading center greenText">Physical contract</text>
+  <g transform="translate(834 915)">
+    <circle cx="10" cy="-6" r="10" fill="#2A9D8F"/><path d="M5 -6 L9 -2 L16 -11" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+    <text x="29" y="0" class="body greenText">mass conservation</text>
+    <circle cx="207" cy="-6" r="10" fill="#2A9D8F"/><path d="M202 -6 L206 -2 L213 -11" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+    <text x="226" y="0" class="body greenText">non-negativity</text>
+  </g>
+  <text x="972.5" y="960" class="small center">post-prediction · no model retraining</text>
+
+  <!-- STAGE 4: paired evaluation -->
+  <g id="paired-evaluation" filter="url(#shadow)">
+    <rect x="1235" y="244" width="283" height="586" rx="24" fill="#F9FBFA" stroke="#6B705C" stroke-width="2.5"/>
+    <rect x="1235" y="244" width="283" height="52" rx="24" fill="#6B705C"/>
+    <rect x="1235" y="272" width="283" height="24" fill="#6B705C"/>
+  </g>
+  <text x="1376.5" y="278" class="stage white center">04 · PAIRED EVALUATION</text>
+
+  <!-- Paired charts -->
+  <g aria-label="paired raw and corrected prediction charts">
+    <rect x="1267" y="339" width="98" height="148" rx="12" fill="#FFF7F4" stroke="#E76F51" stroke-width="2"/>
+    <rect x="1388" y="339" width="98" height="148" rx="12" fill="#F1FAF7" stroke="#2A9D8F" stroke-width="2"/>
+    <line x1="1282" y1="447" x2="1350" y2="447" class="fine"/>
+    <rect x="1290" y="395" width="13" height="52" fill="#E76F51" rx="2"/>
+    <rect x="1310" y="417" width="13" height="30" fill="#E76F51" rx="2"/>
+    <rect x="1330" y="447" width="13" height="17" fill="#E76F51" rx="2"/>
+    <line x1="1403" y1="447" x2="1471" y2="447" class="fine"/>
+    <rect x="1411" y="405" width="13" height="42" fill="#2A9D8F" rx="2"/>
+    <rect x="1431" y="422" width="13" height="25" fill="#2A9D8F" rx="2"/>
+    <rect x="1451" y="431" width="13" height="16" fill="#2A9D8F" rx="2"/>
+    <text x="1316" y="474" class="micro center coralText">RAW</text>
+    <text x="1437" y="474" class="micro center greenText">CORRECTED</text>
+    <path d="M1369 397 H1383" class="greenLine" marker-end="url(#arrowGreen)"/>
+  </g>
+  <text x="1376.5" y="526" class="heading center">Same sample.</text>
+  <text x="1376.5" y="554" class="heading center">Same learner.</text>
+  <text x="1376.5" y="585" class="small center">Only the physical layer changes.</text>
+
+  <!-- metric icon grid -->
+  <g transform="translate(1268 613)">
+    <rect x="0" y="0" width="101" height="74" rx="12" fill="#EDF4F5" stroke="#8D99AE"/>
+    <path d="M20 49 L37 35 L50 42 L76 19" class="line" stroke-width="2.5"/>
+    <text x="50.5" y="67" class="micro center">ACCURACY</text>
+    <rect x="115" y="0" width="101" height="74" rx="12" fill="#EDF4F5" stroke="#8D99AE"/>
+    <circle cx="165.5" cy="29" r="18" fill="none" stroke="#577590" stroke-width="3"/>
+    <path d="M165.5 29 L176 19" class="line" stroke-width="2.5"/>
+    <text x="165.5" y="67" class="micro center">COMPUTE</text>
+    <rect x="0" y="88" width="101" height="74" rx="12" fill="#EDF4F5" stroke="#8D99AE"/>
+    <circle cx="27" cy="118" r="8" fill="#577590"/><circle cx="50" cy="118" r="8" fill="#8D99AE"/><circle cx="73" cy="118" r="8" fill="#C4CFD3"/>
+    <text x="50.5" y="155" class="micro center">DATA SIZE</text>
+    <rect x="115" y="88" width="101" height="74" rx="12" fill="#FFF7E6" stroke="#E76F51" stroke-dasharray="5 3"/>
+    <path d="M135 139 C145 119 154 105 165 116 C174 126 184 100 196 110" class="coralLine" stroke-width="2.5"/>
+    <text x="165.5" y="155" class="micro center coralText">EXTRAPOLATE</text>
+  </g>
+  <text x="1376.5" y="807" class="small center">in-distribution + mild/severe OOD</text>
+
+  <!-- OOD callout -->
+  <g>
+    <path d="M1376 244 V217" class="coralLine" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+    <rect x="1256" y="186" width="240" height="44" rx="22" fill="#FFF7E6" stroke="#E76F51" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="1376" y="214" class="small center coralText">beyond the training range</text>
+  </g>
+
+  <!-- STAGE 5: central insight -->
+  <g id="core-insight" filter="url(#shadow)">
+    <rect x="1583" y="244" width="257" height="586" rx="24" fill="#264653" stroke="#264653" stroke-width="2.5"/>
+    <rect x="1610" y="270" width="203" height="42" rx="21" fill="#FFFFFF" opacity="0.12"/>
+  </g>
+  <text x="1711.5" y="297" class="stage white center">05 · CORE INSIGHT</text>
+
+  <!-- architecture-agnostic icon -->
+  <g aria-label="physical layer connects multiple model architectures">
+    <circle cx="1711" cy="414" r="62" fill="#FFFFFF" opacity="0.10" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M1711 357 C1733 371 1755 373 1773 374 V409 C1773 440 1750 466 1711 480 C1672 466 1649 440 1649 409 V374 C1667 373 1689 371 1711 357 Z" fill="#DDF3EC" stroke="#2A9D8F" stroke-width="3"/>
+    <path d="M1681 414 L1702 435 L1743 389" class="greenLine" stroke-width="7"/>
+    <circle cx="1627" cy="372" r="10" fill="#E9C46A"/><rect x="1605" y="432" width="20" height="20" rx="3" fill="#6D597A"/>
+    <path d="M1794 369 L1807 391 L1781 391 Z" fill="#E76F51"/><circle cx="1797" cy="448" r="11" fill="#577590"/>
+    <line x1="1637" y1="377" x2="1656" y2="390" stroke="#FFFFFF" stroke-width="2" opacity="0.7"/>
+    <line x1="1625" y1="432" x2="1655" y2="420" stroke="#FFFFFF" stroke-width="2" opacity="0.7"/>
+    <line x1="1784" y1="386" x2="1765" y2="397" stroke="#FFFFFF" stroke-width="2" opacity="0.7"/>
+    <line x1="1786" y1="443" x2="1765" y2="431" stroke="#FFFFFF" stroke-width="2" opacity="0.7"/>
+  </g>
+
+  <text x="1711.5" y="540" class="heading white center">One shared safeguard</text>
+  <text x="1711.5" y="578" class="body white center">across model architectures</text>
+  <line x1="1624" y1="611" x2="1799" y2="611" stroke="#FFFFFF" opacity="0.24" stroke-width="2"/>
+  <text x="1711.5" y="657" class="body white center">Physical validity is enforced</text>
+  <text x="1711.5" y="687" class="body white center">after prediction.</text>
+  <text x="1711.5" y="743" class="body white center" font-style="italic">Accuracy remains an</text>
+  <text x="1711.5" y="773" class="body white center" font-style="italic">empirical model property.</text>
+
+  <!-- Footer scientific contract -->
+  <g>
+    <line x1="86" y1="1000" x2="1834" y2="1000" stroke="#D9E2E4" stroke-width="2"/>
+    <circle cx="100" cy="1025" r="8" fill="#E76F51"/>
+    <text x="119" y="1031" class="small">Raw prediction</text>
+    <circle cx="266" cy="1025" r="8" fill="#2A9D8F"/>
+    <text x="285" y="1031" class="small">Physically corrected prediction</text>
+    <text x="1832" y="1031" class="small" text-anchor="end">COD · TN · TP · TSS are derived only after component-space correction</text>
+  </g>
+</svg>

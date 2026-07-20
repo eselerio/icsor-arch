@@ -76,21 +76,8 @@ Artificial intelligence and machine-learning tools are increasingly used as fast
 
 \begin{graphicalabstract}
 \centering
-\begin{tikzpicture}[
-  node distance=3mm,
-  box/.style={draw=DeepTeal, rounded corners=2pt, fill=DeepTeal!7,
-              minimum height=11mm, text width=24mm, align=center, font=\scriptsize},
-  arrow/.style={-{Latex[length=2.4mm]}, very thick, draw=MineralGreen}
-]
-\node[box] (sim) {Steady-state activated-sludge simulation\\familiar and extrapolation states};
-\node[box, right=of sim] (ml) {Thirteen CPU-based\\surrogate models};
-\node[box, right=of ml] (split) {Raw component\\prediction};
-\node[box, right=of split, fill=MutedAmber!25] (proj) {Kircher--Votsmeier correction\\physically admissible output};
-\draw[arrow] (sim) -- (ml);
-\draw[arrow] (ml) -- (split);
-\draw[arrow] (split) -- (proj);
-\node[align=center, font=\scriptsize, text=DeepTeal, below=4mm of split] {One correction; paired accuracy, timing, conservation, non-negativity, and extrapolation evaluation};
-\end{tikzpicture}
+% Vector PDF exported directly from graphical_abstract.svg for LaTeX compatibility.
+\includegraphics[width=\textwidth]{graphical_abstract.pdf}
 \end{graphicalabstract}
 
 \begin{highlights}
