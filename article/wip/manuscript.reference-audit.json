@@ -1,6 +1,6 @@
 ﻿{
-    "TexFile":  "C:\\Users\\eselerio\\Projects\\icsor-arch\\artifacts\\wip\\manuscript.tex",
-    "SourceRoot":  "C:\\Users\\eselerio\\Projects\\icsor-arch\\artifacts\\wip",
+    "TexFile":  "C:\\Users\\eselerio\\Projects\\icsor-arch\\article\\wip\\manuscript.tex",
+    "SourceRoot":  "C:\\Users\\eselerio\\Projects\\icsor-arch\\article\\wip",
     "ProjectRoot":  "C:/Users/eselerio/Projects/icsor-arch",
     "Edited":  false,
     "RemovedUnverifiedMode":  false,
@@ -20,7 +20,7 @@
                               "NormalizedSurname":  "ahn",
                               "Year":  "2014",
                               "YearBase":  "2014",
-                              "Source":  "Ahn et al., 2014"
+                              "Source":  "Ahn et al. (2014)"
                           },
                           {
                               "Surname":  "Argyriou",
@@ -41,7 +41,7 @@
                               "NormalizedSurname":  "asadi",
                               "Year":  "2017",
                               "YearBase":  "2017",
-                              "Source":  "Asadi et al., 2017"
+                              "Source":  "Asadi et al. (2017)"
                           },
                           {
                               "Surname":  "Bagherzadeh",
@@ -76,7 +76,7 @@
                               "NormalizedSurname":  "durkin",
                               "Year":  "2024",
                               "YearBase":  "2024",
-                              "Source":  "Durkin et al., 2024"
+                              "Source":  "Durkin et al. (2024)"
                           },
                           {
                               "Surname":  "Geurts",
@@ -139,7 +139,7 @@
                               "NormalizedSurname":  "mao",
                               "Year":  "2024",
                               "YearBase":  "2024",
-                              "Source":  "Mao et al., 2024"
+                              "Source":  "Mao et al. (2024)"
                           },
                           {
                               "Surname":  "Min",
@@ -223,7 +223,7 @@
                               "NormalizedSurname":  "xiao",
                               "Year":  "2025",
                               "YearBase":  "2025",
-                              "Source":  "Xiao et al., 2025"
+                              "Source":  "Xiao et al. (2025)"
                           },
                           {
                               "Surname":  "Yang",
@@ -262,7 +262,7 @@
     "CrossrefUnverifiedKept":  [
                                    {
                                        "Reference":  "Min (2024)",
-                                       "Title":  "Hard-constrained neural networks with universal approximation guarantees",
+                                       "Title":  "HardNet: Hard-constrained neural networks with universal approximation guarantees",
                                        "Score":  0,
                                        "Note":  "No Crossref candidates returned.",
                                        "BestTitle":  "",
@@ -279,10 +279,10 @@
                                    {
                                        "Reference":  "Utkarsh (2025)",
                                        "Title":  "End-to-end probabilistic framework for learning with hard constraints",
-                                       "Score":  60,
+                                       "Score":  10.5,
                                        "Note":  "Low-confidence Crossref match.",
-                                       "BestTitle":  "End-to-end Learning of Probabilistic and Geometric Constellation Shaping with Iterative Receivers",
-                                       "BestDoi":  "10.1109/gcwkshps68340.2025.11591144"
+                                       "BestTitle":  "1. S. Mustofa et al., “A Comprehensive Review on Plant Leaf Disease Detection using Deep Learning,” arXiv preprint, 2023. 2. H. Rehana et al., “Plant Disease Detection using Region-Based Convolutional Neural Network,” arXiv preprint, 2023. 3. Y. Zhang et",
+                                       "BestDoi":  "10.15662/ijeetr.2026.0802388"
                                    }
                                ],
     "ApaWarnings":  [
@@ -539,7 +539,7 @@
                        {
                            "Index":  20,
                            "Reference":  "Min (2024)",
-                           "Title":  "Hard-constrained neural networks with universal approximation guarantees",
+                           "Title":  "HardNet: Hard-constrained neural networks with universal approximation guarantees",
                            "IsCited":  true,
                            "ExistingDoi":  "",
                            "CrossrefReliable":  false,
@@ -647,10 +647,10 @@
                            "IsCited":  true,
                            "ExistingDoi":  "",
                            "CrossrefReliable":  false,
-                           "CrossrefScore":  60,
-                           "CrossrefDoi":  "10.1109/gcwkshps68340.2025.11591144",
-                           "CrossrefTitle":  "End-to-end Learning of Probabilistic and Geometric Constellation Shaping with Iterative Receivers",
-                           "CrossrefContainer":  "2025 IEEE Globecom Workshops (GC Wkshps)",
+                           "CrossrefScore":  10.5,
+                           "CrossrefDoi":  "10.15662/ijeetr.2026.0802388",
+                           "CrossrefTitle":  "1. S. Mustofa et al., “A Comprehensive Review on Plant Leaf Disease Detection using Deep Learning,” arXiv preprint, 2023. 2. H. Rehana et al., “Plant Disease Detection using Region-Based Convolutional Neural Network,” arXiv preprint, 2023. 3. Y. Zhang et",
+                           "CrossrefContainer":  "International Journal of Engineering \u0026amp; Extended Technologies Research",
                            "CrossrefNote":  "Low-confidence Crossref match."
                        },
                        {
