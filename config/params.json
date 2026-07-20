@@ -1631,34 +1631,33 @@
           "scale_targets": true
         },
         "training_defaults": {
-          "C": 0.11831746039445305,
-          "epsilon": 0.045831180609172614,
-          "kernel": "poly",
+          "C": 1.0,
+          "epsilon": 0.1,
+          "kernel": "rbf",
           "gamma": "scale",
-          "degree": 4,
-          "tol": 0.000896131584542702,
+          "tol": 0.001,
           "shrinking": true,
-          "coef0": 0.8889529157023172
+          "max_iter": 20000,
+          "cache_size": 256
         },
         "search_space": {
           "C": {
             "type": "float",
             "low": 0.1,
-            "high": 100,
+            "high": 10,
             "log": true
           },
           "epsilon": {
             "type": "float",
-            "low": 0.001,
-            "high": 1,
+            "low": 0.01,
+            "high": 0.5,
             "log": true
           },
           "kernel": {
             "type": "categorical",
             "choices": [
               "rbf",
-              "linear",
-              "poly"
+              "linear"
             ]
           },
           "gamma": {
@@ -1668,30 +1667,11 @@
               "auto"
             ]
           },
-          "degree": {
-            "type": "int",
-            "low": 2,
-            "high": 5,
-            "log": false
-          },
           "tol": {
             "type": "float",
-            "low": 1e-05,
+            "low": 0.001,
             "high": 0.01,
             "log": true
-          },
-          "shrinking": {
-            "type": "categorical",
-            "choices": [
-              true,
-              false
-            ]
-          },
-          "coef0": {
-            "type": "float",
-            "low": 0,
-            "high": 1,
-            "log": false
           }
         },
         "artifact_options": {
