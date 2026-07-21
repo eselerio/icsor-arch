@@ -425,7 +425,7 @@ TabNet & Neural networks & Joint 20-component regression & Fold-local input/targ
 \end{tabular}}
 \end{table}
 
-Hyperparameter optimization for every benchmark model uses a seeded tree-structured Parzen estimator. Within each outer fold, 100 trials minimize four-fold inner nMSE at the largest data scale. No outer validation observation enters the objective. The selected fold-specific setting is then retained across all nested sizes for that outer fold, allowing learning-curve changes to be attributed to sample size rather than to a changing search budget. For TabNet, the epoch count is itself selected inside this search; early stopping is disabled, so every outer or full-data refit uses all rows available to that fit without consulting an outer-validation or OOD response.
+Hyperparameter optimization for every benchmark model uses a seeded tree-structured Parzen estimator. Within each outer fold, 100 trials minimize four-fold inner nMSE at the largest data scale. No outer validation observation enters the objective. The selected fold-specific setting is then retained across all nested sizes for that outer fold, allowing learning-curve changes to be attributed to sample size rather than to a changing search budget. MLP uses all rows in the current training partition and stops on training-loss convergence or at 250 epochs; validation-based early stopping is disabled. For TabNet, the epoch count is itself selected inside this search; early stopping is disabled, so every outer or full-data refit uses all rows available to that fit without consulting an outer-validation or OOD response.
 
 \begin{table}[htbp]
 \centering
@@ -473,14 +473,14 @@ $k$-NN & neighbors 1--15; uniform or distance weights; automatic, ball-tree, $k$
 PLS & components 1--6; maximum iterations 200--1000; tolerance $10^{-8}$--$10^{-4}$ (log) \\
 Multi-task Elastic Net & $\alpha$ $10^{-6}$--10 (log); $L_{2,1}$ mixing ratio 0.05--0.95; cyclic coordinate descent with 20,000 maximum iterations and tolerance $10^{-6}$ \\
 Multi-task Lasso & $\alpha$ $10^{-6}$--10 (log); cyclic coordinate descent with 20,000 maximum iterations and tolerance $10^{-6}$ \\
-MLP & fixed hidden widths $(128,64,32)$ and Adam solver; activation $\{$ReLU, tanh, logistic$\}$; $L_2$ $10^{-6}$--$10^{-2}$ (log); batch size $\{32,64,128,256\}$; learning rate $10^{-4}$--$10^{-2}$ (log); tolerance $10^{-5}$--$10^{-3}$ (log); shuffle true or false; maximum 500 iterations; early stopping disabled \\
+MLP & fixed hidden widths $(128,64,32)$ and Adam solver; activation $\{$ReLU, tanh, logistic$\}$; $L_2$ $10^{-6}$--$10^{-2}$ (log); batch size $\{64,128,256\}$; learning rate $5\times10^{-4}$--$10^{-2}$ (log); training-loss tolerance $10^{-4}$--$10^{-3}$ (log); shuffle enabled; validation-based early stopping disabled; 15-epoch training-loss patience; maximum 250 epochs \\
 TabNet & decision/attention width $\{8,16,24,32\}$; attentive steps 3--6; relaxation $\gamma$ 1--2; sparsity $10^{-6}$--$10^{-2}$ (log); Adam learning rate $10^{-3}$--0.05 (log); sparsemax or entmax masks; epochs 30--100; batch size $\{256,512,1024\}$; virtual batch size 64 \\
 
 \hline
 \end{tabular}
 \end{table}
 
-Before any SVR tuning or performance result was retained, a CPU-feasibility check identified polynomial-kernel, high-$C$, low-epsilon configurations with effectively unbounded run times at the 8,000-row outer-training scale. The accepted SVR protocol therefore excluded the polynomial kernel, narrowed $C$, epsilon, and tolerance to the ranges in Table~\ref{tab:model_hyperparameters}, fixed shrinking on, and imposed a 20,000-iteration cap. This amendment was based solely on computational feasibility; the interrupted exploratory SVR study and all artifacts derived from it were discarded, while the common 100-trial, four-fold inner-selection budget was retained.
+Before any SVR tuning or performance result was retained, a CPU-feasibility check identified polynomial-kernel, high-$C$, low-epsilon configurations with effectively unbounded run times at the 8,000-row outer-training scale. The accepted SVR protocol therefore excluded the polynomial kernel, narrowed $C$, epsilon, and tolerance to the ranges in Table~\ref{tab:model_hyperparameters}, fixed shrinking on, and imposed a 20,000-iteration cap. This amendment was based solely on computational feasibility; the interrupted exploratory SVR study and all artifacts derived from it were discarded, while the common 100-trial, four-fold inner-selection budget was retained. Likewise, runtime monitoring before any MLP outer-fold prediction was retained showed that 500-epoch fits with batch size 32, low learning rates, and tight tolerances were computationally disproportionate. The accepted MLP protocol retained all three activation functions and all training rows but used the bounded domain in Table~\ref{tab:model_hyperparameters}, including 250 maximum epochs and 15-epoch patience based only on training-loss improvement. The exploratory MLP study was discarded in full; no outer-validation or OOD response informed this amendment.
 
 \subsection{Model Training, Prediction, and Projection Workflow}
 
