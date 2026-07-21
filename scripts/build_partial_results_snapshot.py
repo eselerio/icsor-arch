@@ -51,12 +51,7 @@ MODEL_LABELS = {
 SAMPLE_SIZES = [500, 1450, 2400, 3350, 4300, 5250, 6200, 7150, 8100, 9050, 10000]
 EXPECTED_FOLDS = set(range(5))
 FILE_PATTERN = re.compile(r"^(?P<model>.+)_n(?P<size>\d+)_fold(?P<fold>\d+)\.json$")
-COLORS = {
-    "xgboost_regressor": "#0072B2",
-    "lightgbm_regressor": "#009E73",
-    "catboost_regressor": "#D55E00",
-    "adaboost_regressor": "#CC79A7",
-}
+COLORS = dict(zip(MODEL_ORDER, plt.get_cmap("tab20").colors[: len(MODEL_ORDER)]))
 
 
 def load_records(run_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, list[Path]]:
@@ -281,7 +276,7 @@ def plot_projection_trajectory(
 
 def plot_physics(physical: pd.DataFrame, complete_models: list[str], output_dir: Path) -> None:
     rows = physical.query("sample_size == 10000 and model_key in @complete_models").set_index("model_key").reindex(complete_models)
-    fig, axes = plt.subplots(1, 2, figsize=(9.2, 4.2))
+    fig, axes = plt.subplots(1, 2, figsize=(10.2, 6.2))
     y = np.arange(len(complete_models))
     raw = np.maximum(rows["raw_conservation_l2_mean"].to_numpy(float), 1e-16)
     projected = np.maximum(rows["projected_conservation_l2_mean"].to_numpy(float), 1e-16)
@@ -304,6 +299,52 @@ def plot_physics(physical: pd.DataFrame, complete_models: list[str], output_dir:
     fig.suptitle("Full-size physical admissibility (N = 10,000)")
     fig.tight_layout()
     save(fig, output_dir, "05_full_size_physics")
+
+
+def plot_violation_trajectories(physical: pd.DataFrame, complete_models: list[str], output_dir: Path) -> None:
+    fig, axes = plt.subplots(2, 2, figsize=(11.0, 8.0), sharex=True)
+    panels = [
+        ("raw_mass_violation_rate", "Raw mass-conservation violations"),
+        ("projected_mass_violation_rate", "Projected mass-conservation violations"),
+        ("raw_nonnegative_violation_rate", "Raw non-negativity violations"),
+        ("projected_nonnegative_violation_rate", "Projected non-negativity violations"),
+    ]
+    for axis, (column, title) in zip(axes.flat, panels):
+        for key in complete_models:
+            rows = physical.query("model_key == @key").set_index("sample_size").reindex(SAMPLE_SIZES)
+            axis.plot(
+                SAMPLE_SIZES, 100.0 * rows[column].to_numpy(float), color=COLORS[key],
+                marker="o", markersize=3.2, linewidth=1.15, label=MODEL_LABELS[key],
+                clip_on=False, zorder=3,
+            )
+        axis.set(title=title, ylabel="Fold-mean sample violation rate (%)")
+        axis.set_ylim(0, 100)
+        axis.set_yticks(np.arange(0, 101, 20))
+        axis.spines["bottom"].set_zorder(1)
+        axis.spines["top"].set_visible(False)
+        axis.grid(alpha=0.2)
+        model_extrema = physical.query("model_key in @complete_models").groupby("model_key")[column].agg(["min", "max"])
+        at_zero = int(((model_extrema["min"] == 0) & (model_extrema["max"] == 0)).sum())
+        at_hundred = int(((model_extrema["min"] == 1) & (model_extrema["max"] == 1)).sum())
+        if at_zero:
+            axis.annotate(
+                f"{at_zero} model{'s' if at_zero != 1 else ''} overlap at 0%", xy=(0.02, 0),
+                xycoords=("axes fraction", "data"), xytext=(0, 7), textcoords="offset points",
+                fontsize=7.5, color="#333333", ha="left", va="bottom",
+            )
+        if at_hundred:
+            axis.annotate(
+                f"{at_hundred} model{'s' if at_hundred != 1 else ''} overlap at 100%", xy=(0.02, 100),
+                xycoords=("axes fraction", "data"), xytext=(0, -7), textcoords="offset points",
+                fontsize=7.5, color="#333333", ha="left", va="top",
+            )
+    axes[1, 0].set_xlabel("Nested sample total")
+    axes[1, 1].set_xlabel("Nested sample total")
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="center left", bbox_to_anchor=(1.0, 0.5), frameon=False)
+    fig.suptitle("Physical-constraint violations across sample size")
+    fig.tight_layout(rect=(0, 0, 0.83, 0.96))
+    save(fig, output_dir, "07_violation_rates_by_sample_size")
 
 
 def fmt(value: float, digits: int = 3) -> str:
@@ -331,10 +372,15 @@ def write_report(
     times = timing.query("sample_size == 10000 and model_key in @complete_models").set_index("model_key")
     delta_full = delta.query("sample_size == 10000").set_index("model_key")
     total_expected = len(MODEL_ORDER) * len(SAMPLE_SIZES) * 5
-    completed_fold_files = int(observed["fold_count"].sum())
     complete_cells_count = int((observed["fold_count"] == 5).sum())
     negative_cells = int((delta["delta_nRMSE"] < 0).sum())
     positive_cells = int((delta["delta_nRMSE"] > 0).sum())
+    all_physics = physical.query("model_key in @complete_models")
+    raw_mass_min = 100.0 * all_physics["raw_mass_violation_rate"].min()
+    raw_mass_max = 100.0 * all_physics["raw_mass_violation_rate"].max()
+    projected_mass_max = 100.0 * all_physics["projected_mass_violation_rate"].max()
+    projected_nonnegative_max = 100.0 * all_physics["projected_nonnegative_violation_rate"].max()
+    projected_residual_max = all_physics["projected_conservation_l2_mean"].max()
     lines = [
         "# Interim benchmark results",
         "",
@@ -352,7 +398,7 @@ def write_report(
         "",
         "## Main interim findings",
         "",
-        "The four completed models improve as the training pool grows. Their five-fold raw nRMSE curves are shown below; shaded regions are fold SD, not confidence intervals.",
+        f"The {len(complete_models)} completed models are compared across the nested training sizes. Their five-fold raw nRMSE curves are shown below; shaded regions are fold SD, not confidence intervals.",
         "",
         "![Raw learning curves](02_raw_learning_curves.png)",
         "",
@@ -388,6 +434,10 @@ def write_report(
             "",
             "## Physical enforcement",
             "",
+            f"Across all {complete_cells_count} complete model–size cells, raw mass-violation rates span {raw_mass_min:.1f}%–{raw_mass_max:.1f}%. "
+            f"The maximum projected mass-violation rate is {projected_mass_max:.1f}%, and the maximum projected non-negativity-violation rate is {projected_nonnegative_max:.1f}%. "
+            f"The largest cell-mean projected conservation L2 residual is {projected_residual_max:.2e}.",
+            "",
             "At N = 10,000, every available raw fold reports mass-conservation violations, whereas projected violation rates are zero. "
             "The projected mean conservation residuals are near floating-point precision. Full-size non-negativity violation rates are tabulated separately below.",
             "",
@@ -407,11 +457,14 @@ def write_report(
             "",
             "![Full-size physical diagnostics](05_full_size_physics.png)",
             "",
+            "Violation rates across all sample sizes are shown below. The projected panels use the same percentage definition as the raw panels.",
+            "",
+            "![Violation rates by sample size](07_violation_rates_by_sample_size.png)",
+            "",
             "## Interpretation boundary",
             "",
-            "Random Forest currently has one fold at each size. Those values are preserved in the source snapshot but are not mixed into the five-fold comparisons. "
-            "Extra Trees, SVR, k-NN, PLS, Multi-task Elastic Net, Multi-task Lasso, MLP, and TabNet have no scored folds in this capture. "
-            "OOD analyses and final fitted-model artifacts are also unavailable, so no extrapolation conclusion or final 13-model ranking is warranted.",
+            "Only complete five-fold model–size cells are included above. Models absent from the completeness map's five-fold rows are excluded from comparisons. "
+            "OOD analyses and final fitted-model artifacts are unavailable while the run remains in progress, so no extrapolation conclusion or final 13-model ranking is warranted.",
             "",
             "These figures are exploratory interim diagnostics and should not replace the manuscript placeholders until the run writes its completion sentinel and passes the terminal validation assertions.",
             "",
@@ -448,6 +501,7 @@ def main() -> None:
     delta = plot_projection_delta(summary, complete_models, output_dir)
     trajectory = plot_projection_trajectory(usable_metrics, summary, complete_models, output_dir)
     plot_physics(physical_summary, complete_models, output_dir)
+    plot_violation_trajectories(physical_summary, complete_models, output_dir)
     observed.to_csv(output_dir / "completeness.csv", index=False)
     summary.to_csv(output_dir / "id_metric_summary_complete_cells.csv", index=False)
     physical_summary.to_csv(output_dir / "id_physical_summary_complete_cells.csv", index=False)
