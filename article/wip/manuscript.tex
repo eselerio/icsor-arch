@@ -263,7 +263,15 @@ Let $c_{in,i},c_{out,i}\in\mathbb{R}^{F}$ denote the influent and effluent compo
 \label{eq:invariant_operator}
 A\nu^T=0.
 \end{equation}
-For the adopted steady-state system boundary, multiplication of the component balances by $A$ eliminates the biological and chemical reaction terms. The resulting sample-specific conservation target and feasible effluent set are
+For the adopted steady-state system boundary, write the component balance for sample $i$ as
+\begin{equation}
+0=D_i(c_{in,i}-c_{out,i})+\nu^T r_i+\tau_i e_{S_O},
+\end{equation}
+where $D_i>0$ is the hydraulic dilution rate, $r_i\in\mathbb{R}^{28}$ is the vector of biological and chemical process rates, and $\tau_i e_{S_O}$ is the aeration contribution. Premultiplication by $A$ gives
+\begin{equation}
+0=D_i A(c_{in,i}-c_{out,i})+\underbrace{A\nu^T}_{0}r_i+\tau_i A e_{S_O}.
+\end{equation}
+Thus, $A\nu^T=0$ eliminates every biological and chemical reaction term. As shown below, $Ae_{S_O}$ is also numerically zero, and hence $A c_{out,i}=A c_{in,i}$. The resulting sample-specific conservation target and feasible effluent set are
 \begin{equation}
 \label{eq:feasible_set}
 b_i=A c_{in,i},\qquad
