@@ -4,9 +4,9 @@
     "ProjectRoot":  "C:/Users/eselerio/Projects/icsor-arch",
     "Edited":  false,
     "RemovedUnverifiedMode":  false,
-    "TotalBodyCitations":  34,
-    "TotalReferencesBefore":  34,
-    "TotalReferencesAfter":  34,
+    "TotalBodyCitations":  42,
+    "TotalReferencesBefore":  42,
+    "TotalReferencesAfter":  42,
     "BodyCitations":  [
                           {
                               "Surname":  "Aboagye",
@@ -62,7 +62,28 @@
                               "NormalizedSurname":  "bhosekar",
                               "Year":  "2018",
                               "YearBase":  "2018",
-                              "Source":  "Bhosekar \u0026 Ierapetritou, 2018"
+                              "Source":  "Bhosekar \u0026 Ierapetritou (2018)"
+                          },
+                          {
+                              "Surname":  "Breiman",
+                              "NormalizedSurname":  "breiman",
+                              "Year":  "2001",
+                              "YearBase":  "2001",
+                              "Source":  "Breiman, 2001"
+                          },
+                          {
+                              "Surname":  "Chen",
+                              "NormalizedSurname":  "chen",
+                              "Year":  "2016",
+                              "YearBase":  "2016",
+                              "Source":  "Chen \u0026 Guestrin, 2016"
+                          },
+                          {
+                              "Surname":  "Drucker",
+                              "NormalizedSurname":  "drucker",
+                              "Year":  "1997",
+                              "YearBase":  "1997",
+                              "Source":  "Drucker, 1997"
                           },
                           {
                               "Surname":  "Duan",
@@ -107,6 +128,13 @@
                               "Source":  "Henze et al., 2006"
                           },
                           {
+                              "Surname":  "Ke",
+                              "NormalizedSurname":  "ke",
+                              "Year":  "2017",
+                              "YearBase":  "2017",
+                              "Source":  "Ke et al., 2017"
+                          },
+                          {
                               "Surname":  "Kircher",
                               "NormalizedSurname":  "kircher",
                               "Year":  "2025",
@@ -126,6 +154,13 @@
                               "Year":  "2009",
                               "YearBase":  "2009",
                               "Source":  "Liu et al., 2009"
+                          },
+                          {
+                              "Surname":  "Mack",
+                              "NormalizedSurname":  "mack",
+                              "Year":  "1981",
+                              "YearBase":  "1981",
+                              "Source":  "Mack, 1981"
                           },
                           {
                               "Surname":  "Madhav",
@@ -156,6 +191,13 @@
                               "Source":  "Padron-Paez et al., 2020"
                           },
                           {
+                              "Surname":  "Prokhorenkova",
+                              "NormalizedSurname":  "prokhorenkova",
+                              "Year":  "2018",
+                              "YearBase":  "2018",
+                              "Source":  "Prokhorenkova et al., 2018"
+                          },
+                          {
                               "Surname":  "Raissi",
                               "NormalizedSurname":  "raissi",
                               "Year":  "2019",
@@ -163,11 +205,25 @@
                               "Source":  "Raissi et al., 2019"
                           },
                           {
+                              "Surname":  "Rumelhart",
+                              "NormalizedSurname":  "rumelhart",
+                              "Year":  "1986",
+                              "YearBase":  "1986",
+                              "Source":  "Rumelhart et al., 1986"
+                          },
+                          {
                               "Surname":  "Simon",
                               "NormalizedSurname":  "simon",
                               "Year":  "2013",
                               "YearBase":  "2013",
                               "Source":  "Simon et al., 2013"
+                          },
+                          {
+                              "Surname":  "Smola",
+                              "NormalizedSurname":  "smola",
+                              "Year":  "2004",
+                              "YearBase":  "2004",
+                              "Source":  "Smola \u0026 Scholkopf, 2004"
                           },
                           {
                               "Surname":  "Sturm",
@@ -261,12 +317,44 @@
                    ],
     "CrossrefUnverifiedKept":  [
                                    {
+                                       "Reference":  "Chen (2016)",
+                                       "Title":  "XGBoost: A scalable tree boosting system",
+                                       "Score":  95,
+                                       "Note":  "Low-confidence Crossref match.",
+                                       "BestTitle":  "XGBoost",
+                                       "BestDoi":  "10.1145/2939672.2939785"
+                                   },
+                                   {
+                                       "Reference":  "Drucker (1997)",
+                                       "Title":  "Improving regressors using boosting techniques",
+                                       "Score":  77,
+                                       "Note":  "Low-confidence Crossref match.",
+                                       "BestTitle":  "Improving Sequence Tagging using Machine-Learning Techniques",
+                                       "BestDoi":  "10.1109/icmlc.2006.258917"
+                                   },
+                                   {
+                                       "Reference":  "Ke (2017)",
+                                       "Title":  "LightGBM: A highly efficient gradient boosting decision tree",
+                                       "Score":  96.71,
+                                       "Note":  "Low-confidence Crossref match.",
+                                       "BestTitle":  "Predicting Student Performance in Online Learning Using a Highly Efficient Gradient Boosting Decision Tree",
+                                       "BestDoi":  "10.1007/978-3-031-03948-5_41"
+                                   },
+                                   {
                                        "Reference":  "Min (2024)",
                                        "Title":  "HardNet: Hard-constrained neural networks with universal approximation guarantees",
                                        "Score":  0,
                                        "Note":  "No Crossref candidates returned.",
                                        "BestTitle":  "",
                                        "BestDoi":  ""
+                                   },
+                                   {
+                                       "Reference":  "Prokhorenkova (2018)",
+                                       "Title":  "CatBoost: Unbiased boosting with categorical features",
+                                       "Score":  65.33,
+                                       "Note":  "Low-confidence Crossref match.",
+                                       "BestTitle":  "Deep Counterfactual Estimation with Categorical Background Variables",
+                                       "BestDoi":  "10.52202/068431-2552"
                                    },
                                    {
                                        "Reference":  "Simon (2013)",
@@ -395,6 +483,45 @@
                        },
                        {
                            "Index":  9,
+                           "Reference":  "Breiman (2001)",
+                           "Title":  "Random forests",
+                           "IsCited":  true,
+                           "ExistingDoi":  "10.1023/A:1010933404324",
+                           "CrossrefReliable":  true,
+                           "CrossrefScore":  205,
+                           "CrossrefDoi":  "10.1023/a:1010933404324",
+                           "CrossrefTitle":  "Random Forests",
+                           "CrossrefContainer":  "Machine Learning",
+                           "CrossrefNote":  "Reliable Crossref match."
+                       },
+                       {
+                           "Index":  10,
+                           "Reference":  "Chen (2016)",
+                           "Title":  "XGBoost: A scalable tree boosting system",
+                           "IsCited":  true,
+                           "ExistingDoi":  "10.1145/2939672.2939785",
+                           "CrossrefReliable":  false,
+                           "CrossrefScore":  95,
+                           "CrossrefDoi":  "10.1145/2939672.2939785",
+                           "CrossrefTitle":  "XGBoost",
+                           "CrossrefContainer":  "Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining",
+                           "CrossrefNote":  "Low-confidence Crossref match."
+                       },
+                       {
+                           "Index":  11,
+                           "Reference":  "Drucker (1997)",
+                           "Title":  "Improving regressors using boosting techniques",
+                           "IsCited":  true,
+                           "ExistingDoi":  "",
+                           "CrossrefReliable":  false,
+                           "CrossrefScore":  77,
+                           "CrossrefDoi":  "10.1109/icmlc.2006.258917",
+                           "CrossrefTitle":  "Improving Sequence Tagging using Machine-Learning Techniques",
+                           "CrossrefContainer":  "2006 International Conference on Machine Learning and Cybernetics",
+                           "CrossrefNote":  "Low-confidence Crossref match."
+                       },
+                       {
+                           "Index":  12,
                            "Reference":  "Duan (2022)",
                            "Title":  "Heterotrophic nitrifying bacteria in wastewater biological nitrogen removal systems: A review",
                            "IsCited":  true,
@@ -407,7 +534,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  10,
+                           "Index":  13,
                            "Reference":  "Durkin (2024)",
                            "Title":  "Surrogate-based optimisation of process systems to recover resources from wastewater",
                            "IsCited":  true,
@@ -420,7 +547,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  11,
+                           "Index":  14,
                            "Reference":  "Geurts (2006)",
                            "Title":  "Extremely randomized trees",
                            "IsCited":  true,
@@ -433,7 +560,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  12,
+                           "Index":  15,
                            "Reference":  "Guerrero (2011)",
                            "Title":  "The nature of the carbon source rules the competition between PAO and denitrifiers in systems for simultaneous biological nitrogen and phosphorus removal",
                            "IsCited":  true,
@@ -446,7 +573,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  13,
+                           "Index":  16,
                            "Reference":  "Hansen (2024)",
                            "Title":  "Learning physical models that can respect conservation laws",
                            "IsCited":  true,
@@ -459,7 +586,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  14,
+                           "Index":  17,
                            "Reference":  "Henze (2006)",
                            "Title":  "Activated Sludge Models ASM1, ASM2, ASM2d and ASM3",
                            "IsCited":  true,
@@ -472,7 +599,20 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  15,
+                           "Index":  18,
+                           "Reference":  "Ke (2017)",
+                           "Title":  "LightGBM: A highly efficient gradient boosting decision tree",
+                           "IsCited":  true,
+                           "ExistingDoi":  "",
+                           "CrossrefReliable":  false,
+                           "CrossrefScore":  96.71,
+                           "CrossrefDoi":  "10.1007/978-3-031-03948-5_41",
+                           "CrossrefTitle":  "Predicting Student Performance in Online Learning Using a Highly Efficient Gradient Boosting Decision Tree",
+                           "CrossrefContainer":  "IFIP Advances in Information and Communication Technology",
+                           "CrossrefNote":  "Low-confidence Crossref match."
+                       },
+                       {
+                           "Index":  19,
                            "Reference":  "Kircher (2025)",
                            "Title":  "Machine learning surrogate models for mechanistic kinetics: Embedding atom balance and positivity",
                            "IsCited":  true,
@@ -485,7 +625,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  16,
+                           "Index":  20,
                            "Reference":  "Lin (2022)",
                            "Title":  "Effects of water pollution on human health and disease heterogeneity: A review",
                            "IsCited":  true,
@@ -498,7 +638,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  17,
+                           "Index":  21,
                            "Reference":  "Liu (2009)",
                            "Title":  "Blockwise coordinate descent procedures for the multi-task lasso, with applications to neural semantic basis discovery",
                            "IsCited":  true,
@@ -511,7 +651,20 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  18,
+                           "Index":  22,
+                           "Reference":  "Mack (1981)",
+                           "Title":  "Local properties of $k$-NN regression estimates",
+                           "IsCited":  true,
+                           "ExistingDoi":  "10.1137/0602035",
+                           "CrossrefReliable":  true,
+                           "CrossrefScore":  175,
+                           "CrossrefDoi":  "10.1137/0602035",
+                           "CrossrefTitle":  "Local Properties of \u003ci\u003ek\u003c/i\u003e-NN Regression Estimates",
+                           "CrossrefContainer":  "SIAM Journal on Algebraic Discrete Methods",
+                           "CrossrefNote":  "Reliable Crossref match."
+                       },
+                       {
+                           "Index":  23,
                            "Reference":  "Madhav (2019)",
                            "Title":  "Water pollutants: Sources and impact on the environment and human health",
                            "IsCited":  true,
@@ -524,7 +677,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  19,
+                           "Index":  24,
                            "Reference":  "Mao (2024)",
                            "Title":  "Optimization of effluent quality and energy consumption of aeration process in wastewater treatment plants using artificial intelligence",
                            "IsCited":  true,
@@ -537,7 +690,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  20,
+                           "Index":  25,
                            "Reference":  "Min (2024)",
                            "Title":  "HardNet: Hard-constrained neural networks with universal approximation guarantees",
                            "IsCited":  true,
@@ -550,7 +703,7 @@
                            "CrossrefNote":  "No Crossref candidates returned."
                        },
                        {
-                           "Index":  21,
+                           "Index":  26,
                            "Reference":  "Padron-Paez (2020)",
                            "Title":  "Sustainable wastewater treatment plants design through multiobjective optimization",
                            "IsCited":  true,
@@ -563,7 +716,20 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  22,
+                           "Index":  27,
+                           "Reference":  "Prokhorenkova (2018)",
+                           "Title":  "CatBoost: Unbiased boosting with categorical features",
+                           "IsCited":  true,
+                           "ExistingDoi":  "",
+                           "CrossrefReliable":  false,
+                           "CrossrefScore":  65.33,
+                           "CrossrefDoi":  "10.52202/068431-2552",
+                           "CrossrefTitle":  "Deep Counterfactual Estimation with Categorical Background Variables",
+                           "CrossrefContainer":  "Advances in Neural Information Processing Systems 35",
+                           "CrossrefNote":  "Low-confidence Crossref match."
+                       },
+                       {
+                           "Index":  28,
                            "Reference":  "Raissi (2019)",
                            "Title":  "Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations",
                            "IsCited":  true,
@@ -576,7 +742,20 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  23,
+                           "Index":  29,
+                           "Reference":  "Rumelhart (1986)",
+                           "Title":  "Learning representations by back-propagating errors",
+                           "IsCited":  true,
+                           "ExistingDoi":  "10.1038/323533a0",
+                           "CrossrefReliable":  true,
+                           "CrossrefScore":  187.5,
+                           "CrossrefDoi":  "10.1038/323533a0",
+                           "CrossrefTitle":  "Learning representations by back-propagating errors",
+                           "CrossrefContainer":  "Nature",
+                           "CrossrefNote":  "Reliable Crossref match."
+                       },
+                       {
+                           "Index":  30,
                            "Reference":  "Simon (2013)",
                            "Title":  "A blockwise descent algorithm for group-penalized multiresponse and multinomial regression",
                            "IsCited":  true,
@@ -589,7 +768,20 @@
                            "CrossrefNote":  "No Crossref candidates returned."
                        },
                        {
-                           "Index":  24,
+                           "Index":  31,
+                           "Reference":  "Smola (2004)",
+                           "Title":  "A tutorial on support vector regression",
+                           "IsCited":  true,
+                           "ExistingDoi":  "10.1023/B:STCO.0000035301.49549.88",
+                           "CrossrefReliable":  true,
+                           "CrossrefScore":  205,
+                           "CrossrefDoi":  "10.1023/b:stco.0000035301.49549.88",
+                           "CrossrefTitle":  "A tutorial on support vector regression",
+                           "CrossrefContainer":  "Statistics and Computing",
+                           "CrossrefNote":  "Reliable Crossref match."
+                       },
+                       {
+                           "Index":  32,
                            "Reference":  "Sturm (2023)",
                            "Title":  "Advecting superspecies: Efficiently modeling transport of organic aerosol with a mass-conserving dimensionality reduction method",
                            "IsCited":  true,
@@ -602,7 +794,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  25,
+                           "Index":  33,
                            "Reference":  "Sturm (2020)",
                            "Title":  "A mass- and energy-conserving framework for using machine learning to speed computations: A photochemistry example",
                            "IsCited":  true,
@@ -615,7 +807,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  26,
+                           "Index":  34,
                            "Reference":  "Sturm (2022)",
                            "Title":  "Conservation laws in a neural network architecture: Enforcing the atom balance of a Julia-based photochemical model (v0.2.0)",
                            "IsCited":  true,
@@ -628,7 +820,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  27,
+                           "Index":  35,
                            "Reference":  "Tsochatzidi (2025)",
                            "Title":  "A novel surrogate-based optimisation framework for pharmaceutical process systems",
                            "IsCited":  true,
@@ -641,7 +833,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  28,
+                           "Index":  36,
                            "Reference":  "Utkarsh (2025)",
                            "Title":  "End-to-end probabilistic framework for learning with hard constraints",
                            "IsCited":  true,
@@ -654,7 +846,7 @@
                            "CrossrefNote":  "Low-confidence Crossref match."
                        },
                        {
-                           "Index":  29,
+                           "Index":  37,
                            "Reference":  "Wang (2025)",
                            "Title":  "Comparison of interpretable machine learning models and mechanistic model for predicting effluent nitrogen in WWTP",
                            "IsCited":  true,
@@ -667,7 +859,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  30,
+                           "Index":  38,
                            "Reference":  "Wold (2001)",
                            "Title":  "PLS-regression: A basic tool of chemometrics",
                            "IsCited":  true,
@@ -680,7 +872,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  31,
+                           "Index":  39,
                            "Reference":  "Xiao (2025)",
                            "Title":  "A new paradigm in activated sludge management: An interpretable framework integrating mechanistic dynamics with a data-driven surrogate model",
                            "IsCited":  true,
@@ -693,7 +885,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  32,
+                           "Index":  40,
                            "Reference":  "Yang (2025)",
                            "Title":  "Machine learning based prediction of waste activated sludge generation for optimization of WWTP operational efficiency",
                            "IsCited":  true,
@@ -706,7 +898,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  33,
+                           "Index":  41,
                            "Reference":  "Yuan (2006)",
                            "Title":  "Model selection and estimation in regression with grouped variables",
                            "IsCited":  true,
@@ -719,7 +911,7 @@
                            "CrossrefNote":  "Reliable Crossref match."
                        },
                        {
-                           "Index":  34,
+                           "Index":  42,
                            "Reference":  "Zou (2005)",
                            "Title":  "Regularization and variable selection via the elastic net",
                            "IsCited":  true,
