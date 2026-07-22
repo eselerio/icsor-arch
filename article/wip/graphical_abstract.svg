@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1840" height="830" viewBox="40 165 1840 830" role="img" aria-labelledby="title desc">
   <title id="title">Graphical abstract: model-agnostic physical enforcement in activated-sludge surrogates</title>
   <desc id="desc">A left-to-right workflow from mechanistic activated-sludge simulations through thirteen statistical surrogates, a conservative non-negativity-preserving projection, paired evaluation, and the central scientific insight.</desc>
 
@@ -17,9 +17,6 @@
       <stop offset="0" stop-color="#F2FBF8"/>
       <stop offset="1" stop-color="#D7F0E8"/>
     </linearGradient>
-    <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <circle cx="2" cy="2" r="1.4" fill="#577590" opacity="0.10"/>
-    </pattern>
     <style>
       .title { font: 700 38px Inter, "Segoe UI", Arial, sans-serif; fill: #264653; letter-spacing: .2px; }
       .subtitle { font: 400 19px Inter, "Segoe UI", Arial, sans-serif; fill: #5C6770; }
@@ -43,16 +40,6 @@
     </style>
   </defs>
 
-  <!-- Canvas -->
-  <rect width="1920" height="1080" fill="#FFFFFF"/>
-  <rect width="1920" height="1080" fill="url(#dotGrid)"/>
-  <rect x="42" y="38" width="1836" height="1004" rx="30" fill="#FFFFFF" stroke="#DCE5E7" stroke-width="2"/>
-
-  <!-- Header -->
-  <text x="86" y="105" class="title">Physically trustworthy surrogates for activated-sludge processes</text>
-  <text x="87" y="143" class="subtitle">One post-prediction layer · thirteen heterogeneous learners · one shared physical contract</text>
-  <line x1="87" y1="174" x2="1833" y2="174" stroke="#D9E2E4" stroke-width="2"/>
-
   <!-- Stage connectors, drawn behind cards -->
   <path d="M360 537 H425" class="line" marker-end="url(#arrow)"/>
   <path d="M712 537 H775" class="line" marker-end="url(#arrow)"/>
@@ -65,7 +52,7 @@
     <rect x="80" y="244" width="280" height="52" rx="24" fill="#577590"/>
     <rect x="80" y="272" width="280" height="24" fill="#577590"/>
   </g>
-  <text x="220" y="278" class="stage white center">01 · MECHANISTIC DATA</text>
+  <text x="220" y="278" class="stage white center">MECHANISTIC DATA</text>
 
   <!-- Reactor icon -->
   <g aria-label="stirred tank reactor">
@@ -180,11 +167,11 @@
     <path d="M953 744 L967 758 L997 725" class="greenLine" stroke-width="6"/>
   </g>
   <text x="972.5" y="888" class="heading center greenText">Physical contract</text>
-  <g transform="translate(834 915)">
+  <g transform="translate(850 915)">
     <circle cx="10" cy="-6" r="10" fill="#2A9D8F"/><path d="M5 -6 L9 -2 L16 -11" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
-    <text x="29" y="0" class="body greenText">mass conservation</text>
-    <circle cx="207" cy="-6" r="10" fill="#2A9D8F"/><path d="M202 -6 L206 -2 L213 -11" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
-    <text x="226" y="0" class="body greenText">non-negativity</text>
+    <text x="28" y="0" class="small greenText">mass conservation</text>
+    <circle cx="196" cy="-6" r="10" fill="#2A9D8F"/><path d="M191 -6 L195 -2 L202 -11" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+    <text x="214" y="0" class="small greenText">non-negativity</text>
   </g>
   <text x="972.5" y="960" class="small center">post-prediction · no model retraining</text>
 
@@ -269,13 +256,4 @@
   <text x="1711.5" y="743" class="body white center" font-style="italic">Accuracy remains an</text>
   <text x="1711.5" y="773" class="body white center" font-style="italic">empirical model property.</text>
 
-  <!-- Footer scientific contract -->
-  <g>
-    <line x1="86" y1="1000" x2="1834" y2="1000" stroke="#D9E2E4" stroke-width="2"/>
-    <circle cx="100" cy="1025" r="8" fill="#E76F51"/>
-    <text x="119" y="1031" class="small">Raw prediction</text>
-    <circle cx="266" cy="1025" r="8" fill="#2A9D8F"/>
-    <text x="285" y="1031" class="small">Physically corrected prediction</text>
-    <text x="1832" y="1031" class="small" text-anchor="end">COD · TN · TP · TSS are derived only after component-space correction</text>
-  </g>
 </svg>
