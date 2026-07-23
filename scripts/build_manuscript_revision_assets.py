@@ -268,28 +268,48 @@ def plot_inference_latency(timing: pd.DataFrame) -> None:
 
 
 def plot_evaluation_workflow() -> None:
-    figure, axis = plt.subplots(figsize=(11.0, 4.4))
+    figure, axis = plt.subplots(figsize=(8.4, 4.7))
     axis.set_xlim(0, 1)
     axis.set_ylim(0, 1)
     axis.axis("off")
 
-    def box(x: float, y: float, width: float, height: float, label: str, projection: bool = False) -> dict[str, tuple[float, float]]:
+    axis.axhspan(0.52, 0.91, color="#F2F8F7", zorder=0)
+    axis.axhspan(0.08, 0.47, color="#F8F7F3", zorder=0)
+    axis.text(0.225, 0.94, "In-distribution evaluation", color="#264653", fontsize=10.5, fontweight="bold", va="center")
+    axis.text(0.225, 0.50, "External out-of-distribution validation", color="#264653", fontsize=10.5, fontweight="bold", va="center")
+
+    def box(
+        x: float,
+        y: float,
+        width: float,
+        height: float,
+        label: str,
+        *,
+        kind: str = "standard",
+    ) -> dict[str, tuple[float, float]]:
+        colors = {
+            "source": ("#E7F0F2", "#264653"),
+            "standard": ("#FFFFFF", "#577590"),
+            "projection": ("#FEF2D9", "#E76F51"),
+            "score": ("#EAF5F0", "#2A9D8F"),
+        }
+        facecolor, edgecolor = colors[kind]
         patch = FancyBboxPatch(
             (x, y),
             width,
             height,
-            boxstyle="round,pad=0.012,rounding_size=0.018",
-            facecolor="#F8E8B6" if projection else "#F2F8F7",
-            edgecolor="#E76F51" if projection else "#264653",
-            linewidth=1.4,
+            boxstyle="round,pad=0.010,rounding_size=0.015",
+            facecolor=facecolor,
+            edgecolor=edgecolor,
+            linewidth=1.25,
         )
         axis.add_patch(patch)
-        axis.text(x + width / 2, y + height / 2, label, ha="center", va="center", fontsize=9.5)
+        axis.text(x + width / 2, y + height / 2, label, ha="center", va="center", fontsize=9.4, linespacing=1.15)
         return {
             "left": (x, y + height / 2),
             "right": (x + width, y + height / 2),
-            "top": (x + width / 2, y + height),
-            "bottom": (x + width / 2, y),
+            "upper_right": (x + width, y + 0.72 * height),
+            "lower_right": (x + width, y + 0.28 * height),
         }
 
     def arrow(start: tuple[float, float], end: tuple[float, float]) -> None:
@@ -298,29 +318,41 @@ def plot_evaluation_workflow() -> None:
                 start,
                 end,
                 arrowstyle="-|>",
-                mutation_scale=12,
-                linewidth=1.5,
-                color="#2A9D8F",
-                shrinkA=2,
-                shrinkB=2,
+                mutation_scale=13,
+                linewidth=1.45,
+                color="#577590",
+                shrinkA=5,
+                shrinkB=6,
+                capstyle="round",
+                joinstyle="round",
             )
         )
 
-    data = box(0.02, 0.62, 0.20, 0.22, "Mechanistic states\n22 inputs / 20 targets")
-    model = box(0.27, 0.62, 0.20, 0.22, "Fold-local preprocessing\n13 statistical surrogates")
-    raw = box(0.52, 0.62, 0.18, 0.22, "Raw physical\n20-component prediction")
-    projected = box(0.76, 0.62, 0.21, 0.22, "Kircher--Votsmeier\nprojection", projection=True)
-    extrapolation = box(0.02, 0.14, 0.25, 0.22, "13 full-data refits\n" + r"$\rightarrow$ untouched extrapolation set")
-    score = box(0.48, 0.10, 0.40, 0.30, "Paired accuracy, mass conservation,\nnon-negativity, COD/TN/TP/TSS,\ndisplacement, and latency")
+    source = box(0.025, 0.365, 0.17, 0.25, "Mechanistic\nbenchmark\n22 inputs / 20 targets", kind="source")
 
-    arrow(data["right"], model["left"])
-    arrow(model["right"], raw["left"])
-    arrow(raw["right"], projected["left"])
-    arrow(raw["bottom"], score["top"])
-    arrow(projected["bottom"], score["right"])
-    arrow(data["bottom"], extrapolation["top"])
-    arrow(extrapolation["right"], score["left"])
-    figure.tight_layout()
+    id_split = box(0.245, 0.655, 0.165, 0.19, "Nested five-fold\nvalidation split", kind="standard")
+    id_raw = box(0.445, 0.655, 0.145, 0.19, "Fit and predict\nheld-out fold", kind="standard")
+    id_projected = box(0.625, 0.655, 0.145, 0.19, "Conservative\nnon-negative projection", kind="projection")
+    id_score = box(0.805, 0.655, 0.17, 0.19, "Paired ID scoring\naccuracy + physics", kind="score")
+
+    ood_refit = box(0.245, 0.195, 0.165, 0.19, "Full-data refit\non all ID data", kind="standard")
+    ood_raw = box(0.445, 0.195, 0.145, 0.19, "Predict untouched\nOOD inputs", kind="standard")
+    ood_projected = box(0.625, 0.195, 0.145, 0.19, "Conservative\nnon-negative projection", kind="projection")
+    ood_score = box(0.805, 0.195, 0.17, 0.19, "Paired OOD scoring\naccuracy + physics", kind="score")
+
+    arrow(source["upper_right"], id_split["left"])
+    arrow(source["lower_right"], ood_refit["left"])
+    for start, end in (
+        (id_split["right"], id_raw["left"]),
+        (id_raw["right"], id_projected["left"]),
+        (id_projected["right"], id_score["left"]),
+        (ood_refit["right"], ood_raw["left"]),
+        (ood_raw["right"], ood_projected["left"]),
+        (ood_projected["right"], ood_score["left"]),
+    ):
+        arrow(start, end)
+
+    figure.subplots_adjust(left=0.015, right=0.99, bottom=0.04, top=0.98)
     save_figure(figure, "figure_evaluation_workflow")
 
 

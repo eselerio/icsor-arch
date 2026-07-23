@@ -6,6 +6,7 @@
 \usepackage{array}
 \usepackage{booktabs}
 \usepackage{csvsimple}
+\usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{microtype}
 \usepackage{placeins}
@@ -58,7 +59,7 @@
 
 \section{Scope and Reporting Convention}
 
-This supplement reports detailed results from the completed, article-eligible \texttt{article\_final\_v2} run. The benchmark contains 13 statistical surrogates, eleven nested in-distribution (ID) sample totals, five persistent outer folds, and two separately simulated out-of-distribution (OOD) regimes. Raw and projected predictions always refer to the same observations. No OOD response entered fitting, preprocessing, hyperparameter selection, or normalization.
+This supplement reports detailed results from the completed, article-eligible \texttt{article\_final\_v2} run. The benchmark contains 13 statistical surrogates, eleven nested in-distribution sample totals, five persistent outer folds, and two separately simulated out-of-distribution regimes. Raw and projected predictions always refer to the same observations. No out-of-distribution response entered fitting, preprocessing, hyperparameter selection, or normalization.
 
 For component $j$, the reported component nRMSE is
 \begin{equation}
@@ -72,15 +73,15 @@ where $\sigma_j^{(\mathcal T)}$ is the population SD of that component in the ap
 \frac{\sqrt{n^{-1}\sum_{i=1}^{n}(\hat y_{iq}-y_{iq})^2}}
 {\sigma_q^{(\mathcal T)}}.
 \end{equation}
-The ID denominator is estimated on the applicable outer-training partition; the OOD denominator is estimated once on all 10,000 ID targets. Composite nRMSE is a secondary, composite-specific normalization and is not the primary nRMSE obtained by averaging squared standardized errors across all 20 effluent components.
+The in-distribution denominator is estimated on the applicable outer-training partition; the out-of-distribution denominator is estimated once on all 10,000 in-distribution targets. Composite nRMSE is a secondary, composite-specific normalization and is not the primary nRMSE obtained by averaging squared standardized errors across all 20 effluent components.
 
-ID values are the arithmetic mean $\pm$ sample SD across five outer folds. Each $\Delta$ is calculated within a paired raw/projected fold before those five differences are summarized. OOD values are single descriptive summaries over 600 cases and therefore have no fold SD. No hypothesis tests, confidence intervals, or inferential rank claims are reported.
+In-distribution values are the arithmetic mean $\pm$ sample SD across five outer folds. Each $\Delta$ is calculated within a paired raw/projected fold before those five differences are summarized. Out-of-distribution values are single descriptive summaries over 600 cases and therefore have no fold SD. No hypothesis tests, confidence intervals, or inferential rank claims are reported.
 
 \section{Benchmark Contract and Dataset Verification}
 
 The 22 inputs were hydraulic retention time, aeration, and 20 influent concentrations. Each surrogate jointly or componentwise predicted the same 20 effluent concentrations in the fixed order $S_O$, $S_F$, $S_A$, $S_{NH4}$, $S_{NO2}$, $S_{NO3}$, $S_{N2}$, $S_{PO4}$, $S_I$, $S_{ALK}$, $X_I$, $X_S$, $X_H$, $X_{PAO}$, $X_{PP}$, $X_{PHA}$, $X_{AOB}$, $X_{NOB}$, $X_{MeP}$, and $X_{MeOH}$. COD, TN, TP, and TSS were calculated after prediction through the same fixed linear composition map for raw and projected outputs.
 
-The surrogate roster comprised XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, Extra Trees, SVR, $k$-NN, PLS, Multi-task Elastic Net, Multi-task Lasso, MLP, and TabNet. PLS and the two multi-task linear surrogates form the prespecified Interpretable models category because they expose one global coefficient structure; this label does not imply causal interpretation.
+The surrogate roster comprised XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, Extra Trees, SVR, $k$-NN, PLS, Multi-task Elastic Net, Multi-task Lasso, MLP, and TabNet. PLS and the two multi-task linear surrogates form the prespecified Interpretable surrogates category because they expose one global coefficient structure; this label does not imply causal interpretation.
 
 \begin{table}[htbp]
 \centering
@@ -96,7 +97,7 @@ Dataset & Attempted & Retained & Acceptance (\%) & Maximum residual & Minimum co
 \end{tabular}
 \end{table}
 
-The ID accuracy export contains $13\times11\times5\times2=1{,}430$ surrogate--size--fold--prediction rows. Component and composite exports contain the corresponding 20-component and four-composite expansions. Tuning completed five 100-trial outer-fold studies and one separate 100-trial full-data study per surrogate, for 7,800 completed trials. The OOD benchmark used one full-data refit per surrogate and retained 600 mechanistic cases per regime.
+The in-distribution accuracy export contains $13\times11\times5\times2=1{,}430$ surrogate--size--fold--prediction rows. Component and composite exports contain the corresponding 20-component and four-composite expansions. Tuning completed five 100-trial outer-fold studies and one separate 100-trial full-data study per surrogate, for 7,800 completed trials. The out-of-distribution benchmark used one full-data refit per surrogate and retained 600 mechanistic cases per regime.
 
 \section{Detailed In-Distribution Predictive Performance}
 
@@ -133,7 +134,7 @@ Table~\ref{tab:s_id_composite_accuracy} reports composite-normalized RMSE for CO
 
 \section{Mass-Conservation, Non-Negativity, and Positivity Backtracking}
 
-All 750,750 raw ID predictions violated the declared mass-conservation tolerance. Raw non-negativity violations varied by surrogate and sample size. After projection, every ID prediction satisfied mass conservation within tolerance and contained no negative concentration; the maximum projected conservation residual was $2.06\times10^{-13}$.
+All 750,750 raw in-distribution predictions violated the declared mass-conservation tolerance. Raw non-negativity violations varied by surrogate and sample size. After projection, every in-distribution prediction satisfied mass conservation within tolerance and contained no negative concentration; the maximum projected conservation residual was $2.06\times10^{-13}$.
 
 Positivity backtracking was activated for 2,489 predictions (0.332\%). Random Forest, PLS, and Extra Trees accounted for 2,044 activations (82.1\%) and had among the largest standardized projection displacements. Table~\ref{tab:s_backtracking} distinguishes the cumulative count from the activation rate so that the larger number of evaluated rows at high sample totals is not mistaken for a rising backtracking propensity.
 
@@ -154,6 +155,28 @@ Positivity backtracking was activated for 2,489 predictions (0.332\%). Random Fo
 
 Fit time includes fold-local preprocessing and surrogate fitting, but excludes Optuna search, artifact serialization, prediction, and projection. Inference timing used a deterministic 512-row batch, five warm-up calls, and 30 measured calls. Values in Table~\ref{tab:s_timing} are five-fold mean $\pm$ sample SD. Search duration is omitted because each fold-specific study was reused at all eleven nested sizes and therefore is not a size-specific training cost.
 
+Training-time scaling differed much more strongly than inference latency (Figure~\ref{fig:s_training_time_scaling}). At $N=10{,}000$, mean fold-local preprocessing and fitting time ranged from 0.024 s for Multi-task Elastic Net to 56.0 s for SVR. Multi-task Lasso and $k$-NN also fitted in approximately 0.03 s, whereas MLP and TabNet required 20.5 and 24.7 s, CatBoost 33.3 s, and SVR 56.0 s. SVR showed the steepest growth, from 0.054 s at $N=500$ to 56.0 s at $N=10{,}000$, consistent with the scaling of kernel fitting. CatBoost remained near 31--33 s because its selected boosting work and fixed overhead dominated the change in row count. These fit times exclude the separate 100-trial hyperparameter searches and surrogate serialization; they therefore describe refitting cost once settings have been selected. Complete values are reported in Table~\ref{tab:s_timing}.
+
+The timing results sharpen the accuracy findings. MLP delivered the best full-size accuracy with moderate fitting time, while CatBoost and SVR were slower to refit under the selected settings. The multi-task linear surrogates were extremely fast and benefited from projection, but their final nRMSE remained higher than the nonlinear alternatives. Thus, projection does not remove the need to choose a surrogate appropriate to the desired accuracy--training-cost tradeoff; it adds a common feasibility layer after that choice has been made.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.96\textwidth]{figure_training_time_scaling.pdf}
+\caption{In-distribution preprocessing and surrogate-fitting time across nested sample totals. Lines show five-fold means, shaded regions show $\pm$ one sample SD, and the vertical axis is logarithmic. Hyperparameter-search time is excluded.}
+\label{fig:s_training_time_scaling}
+\end{figure}
+
+At $N=10{,}000$, complete 20-component raw inference ranged from approximately 0.001 ms per sample for PLS and the multi-task linear surrogates to 1.874 ms per sample for SVR (Figure~\ref{fig:s_inference_latency}). Projection-only latency ranged from 0.068 to 0.144 ms per sample across surrogates. The projection therefore dominated end-to-end latency for the fastest linear predictors but remained below 0.15 ms per sample under the stated batching protocol. All 766,350 production projections used the QR solver; the SVD fallback was not activated. Consequently, projection supplied deterministic mass-conservation and non-negativity enforcement at a small absolute deployment cost. This makes the method especially attractive for downstream screening, optimization, or decision-support loops in which infeasible concentration vectors are more damaging than a sub-millisecond correction step.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.94\textwidth]{figure_inference_latency.pdf}
+\caption{Complete 20-component raw surrogate-inference latency at $N=10{,}000$. Bars show the five-fold mean and error bars show $\pm$ one sample SD of fold medians.}
+\label{fig:s_inference_latency}
+\end{figure}
+
+\FloatBarrier
+
 \begingroup
 \small
 \setlength{\tabcolsep}{3.5pt}
@@ -169,7 +192,7 @@ Fit time includes fold-local preprocessing and surrogate fitting, but excludes O
 
 \section{Detailed Out-of-Distribution Results}
 
-The mild and severe OOD tables use the same 600 cases before and after projection. Component nRMSE uses the fixed full-ID component SD, and composite nRMSE uses the corresponding full-ID composite SD. Projection lowered aggregate 20-component nRMSE for 11 of 13 surrogates under mild extrapolation and 9 of 13 under severe extrapolation. At component level, it lowered 192 of 260 mild comparisons (73.8\%) and 193 of 260 severe comparisons (74.2\%).
+The mild and severe out-of-distribution tables use the same 600 cases before and after projection. Component nRMSE uses the fixed full in-distribution component SD, and composite nRMSE uses the corresponding full in-distribution composite SD. Projection lowered aggregate 20-component nRMSE for 11 of 13 surrogates under mild extrapolation and 9 of 13 under severe extrapolation. At component level, it lowered 192 of 260 mild comparisons (73.8\%) and 193 of 260 severe comparisons (74.2\%).
 
 \subsection{Mild Extrapolation}
 
@@ -229,11 +252,11 @@ The mild and severe OOD tables use the same 600 cases before and after projectio
   {\csvrowsseven}
 \endgroup
 
-Every raw OOD prediction set violated mass conservation. Projection eliminated mass-conservation and non-negativity violations across all 15,600 OOD surrogate predictions, with maximum projected conservation residual $1.72\times10^{-13}$. Positivity backtracking was activated 29 times under mild and 39 times under severe extrapolation.
+Every raw out-of-distribution prediction set violated mass conservation. Projection eliminated mass-conservation and non-negativity violations across all 15,600 out-of-distribution surrogate predictions, with maximum projected conservation residual $1.72\times10^{-13}$. Positivity backtracking was activated 29 times under mild and 39 times under severe extrapolation.
 
 \section{Full-Data Hyperparameters and Scientific Provenance}
 
-Table~\ref{tab:s_full_hyperparameters} records the selected settings used for the final full-ID refits and OOD evaluation. These settings were selected in separate four-fold, 100-trial studies using only ID data. Complete outer-fold selections, trial histories, sampler states, and study databases are retained under \path{results/article_final_v2/tuning/}.
+Table~\ref{tab:s_full_hyperparameters} records the selected settings used for the final full in-distribution refits and out-of-distribution evaluation. These settings were selected in separate four-fold, 100-trial studies using only in-distribution data. Complete outer-fold selections, trial histories, sampler states, and study databases are retained under \path{results/article_final_v2/tuning/}.
 
 \begingroup
 \scriptsize
@@ -268,11 +291,11 @@ The accepted run exports the standardized full-data input--output coefficient ma
 
 The numerical source files used for the main text and this supplement are:
 \begin{itemize}
-\item \path{metrics/id_fold_metrics.csv} and \path{metrics/id_fold_summary.csv} for aggregate ID accuracy;
-\item \path{metrics/id_component_metrics.csv} and \path{metrics/id_composite_metrics.csv} for component and composite ID results;
+\item \path{metrics/id_fold_metrics.csv} and \path{metrics/id_fold_summary.csv} for aggregate in-distribution accuracy;
+\item \path{metrics/id_component_metrics.csv} and \path{metrics/id_composite_metrics.csv} for component and composite in-distribution results;
 \item \path{metrics/id_physical_fold.csv} and \path{metrics/id_physical_summary.csv} for mass-conservation, non-negativity, displacement, and backtracking diagnostics;
 \item \path{metrics/timing_fold_summary.csv} and \path{timing/} for fitting and repeated latency measurements;
-\item \path{metrics/ood_metrics.csv}, \path{metrics/ood_component_metrics.csv}, \path{metrics/ood_composite_metrics.csv}, and \path{metrics/ood_physical_summary.csv} for OOD results; and
+\item \path{metrics/ood_metrics.csv}, \path{metrics/ood_component_metrics.csv}, \path{metrics/ood_composite_metrics.csv}, and \path{metrics/ood_physical_summary.csv} for out-of-distribution results; and
 \item \path{predictions/id/} and \path{predictions/ood/} for paired sample-level raw and projected predictions.
 \end{itemize}
 All paths above are relative to \path{results/article_final_v2/}. Presentation CSVs and final PDF figures are retained beside the two article source files in \path{article/wip/}; result-derived assets are reproducible with \path{scripts/build_manuscript_revision_assets.py} and \path{scripts/build_component_nonnegativity_heatmap.py}.
