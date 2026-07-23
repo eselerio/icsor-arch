@@ -1,0 +1,4 @@
+colA,colB,colC,colD,colE,colF
+In-distribution,10\csvcomma{}000,10\csvcomma{}000,100.0,$4.90\times10^{-11}$,$8.75\times10^{-4}$
+Mild out-of-distribution,600,600,100.0,$5.67\times10^{-11}$,$1.62\times10^{-3}$
+Severe out-of-distribution,600,600,100.0,$2.91\times10^{-10}$,$1.01\times10^{-3}$

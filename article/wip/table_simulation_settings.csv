@@ -1,0 +1,16 @@
+colA,colB
+Process model,Standalone steady-state continuous stirred tank reactor based on ASM2d-TSN
+ASM components,20 effluent component targets and 20 influent component references
+Reaction processes,28 coupled biological and chemical processes
+Process-rate handling,Mechanistic rates evaluated directly; no artificial clipping or rate ceiling
+Reported composites,COD\csvcomma{} TN\csvcomma{} TP\csvcomma{} and TSS computed with $I_{comp}$
+Sampling design,Latin hypercube sampling over 22 inputs
+Random seed,42
+Accepted samples,10\csvcomma{}000 converged steady states
+Steady-state solver,Nonlinear least squares under box constraints
+State bounds,$[10^{-8}\csvcomma{}1500]$ during the steady-state solve
+Solver tolerances,Variable\csvcomma{} residual\csvcomma{} and gradient tolerances of $10^{-9}$
+Function evaluations,Maximum of 1200 per nonlinear solve
+Candidate attempts,Global cap of 25 times the target retained-row count
+Fallback initialization,20-day stiff backward differentiation formula dynamic relaxation if two steady-state initializations fail
+Acceptance criterion,Maximum absolute residual no greater than $10^{-9}$

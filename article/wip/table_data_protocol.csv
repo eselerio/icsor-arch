@@ -1,0 +1,10 @@
+colA,colB,colC,colD
+Scarcity grid,11 nested totals from 500 to 10\csvcomma{}000,Seed-42 row permutation,Adds observations without replacing earlier subsets
+Outer evaluation,Five folds at every size,$0.8N$ train\csvcomma{} $0.2N$ validation,Same folds for every surrogate and prediction type
+Inner selection,Four folds within each outer training partition,Largest-scale outer training rows only,Keeps scored outer folds unseen during tuning
+Feature scaling,Surrogate-specific z-score scaling,Fitted within each inner or outer training partition,Prevents validation-distribution leakage
+Target scaling,Surrogate-specific componentwise z-score scaling,Fitted within each inner or outer training partition,Keeps target preprocessing independent of scored responses
+Inverse transform,Applied before projection,Raw component predictions,Restores physical units for invariants
+Paired ablation,Raw and projected versions of one prediction,Identical validation samples,Isolates the effect of projection
+Fold retention,Store metrics and timings per fold,Five observations per surrogate--size cell,Supports descriptive mean $\pm$ sample SD
+Reporting map,Common $I_{comp}$,Raw and projected components,Keeps composites secondary to component evaluation

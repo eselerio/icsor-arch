@@ -1,0 +1,10 @@
+colA,colB,colC,colD
+1,Select nested subset and outer fold,In-distribution mechanistic states,Same subset and validation indices for every surrogate
+2,Select settings,Outer training partition only,Four-fold inner search for every surrogate
+3,Fit preprocessing and surrogate,$0.8N$ outer training rows,Fold-local transforms and frozen outer-fold settings
+4,Predict and inverse-transform,$0.2N$ outer validation rows,Raw component vector restored to physical units
+5,Apply projection,$c_{raw\csvcomma{}i}^{(m)}$\csvcomma{} $c_{in\csvcomma{}i}$\csvcomma{} $A$\csvcomma{} $Z$\csvcomma{} $W_{s\csvcomma{}i}^{(m)}$,Underlying predictor remains unchanged
+6,Score paired outputs,Same outer validation rows,Accuracy\csvcomma{} violations\csvcomma{} displacement\csvcomma{} and timing by fold
+7,Repeat at every size,Eleven nested totals,Descriptive mean $\pm$ sample SD across five folds
+8,Select and refit final surrogates,All accepted in-distribution states,Separate full-data search; settings frozen before extrapolation testing
+9,Evaluate extrapolation set,New states beyond in-distribution bounds,No refitting\csvcomma{} recalibration\csvcomma{} or target access

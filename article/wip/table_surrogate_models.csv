@@ -1,0 +1,14 @@
+colA,colB,colC,colD,colE
+XGBoost,Boosting,One regressor per component,None,Inner Optuna
+LightGBM,Boosting,One regressor per component,None,Inner Optuna
+CatBoost,Boosting,One regressor per component,None,Inner Optuna
+AdaBoost,Boosting,One regressor per component,Training-partition target scaling,Inner Optuna
+Random Forest,Randomized tree ensembles,Native multi-output,None,Inner Optuna
+Extra Trees,Randomized tree ensembles,Native multi-output,Training-partition target scaling,Inner Optuna
+SVR,Kernel,One regressor per component,Training-partition input/target scaling,Inner Optuna
+$k$-NN,Instance based,Native multi-output,Training-partition input/target scaling,Inner Optuna
+PLS,Interpretable models,Joint 20-component regression,Training-partition input/target scaling,Inner Optuna
+Multi-task Elastic Net,Interpretable models,Joint 20-component regression,Training-partition input/target scaling,Inner Optuna
+Multi-task Lasso,Interpretable models,Joint 20-component regression,Training-partition input/target scaling,Inner Optuna
+MLP,Neural networks,Joint 20-component regression,Training-partition input/target scaling,Inner Optuna
+TabNet,Neural networks,Joint 20-component regression,Training-partition input/target scaling,Inner Optuna

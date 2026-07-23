@@ -1,0 +1,12 @@
+colA,colB
+Objective,Inner-fold nMSE across 20 effluent components
+Optimization direction,Minimize
+Sampler,Tree-structured Parzen estimator
+Pruning policy,None
+Study seed,42
+Studies per surrogate,Five outer-fold studies and one full-data study
+Trials per study,100
+Outer evaluation,Five-fold cross-validation
+Inner selection,Four-fold cross-validation within each outer training partition
+Search scale,Largest outer-training subset or full in-distribution dataset; outer settings fixed for smaller subsets
+Timeout,None

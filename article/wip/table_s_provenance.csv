@@ -1,0 +1,11 @@
+colA,colB
+Run identity,\texttt{article\_final\_v2}; full profile; completed 22 July 2026; article eligible
+Cross-validation,Five persistent outer folds; four inner folds; 100 trials per study; root seed 42
+Processor and memory,Intel64 Family 6 Model 181; 12 physical and 14 logical cores; 33\csvcomma{}745\csvcomma{}088\csvcomma{}512 bytes RAM
+Operating system and Python,Windows 11 (10.0.26200); Python 3.12.13
+Core statistical packages,scikit-learn 1.9.0; XGBoost 3.3.0; LightGBM 4.6.0; CatBoost 1.2.10
+Neural-network packages,PyTorch 2.13.0; pytorch-tabnet 4.1.0; CPU execution
+Numerical and data packages,NumPy 2.4.6; SciPy 1.18.0; pandas 3.0.3; PyArrow 25.0.0
+Numeric precision,Double precision for mechanistic states\csvcomma{} invariant construction\csvcomma{} preprocessing\csvcomma{} returned predictions\csvcomma{} projection\csvcomma{} and metrics; single precision inside TabNet
+Timing protocol,512 rows; five warm-up calls; 30 measured calls; fold summaries are mean $\pm$ sample SD
+Completion manifest,SHA-256 \texttt{887798dcb23148806b388add02b9f38e573cff50c1af08383f07fa4d15943b46}

@@ -1,0 +1,13 @@
+colA,colB,colC,colD
+nMSE,Mean squared standardized component error,20 ASM components,Penalizes large standardized errors
+nRMSE,Square root of nMSE,20 ASM components,Primary accuracy score
+nMAE,Mean absolute standardized component error,20 ASM components,Robust average standardized deviation
+$R^2$,Equal-weight macro-average of component $R^2$,20 ASM components,Explained component variation
+$v_{mc}$,$\|Ac-b_i\|_2$,ASM components,Magnitude of conservation residual
+$v_{nn}^{\mathrm{std}}$,$\|\min(c\oslash\boldsymbol{\sigma}^{(\mathcal{T})}\csvcomma{}\mathbf{0})\|_1$,Standardized ASM components,Magnitude of negative concentrations
+$\pi_{mc}$,Fraction with $v_{mc}>\tau_{mc}$,ASM components,Conservation-violation frequency
+$\pi_{nn}$,Fraction with any $c_j<-\tau_{nn\csvcomma{}j}$,ASM components,Non-negativity-violation frequency
+$\Delta\mathrm{nRMSE}$,Projected nRMSE minus raw nRMSE,Paired fold predictions,Accuracy benefit ($<0$) or cost ($>0$)
+$d_c^{\mathrm{std}\csvcomma{}(m)}$,$\|(\tilde c^{(m)}-c_{raw}^{(m)})\oslash\boldsymbol{\sigma}^{(\mathcal{T})}\|_2$,Standardized ASM components,Size of component-space projection displacement
+Preparation time,Preprocessing plus fit or context construction\csvcomma{} excluding search,Training fold,Surrogate preparation cost
+Inference latency,Raw\csvcomma{} projection-only\csvcomma{} and end-to-end time,Validation batch,Deployment cost

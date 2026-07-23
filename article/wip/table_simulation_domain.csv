@@ -1,0 +1,23 @@
+colA,colB,colC,colD
+$\mathrm{HRT}$,Operating,[6.0\csvcomma{} 36.0],h
+$u_{\mathrm{air}}$,Operating,[0.5\csvcomma{} 2.5],--
+$S_O$,Influent dissolved,[0.0\csvcomma{} 0.5],g O$_2$/m$^3$
+$S_F$,Influent dissolved,[20.0\csvcomma{} 180.0],g COD/m$^3$
+$S_A$,Influent dissolved,[5.0\csvcomma{} 80.0],g COD/m$^3$
+$S_{NH4}$,Influent dissolved,[12.0\csvcomma{} 55.0],g N/m$^3$
+$S_{NO2}$,Influent dissolved,[0.0\csvcomma{} 3.0],g N/m$^3$
+$S_{NO3}$,Influent dissolved,[0.0\csvcomma{} 8.0],g N/m$^3$
+$S_{N2}$,Influent dissolved,[0.0\csvcomma{} 2.0],g N/m$^3$
+$S_{PO4}$,Influent dissolved,[2.0\csvcomma{} 18.0],g P/m$^3$
+$S_I$,Influent dissolved,[10.0\csvcomma{} 90.0],g COD/m$^3$
+$S_{ALK}$,Influent dissolved,[80.0\csvcomma{} 260.0],mol/m$^3$
+$X_I$,Influent particulate,[20.0\csvcomma{} 120.0],g COD/m$^3$
+$X_S$,Influent particulate,[60.0\csvcomma{} 280.0],g COD/m$^3$
+$X_H$,Influent particulate,[15.0\csvcomma{} 100.0],g COD/m$^3$
+$X_{PAO}$,Influent particulate,[5.0\csvcomma{} 60.0],g COD/m$^3$
+$X_{PP}$,Influent particulate,[2.0\csvcomma{} 20.0],g P/m$^3$
+$X_{PHA}$,Influent particulate,[1.0\csvcomma{} 30.0],g COD/m$^3$
+$X_{AOB}$,Influent particulate,[0.5\csvcomma{} 8.0],g COD/m$^3$
+$X_{NOB}$,Influent particulate,[0.5\csvcomma{} 8.0],g COD/m$^3$
+$X_{MeP}$,Influent particulate,[0.0\csvcomma{} 12.0],g TSS/m$^3$
+$X_{MeOH}$,Influent particulate,[0.0\csvcomma{} 12.0],g TSS/m$^3$

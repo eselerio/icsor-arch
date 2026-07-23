@@ -1,0 +1,5 @@
+colA,colB,colC,colD,colE
+HRT,$[6\csvcomma{}36]$,$[39\csvcomma{}43.5]$,$[46.5\csvcomma{}54]$,h
+$u_{\mathrm{air}}$,$[0.5\csvcomma{}2.5]$,$[2.7\csvcomma{}3.0]$,$[3.2\csvcomma{}3.7]$,--
+$S_{NH4}$,$[12\csvcomma{}55]$,$[59.3\csvcomma{}65.8]$,$[70.1\csvcomma{}80.8]$,g N/m$^3$
+$X_S$,$[60\csvcomma{}280]$,$[302\csvcomma{}335]$,$[357\csvcomma{}412]$,g COD/m$^3$

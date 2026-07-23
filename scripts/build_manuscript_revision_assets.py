@@ -2,18 +2,21 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from pathlib import Path
 from typing import Iterable
 
 import matplotlib as mpl
+mpl.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN_ROOT = ROOT / "results" / "article_final_v2"
-OUTPUT = ROOT / "article" / "wip" / "final_results"
+OUTPUT = ROOT / "article" / "wip"
 
 MODEL_ORDER = [
     "xgboost_regressor",
@@ -104,13 +107,13 @@ def require_completed_run() -> None:
 
 def save_figure(fig: mpl.figure.Figure, stem: str) -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    for extension in ("pdf", "png"):
-        fig.savefig(
-            OUTPUT / f"{stem}.{extension}",
-            format=extension,
-            dpi=300 if extension == "png" else None,
-            bbox_inches="tight",
-        )
+    fig.savefig(
+        OUTPUT / f"{stem}.pdf",
+        format="pdf",
+        bbox_inches="tight",
+        facecolor="white",
+        metadata={"Creator": "Manuscript revision asset builder", "CreationDate": None, "ModDate": None},
+    )
     plt.close(fig)
 
 
@@ -149,27 +152,176 @@ def longtable(
     headings: list[str],
     rows: list[list[str]],
 ) -> None:
-    header = " & ".join(headings) + r" \\"
-    lines = [
-        rf"\begin{{longtable}}{{{column_spec}}}",
-        rf"\caption{{{caption}}}\label{{{label}}}\\",
-        r"\toprule",
-        header,
-        r"\midrule",
-        r"\endfirsthead",
-        rf"\multicolumn{{{len(headings)}}}{{c}}{{\tablename\ \thetable\ continued}}\\",
-        r"\toprule",
-        header,
-        r"\midrule",
-        r"\endhead",
-        rf"\midrule\multicolumn{{{len(headings)}}}{{r}}{{Continued on next page}}\\",
-        r"\endfoot",
-        r"\bottomrule",
-        r"\endlastfoot",
+    del caption, label, column_spec
+    columns = [f"col{chr(ord('A') + index)}" for index in range(len(headings))]
+    csv_rows = [
+        [
+            re.sub(r"(?<!\\),", r"\\csvcomma{}", str(value).replace('"', r"\textquotedbl{}"))
+            for value in row
+        ]
+        for row in rows
     ]
-    lines.extend(" & ".join(row) + r" \\" for row in rows)
-    lines.append(r"\end{longtable}")
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    pd.DataFrame(csv_rows, columns=columns).to_csv(path, index=False)
+
+
+def plot_model_curve(
+    axis: mpl.axes.Axes,
+    rows: pd.DataFrame,
+    mean_column: str,
+    sd_column: str,
+) -> None:
+    for model_key in MODEL_ORDER:
+        subset = rows.query("model_key == @model_key").set_index("sample_size").reindex(SAMPLE_SIZES)
+        mean = subset[mean_column].to_numpy(float)
+        sd = subset[sd_column].fillna(0.0).to_numpy(float)
+        axis.plot(
+            SAMPLE_SIZES,
+            mean,
+            color=MODEL_COLORS[model_key],
+            marker=MODEL_MARKERS[model_key],
+            linewidth=1.25,
+            markersize=4,
+            label=MODEL_LABELS[model_key],
+        )
+        lower = np.maximum(mean - sd, np.finfo(float).tiny) if axis.get_yscale() == "log" else mean - sd
+        axis.fill_between(
+            SAMPLE_SIZES,
+            lower,
+            mean + sd,
+            color=MODEL_COLORS[model_key],
+            alpha=0.07,
+            linewidth=0,
+        )
+
+
+def plot_learning_curves(id_summary: pd.DataFrame) -> None:
+    raw = id_summary.query("prediction_type == 'raw'").copy()
+    figure, axis = plt.subplots(figsize=(9.3, 5.7))
+    plot_model_curve(axis, raw, "nRMSE_mean", "nRMSE_std")
+    axis.set(
+        xlabel="Nested sample total",
+        ylabel="nRMSE",
+        title="In-distribution raw-prediction learning curves",
+    )
+    axis.set_xticks(SAMPLE_SIZES, [f"{value:,}" for value in SAMPLE_SIZES], rotation=45, ha="right")
+    axis.grid(axis="y", linestyle=":", alpha=0.3)
+    axis.legend(ncol=3, fontsize=7.5, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.20))
+    figure.tight_layout(rect=(0, 0.10, 1, 1))
+    save_figure(figure, "figure_learning_curves")
+    raw.to_csv(OUTPUT / "source_learning_curves.csv", index=False)
+
+
+def plot_projection_change(id_summary: pd.DataFrame) -> None:
+    pivot = id_summary.pivot(
+        index=["model", "model_key", "sample_size"],
+        columns="prediction_type",
+        values="nRMSE_mean",
+    ).reset_index()
+    pivot["delta_nRMSE"] = pivot["projected"] - pivot["raw"]
+    matrix = np.vstack(
+        [
+            pivot.query("model_key == @model_key").set_index("sample_size").reindex(SAMPLE_SIZES)["delta_nRMSE"].to_numpy(float)
+            for model_key in MODEL_ORDER
+        ]
+    )
+    limit = max(float(np.nanmax(np.abs(matrix))), np.finfo(float).eps)
+    figure, axis = plt.subplots(figsize=(10.2, 5.3), constrained_layout=True)
+    image = axis.imshow(
+        matrix,
+        aspect="auto",
+        cmap="RdBu_r",
+        norm=mpl.colors.TwoSlopeNorm(vmin=-limit, vcenter=0.0, vmax=limit),
+    )
+    axis.set_title("In-distribution effect of projection across sample size")
+    axis.set_xlabel("Nested sample total")
+    axis.set_xticks(range(len(SAMPLE_SIZES)), [f"{value:,}" for value in SAMPLE_SIZES], rotation=45, ha="right")
+    axis.set_yticks(range(len(MODEL_ORDER)), [MODEL_LABELS[key] for key in MODEL_ORDER])
+    colorbar = figure.colorbar(image, ax=axis, pad=0.025, shrink=0.88)
+    colorbar.set_label(r"$\Delta$nRMSE (projected $-$ raw; linear scale)")
+    save_figure(figure, "figure_projection_change")
+    pivot.to_csv(OUTPUT / "source_projection_change.csv", index=False)
+
+
+def plot_inference_latency(timing: pd.DataFrame) -> None:
+    rows = timing.query("sample_size == 10000").set_index("model_key").reindex(MODEL_ORDER)
+    positions = np.arange(len(MODEL_ORDER))
+    figure, axis = plt.subplots(figsize=(9.3, 5.7))
+    axis.bar(
+        positions,
+        rows["raw_latency_ms_per_sample_mean"].to_numpy(float),
+        yerr=rows["raw_latency_ms_per_sample_std"].to_numpy(float),
+        color=[MODEL_COLORS[key] for key in MODEL_ORDER],
+        edgecolor="white",
+        linewidth=0.6,
+        capsize=2.5,
+        error_kw={"ecolor": "#5C6770", "elinewidth": 0.9},
+    )
+    axis.set(
+        ylabel="Raw inference latency (ms per sample)",
+        title=r"Complete 20-component inference at $N=10{,}000$",
+    )
+    axis.set_xticks(positions, [MODEL_LABELS[key] for key in MODEL_ORDER], rotation=45, ha="right")
+    axis.grid(axis="y", linestyle=":", alpha=0.3)
+    figure.tight_layout()
+    save_figure(figure, "figure_inference_latency")
+    rows.reset_index().to_csv(OUTPUT / "source_inference_latency.csv", index=False)
+
+
+def plot_evaluation_workflow() -> None:
+    figure, axis = plt.subplots(figsize=(11.0, 4.4))
+    axis.set_xlim(0, 1)
+    axis.set_ylim(0, 1)
+    axis.axis("off")
+
+    def box(x: float, y: float, width: float, height: float, label: str, projection: bool = False) -> dict[str, tuple[float, float]]:
+        patch = FancyBboxPatch(
+            (x, y),
+            width,
+            height,
+            boxstyle="round,pad=0.012,rounding_size=0.018",
+            facecolor="#F8E8B6" if projection else "#F2F8F7",
+            edgecolor="#E76F51" if projection else "#264653",
+            linewidth=1.4,
+        )
+        axis.add_patch(patch)
+        axis.text(x + width / 2, y + height / 2, label, ha="center", va="center", fontsize=9.5)
+        return {
+            "left": (x, y + height / 2),
+            "right": (x + width, y + height / 2),
+            "top": (x + width / 2, y + height),
+            "bottom": (x + width / 2, y),
+        }
+
+    def arrow(start: tuple[float, float], end: tuple[float, float]) -> None:
+        axis.add_patch(
+            FancyArrowPatch(
+                start,
+                end,
+                arrowstyle="-|>",
+                mutation_scale=12,
+                linewidth=1.5,
+                color="#2A9D8F",
+                shrinkA=2,
+                shrinkB=2,
+            )
+        )
+
+    data = box(0.02, 0.62, 0.20, 0.22, "Mechanistic states\n22 inputs / 20 targets")
+    model = box(0.27, 0.62, 0.20, 0.22, "Fold-local preprocessing\n13 statistical surrogates")
+    raw = box(0.52, 0.62, 0.18, 0.22, "Raw physical\n20-component prediction")
+    projected = box(0.76, 0.62, 0.21, 0.22, "Kircher--Votsmeier\nprojection", projection=True)
+    extrapolation = box(0.02, 0.14, 0.25, 0.22, "13 full-data refits\n" + r"$\rightarrow$ untouched extrapolation set")
+    score = box(0.48, 0.10, 0.40, 0.30, "Paired accuracy, mass conservation,\nnon-negativity, COD/TN/TP/TSS,\ndisplacement, and latency")
+
+    arrow(data["right"], model["left"])
+    arrow(model["right"], raw["left"])
+    arrow(raw["right"], projected["left"])
+    arrow(raw["bottom"], score["top"])
+    arrow(projected["bottom"], score["right"])
+    arrow(data["bottom"], extrapolation["top"])
+    arrow(extrapolation["right"], score["left"])
+    figure.tight_layout()
+    save_figure(figure, "figure_evaluation_workflow")
 
 
 def plot_violation_rates(physical: pd.DataFrame) -> None:
@@ -181,7 +333,7 @@ def plot_violation_rates(physical: pd.DataFrame) -> None:
     axes[0].set(ylabel="Rows violating mass conservation (%)", title="(a) Mass-conservation violations")
     axes[0].set_ylim(-4, 104)
     axes[0].legend(frameon=False, ncol=2, loc="center")
-    axes[0].grid(alpha=0.2)
+    axes[0].grid(axis="y", linestyle=":", alpha=0.3)
 
     for model_key in MODEL_ORDER:
         rows = raw.query("model_key == @model_key").set_index("sample_size").reindex(SAMPLE_SIZES)
@@ -201,7 +353,8 @@ def plot_violation_rates(physical: pd.DataFrame) -> None:
         title="(b) Non-negativity violations",
     )
     axes[1].set_ylim(-4, 104)
-    axes[1].grid(alpha=0.2)
+    axes[1].set_xticks(SAMPLE_SIZES, [f"{value:,}" for value in SAMPLE_SIZES], rotation=45, ha="right")
+    axes[1].grid(axis="y", linestyle=":", alpha=0.3)
     axes[1].legend(ncol=3, fontsize=7, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.18))
     figure.suptitle("In-distribution mass-conservation and non-negativity violations across sample size", y=0.995)
     figure.tight_layout(rect=(0, 0.04, 1, 0.98))
@@ -234,14 +387,13 @@ def plot_id_component_effects(component_metrics: pd.DataFrame) -> pd.DataFrame:
     matrix = delta.pivot(index="model_key", columns="component", values="delta_component_nRMSE").reindex(
         index=MODEL_ORDER, columns=COMPONENT_ORDER
     ).to_numpy(float)
-    figure, axis = plt.subplots(figsize=(12.2, 5.8))
+    figure, axis = plt.subplots(figsize=(10.2, 5.3), constrained_layout=True)
     image = axis.imshow(matrix, aspect="auto", cmap="RdBu_r", norm=heatmap_norm(matrix))
     axis.set_xticks(range(len(COMPONENT_ORDER)), [COMPONENT_LABELS[name] for name in COMPONENT_ORDER], rotation=45, ha="right")
     axis.set_yticks(range(len(MODEL_ORDER)), [MODEL_LABELS[name] for name in MODEL_ORDER])
     axis.set(title="Component-level effect of projection at N = 10,000", xlabel="Effluent component")
     colorbar = figure.colorbar(image, ax=axis, shrink=0.84, extend="both")
     colorbar.set_label("Projected minus raw component nRMSE (symmetric-log color scale)")
-    figure.tight_layout()
     save_figure(figure, "figure_component_projection_effects_id")
     delta.to_csv(OUTPUT / "source_component_projection_effects_id.csv", index=False)
     return delta
@@ -249,20 +401,13 @@ def plot_id_component_effects(component_metrics: pd.DataFrame) -> pd.DataFrame:
 
 def plot_training_time(timing: pd.DataFrame) -> None:
     figure, axis = plt.subplots(figsize=(9.3, 5.7))
-    for model_key in MODEL_ORDER:
-        rows = timing.query("model_key == @model_key").set_index("sample_size").reindex(SAMPLE_SIZES)
-        mean = rows["setup_seconds_mean"].to_numpy(float)
-        sd = rows["setup_seconds_std"].to_numpy(float)
-        axis.plot(
-            SAMPLE_SIZES, mean, color=MODEL_COLORS[model_key], marker=MODEL_MARKERS[model_key],
-            linewidth=1.25, markersize=4, label=MODEL_LABELS[model_key],
-        )
-        axis.fill_between(SAMPLE_SIZES, np.maximum(mean - sd, np.finfo(float).tiny), mean + sd, color=MODEL_COLORS[model_key], alpha=0.07)
     axis.set_yscale("log")
+    plot_model_curve(axis, timing, "setup_seconds_mean", "setup_seconds_std")
     axis.set(xlabel="Nested sample total", ylabel="Preprocessing and fitting time (s, logarithmic scale)", title="Surrogate training time across sample size")
-    axis.grid(alpha=0.2, which="both")
-    axis.legend(ncol=3, fontsize=7, frameon=False)
-    figure.tight_layout()
+    axis.set_xticks(SAMPLE_SIZES, [f"{value:,}" for value in SAMPLE_SIZES], rotation=45, ha="right")
+    axis.grid(axis="y", linestyle=":", alpha=0.3, which="both")
+    axis.legend(ncol=3, fontsize=7.5, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.20))
+    figure.tight_layout(rect=(0, 0.10, 1, 1))
     save_figure(figure, "figure_training_time_scaling")
     timing.to_csv(OUTPUT / "source_training_time_scaling.csv", index=False)
 
@@ -277,7 +422,7 @@ def plot_ood_component_effects(ood_components: pd.DataFrame) -> pd.DataFrame:
     }
     combined = np.concatenate([matrices["mild"].ravel(), matrices["severe"].ravel()])
     norm = heatmap_norm(combined)
-    figure, axes = plt.subplots(2, 1, figsize=(12.2, 9.3), sharex=True)
+    figure, axes = plt.subplots(2, 1, figsize=(10.2, 8.3), sharex=True)
     images = []
     for axis, regime, panel in zip(axes, ("mild", "severe"), ("a", "b"), strict=True):
         images.append(axis.imshow(matrices[regime], aspect="auto", cmap="RdBu_r", norm=norm))
@@ -327,7 +472,7 @@ def write_accuracy_tables(
                 mean_sd(group["R2_projected"]),
             ])
     longtable(
-        OUTPUT / "table_s_id_component_accuracy.tex",
+        OUTPUT / "table_s_id_component_accuracy.csv",
         "Full-size in-distribution accuracy by effluent component and surrogate. Values are five-fold mean $\\pm$ sample SD; $\\Delta$ is projected minus raw on paired folds.",
         "tab:s_id_component_accuracy",
         "llp{3.1cm}rrrrr",
@@ -350,7 +495,7 @@ def write_accuracy_tables(
                 mean_sd(group["R2_projected"]),
             ])
     longtable(
-        OUTPUT / "table_s_id_composite_accuracy.tex",
+        OUTPUT / "table_s_id_composite_accuracy.csv",
         "Full-size in-distribution accuracy by derived water-quality composite and surrogate. Composite nRMSE is physical-unit RMSE divided by the population SD of that composite in the applicable outer-training partition. Values are five-fold mean $\\pm$ sample SD and $\\Delta$ is projected minus raw on paired folds.",
         "tab:s_id_composite_accuracy",
         "lp{3.1cm}rrrrr",
@@ -373,7 +518,7 @@ def write_accuracy_tables(
                     f"${row.R2_raw:.3f}$", f"${row.R2_projected:.3f}$",
                 ])
         longtable(
-            OUTPUT / f"table_s_ood_{regime}_component_accuracy.tex",
+            OUTPUT / f"table_s_ood_{regime}_component_accuracy.csv",
             f"{regime.capitalize()} out-of-distribution accuracy by effluent component and surrogate. Each value summarizes the same 600 mechanistic cases; $\\Delta$ is projected minus raw.",
             f"tab:s_ood_{regime}_component_accuracy",
             "llp{3.1cm}rrrrr",
@@ -395,7 +540,7 @@ def write_accuracy_tables(
                     f"${row.R2_raw:.3f}$", f"${row.R2_projected:.3f}$",
                 ])
         longtable(
-            OUTPUT / f"table_s_ood_{regime}_composite_accuracy.tex",
+            OUTPUT / f"table_s_ood_{regime}_composite_accuracy.csv",
             f"{regime.capitalize()} out-of-distribution accuracy by derived water-quality composite and surrogate. Composite nRMSE is physical-unit RMSE divided by the population SD of that composite in all 10,000 in-distribution targets. Each value summarizes the same 600 mechanistic cases; $\\Delta$ is projected minus raw.",
             f"tab:s_ood_{regime}_composite_accuracy",
             "lp{3.1cm}rrrrr",
@@ -426,7 +571,7 @@ def write_backtracking_table(physical_fold: pd.DataFrame) -> None:
             f"${full.loc[model_key, 'full_displacement']:.3f}$",
         ])
     longtable(
-        OUTPUT / "table_s_backtracking.tex",
+        OUTPUT / "table_s_backtracking.csv",
         "Positivity-backtracking activation by surrogate. The all-size denominator is 57,750 projections per surrogate; the final two columns describe $N=10{,}000$.",
         "tab:s_backtracking",
         "lrrrr",
@@ -450,7 +595,7 @@ def write_timing_table(timing: pd.DataFrame) -> None:
             f"${at_full.projection_latency_ms_per_sample_mean:.3f}\\pm{at_full.projection_latency_ms_per_sample_std:.3f}$",
         ])
     longtable(
-        OUTPUT / "table_s_timing.tex",
+        OUTPUT / "table_s_timing.csv",
         "Computational timing summary. Fit time includes fold-local preprocessing and surrogate fitting but excludes hyperparameter search; latency is milliseconds per sample. Values are five-fold mean $\\pm$ sample SD.",
         "tab:s_timing",
         "lrrrrr",
@@ -466,7 +611,7 @@ def write_full_hyperparameters() -> None:
         values = ", ".join(f"{key}={json.dumps(value, ensure_ascii=True)}" for key, value in selected[model_key].items())
         rows.append([LATEX_MODEL_LABELS[model_key], latex_escape(values)])
     longtable(
-        OUTPUT / "table_s_full_hyperparameters.tex",
+        OUTPUT / "table_s_full_hyperparameters.csv",
         "Selected settings for the final full-data surrogate refits used in out-of-distribution evaluation. Fixed implementation controls are included because they form part of the accepted fitting contract.",
         "tab:s_full_hyperparameters",
         "p{3.2cm}p{11.5cm}",
@@ -481,6 +626,7 @@ def main() -> None:
     metrics = RUN_ROOT / "metrics"
     id_components = pd.read_csv(metrics / "id_component_metrics.csv")
     id_composites = pd.read_csv(metrics / "id_composite_metrics.csv")
+    id_summary = pd.read_csv(metrics / "id_fold_summary.csv")
     physical_summary = pd.read_csv(metrics / "id_physical_summary.csv")
     physical_fold = pd.read_csv(metrics / "id_physical_fold.csv")
     timing = pd.read_csv(metrics / "timing_fold_summary.csv")
@@ -513,14 +659,25 @@ def main() -> None:
 
     mpl.rcParams.update({
         "font.family": "DejaVu Sans",
-        "font.size": 9,
+        "font.size": 9.5,
+        "axes.titlesize": 10.5,
+        "axes.labelsize": 9.5,
+        "xtick.labelsize": 8,
+        "ytick.labelsize": 8,
         "axes.spines.top": False,
         "axes.spines.right": False,
-        "figure.dpi": 130,
+        "figure.facecolor": "white",
+        "axes.facecolor": "white",
+        "pdf.fonttype": 42,
+        "ps.fonttype": 42,
     })
+    plot_evaluation_workflow()
+    plot_learning_curves(id_summary)
+    plot_projection_change(id_summary)
     plot_violation_rates(physical_summary)
     plot_id_component_effects(id_components)
     plot_training_time(timing)
+    plot_inference_latency(timing)
     plot_ood_component_effects(ood_components)
     write_accuracy_tables(id_components, id_composites, ood_components, ood_composites)
     write_backtracking_table(physical_fold)

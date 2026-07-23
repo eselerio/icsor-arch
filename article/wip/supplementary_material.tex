@@ -5,12 +5,43 @@
 \usepackage{amsmath}
 \usepackage{array}
 \usepackage{booktabs}
-\usepackage{graphicx}
+\usepackage{csvsimple}
 \usepackage{longtable}
 \usepackage{microtype}
 \usepackage{placeins}
-\usepackage{xcolor}
 \usepackage{url}
+
+% All displayed table rows are read from root-level CSV files.
+\newcommand{\csvcomma}{,}
+\newcommand{\csvrowstwo}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB}}
+\newcommand{\csvrowsfive}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE}}
+\newcommand{\csvrowssix}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE & \colF}}
+\newcommand{\csvrowsseven}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE & \colF & \colG}}
+\newcommand{\csvrowseight}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE & \colF & \colG & \colH}}
+\newcommand{\csvlongtable}[7]{%
+  \begin{longtable}{#1}
+  \caption{#2}\label{#3}\\
+  \toprule
+  #5 \\
+  \midrule
+  \endfirsthead
+  \multicolumn{#4}{c}{\tablename\ \thetable\ continued}\\
+  \toprule
+  #5 \\
+  \midrule
+  \endhead
+  \midrule\multicolumn{#4}{r}{Continued on next page}\\
+  \endfoot
+  \bottomrule
+  \endlastfoot
+  #7{#6}
+  \end{longtable}%
+}
 
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
@@ -60,9 +91,7 @@ The surrogate roster comprised XGBoost, LightGBM, CatBoost, AdaBoost, Random For
 \toprule
 Dataset & Attempted & Retained & Acceptance (\%) & Maximum residual & Minimum component \\
 \midrule
-In-distribution & 10,000 & 10,000 & 100.0 & $4.90\times10^{-11}$ & $8.75\times10^{-4}$ \\
-Mild out-of-distribution & 600 & 600 & 100.0 & $5.67\times10^{-11}$ & $1.62\times10^{-3}$ \\
-Severe out-of-distribution & 600 & 600 & 100.0 & $2.91\times10^{-10}$ & $1.01\times10^{-3}$ \\
+\csvrowssix{table_s_dataset_validation.csv}
 \bottomrule
 \end{tabular}
 \end{table}
@@ -76,7 +105,14 @@ Table~\ref{tab:s_id_component_accuracy} gives the same standardized error scale 
 \begingroup
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
-\input{final_results/table_s_id_component_accuracy.tex}
+\csvlongtable
+  {llp{3.1cm}rrrrr}
+  {Full-size in-distribution accuracy by effluent component and surrogate. Values are five-fold mean $\pm$ sample SD; $\Delta$ is projected minus raw on paired folds.}
+  {tab:s_id_component_accuracy}
+  {8}
+  {Component & Unit & Surrogate & Raw nRMSE$_j$ & Projected nRMSE$_j$ & $\Delta$nRMSE$_j$ & Raw $R^2_j$ & Projected $R^2_j$}
+  {table_s_id_component_accuracy.csv}
+  {\csvrowseight}
 \endgroup
 
 \clearpage
@@ -85,7 +121,14 @@ Table~\ref{tab:s_id_composite_accuracy} reports composite-normalized RMSE for CO
 \begingroup
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\input{final_results/table_s_id_composite_accuracy.tex}
+\csvlongtable
+  {lp{3.1cm}rrrrr}
+  {Full-size in-distribution accuracy by derived water-quality composite and surrogate. Composite nRMSE is physical-unit RMSE divided by the population SD of that composite in the applicable outer-training partition. Values are five-fold mean $\pm$ sample SD and $\Delta$ is projected minus raw on paired folds.}
+  {tab:s_id_composite_accuracy}
+  {7}
+  {Composite & Surrogate & Raw nRMSE$_q$ & Projected nRMSE$_q$ & $\Delta$nRMSE$_q$ & Raw $R^2$ & Projected $R^2$}
+  {table_s_id_composite_accuracy.csv}
+  {\csvrowsseven}
 \endgroup
 
 \section{Mass-Conservation, Non-Negativity, and Positivity Backtracking}
@@ -97,7 +140,14 @@ Positivity backtracking was activated for 2,489 predictions (0.332\%). Random Fo
 \begingroup
 \small
 \setlength{\tabcolsep}{4pt}
-\input{final_results/table_s_backtracking.tex}
+\csvlongtable
+  {lrrrr}
+  {Positivity-backtracking activation by surrogate. The all-size denominator is 57,750 projections per surrogate; the final two columns describe $N=10{,}000$.}
+  {tab:s_backtracking}
+  {5}
+  {Surrogate & All-size count & All-size rate (\%) & Full-size rate (\%) & Full-size mean $d_c^{\mathrm{std}}$}
+  {table_s_backtracking.csv}
+  {\csvrowsfive}
 \endgroup
 
 \section{Computational Performance}
@@ -107,7 +157,14 @@ Fit time includes fold-local preprocessing and surrogate fitting, but excludes O
 \begingroup
 \small
 \setlength{\tabcolsep}{3.5pt}
-\input{final_results/table_s_timing.tex}
+\csvlongtable
+  {lrrrrr}
+  {Computational timing summary. Fit time includes fold-local preprocessing and surrogate fitting but excludes hyperparameter search; latency is milliseconds per sample. Values are five-fold mean $\pm$ sample SD.}
+  {tab:s_timing}
+  {6}
+  {Surrogate & Fit at $N=500$ (s) & Fit at $N=10{,}000$ (s) & Fit-time ratio & Raw latency & Projection latency}
+  {table_s_timing.csv}
+  {\csvrowssix}
 \endgroup
 
 \section{Detailed Out-of-Distribution Results}
@@ -119,14 +176,28 @@ The mild and severe OOD tables use the same 600 cases before and after projectio
 \begingroup
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
-\input{final_results/table_s_ood_mild_component_accuracy.tex}
+\csvlongtable
+  {llp{3.1cm}rrrrr}
+  {Mild out-of-distribution accuracy by effluent component and surrogate. Each value summarizes the same 600 mechanistic cases; $\Delta$ is projected minus raw.}
+  {tab:s_ood_mild_component_accuracy}
+  {8}
+  {Component & Unit & Surrogate & Raw nRMSE$_j$ & Projected nRMSE$_j$ & $\Delta$nRMSE$_j$ & Raw $R^2_j$ & Projected $R^2_j$}
+  {table_s_ood_mild_component_accuracy.csv}
+  {\csvrowseight}
 \endgroup
 
 \clearpage
 \begingroup
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\input{final_results/table_s_ood_mild_composite_accuracy.tex}
+\csvlongtable
+  {lp{3.1cm}rrrrr}
+  {Mild out-of-distribution accuracy by derived water-quality composite and surrogate. Composite nRMSE is physical-unit RMSE divided by the population SD of that composite in all 10,000 in-distribution targets. Each value summarizes the same 600 mechanistic cases; $\Delta$ is projected minus raw.}
+  {tab:s_ood_mild_composite_accuracy}
+  {7}
+  {Composite & Surrogate & Raw nRMSE$_q$ & Projected nRMSE$_q$ & $\Delta$nRMSE$_q$ & Raw $R^2$ & Projected $R^2$}
+  {table_s_ood_mild_composite_accuracy.csv}
+  {\csvrowsseven}
 \endgroup
 
 \subsection{Severe Extrapolation}
@@ -134,14 +205,28 @@ The mild and severe OOD tables use the same 600 cases before and after projectio
 \begingroup
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
-\input{final_results/table_s_ood_severe_component_accuracy.tex}
+\csvlongtable
+  {llp{3.1cm}rrrrr}
+  {Severe out-of-distribution accuracy by effluent component and surrogate. Each value summarizes the same 600 mechanistic cases; $\Delta$ is projected minus raw.}
+  {tab:s_ood_severe_component_accuracy}
+  {8}
+  {Component & Unit & Surrogate & Raw nRMSE$_j$ & Projected nRMSE$_j$ & $\Delta$nRMSE$_j$ & Raw $R^2_j$ & Projected $R^2_j$}
+  {table_s_ood_severe_component_accuracy.csv}
+  {\csvrowseight}
 \endgroup
 
 \clearpage
 \begingroup
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\input{final_results/table_s_ood_severe_composite_accuracy.tex}
+\csvlongtable
+  {lp{3.1cm}rrrrr}
+  {Severe out-of-distribution accuracy by derived water-quality composite and surrogate. Composite nRMSE is physical-unit RMSE divided by the population SD of that composite in all 10,000 in-distribution targets. Each value summarizes the same 600 mechanistic cases; $\Delta$ is projected minus raw.}
+  {tab:s_ood_severe_composite_accuracy}
+  {7}
+  {Composite & Surrogate & Raw nRMSE$_q$ & Projected nRMSE$_q$ & $\Delta$nRMSE$_q$ & Raw $R^2$ & Projected $R^2$}
+  {table_s_ood_severe_composite_accuracy.csv}
+  {\csvrowsseven}
 \endgroup
 
 Every raw OOD prediction set violated mass conservation. Projection eliminated mass-conservation and non-negativity violations across all 15,600 OOD surrogate predictions, with maximum projected conservation residual $1.72\times10^{-13}$. Positivity backtracking was activated 29 times under mild and 39 times under severe extrapolation.
@@ -153,7 +238,14 @@ Table~\ref{tab:s_full_hyperparameters} records the selected settings used for th
 \begingroup
 \scriptsize
 \setlength{\tabcolsep}{4pt}
-\input{final_results/table_s_full_hyperparameters.tex}
+\csvlongtable
+  {p{3.2cm}p{11.5cm}}
+  {Selected settings for the final full-data surrogate refits used in out-of-distribution evaluation. Fixed implementation controls are included because they form part of the accepted fitting contract.}
+  {tab:s_full_hyperparameters}
+  {2}
+  {Surrogate & Selected full-data settings}
+  {table_s_full_hyperparameters.csv}
+  {\csvrowstwo}
 \endgroup
 
 \begin{table}[htbp]
@@ -165,16 +257,7 @@ Table~\ref{tab:s_full_hyperparameters} records the selected settings used for th
 \toprule
 Record & Accepted value \\
 \midrule
-Run identity & \texttt{article\_final\_v2}; full profile; completed 22 July 2026; article eligible \\
-Cross-validation & Five persistent outer folds; four inner folds; 100 trials per study; root seed 42 \\
-Processor and memory & Intel64 Family 6 Model 181; 12 physical and 14 logical cores; 33,745,088,512 bytes RAM \\
-Operating system and Python & Windows 11 (10.0.26200); Python 3.12.13 \\
-Core statistical packages & scikit-learn 1.9.0; XGBoost 3.3.0; LightGBM 4.6.0; CatBoost 1.2.10 \\
-Neural-network packages & PyTorch 2.13.0; pytorch-tabnet 4.1.0; CPU execution \\
-Numerical and data packages & NumPy 2.4.6; SciPy 1.18.0; pandas 3.0.3; PyArrow 25.0.0 \\
-Numeric precision & Double precision for mechanistic states, invariant construction, preprocessing, returned predictions, projection, and metrics; single precision inside TabNet \\
-Timing protocol & 512 rows; five warm-up calls; 30 measured calls; fold summaries are mean $\pm$ sample SD \\
-Completion manifest & SHA-256 \texttt{887798dcb23148806b388add02b9f38e573cff50c1af08383f07fa4d15943b46} \\
+\csvrowstwo{table_s_provenance.csv}
 \bottomrule
 \end{tabular}
 \end{table}
@@ -192,6 +275,6 @@ The numerical source files used for the main text and this supplement are:
 \item \path{metrics/ood_metrics.csv}, \path{metrics/ood_component_metrics.csv}, \path{metrics/ood_composite_metrics.csv}, and \path{metrics/ood_physical_summary.csv} for OOD results; and
 \item \path{predictions/id/} and \path{predictions/ood/} for paired sample-level raw and projected predictions.
 \end{itemize}
-All paths above are relative to \path{results/article_final_v2/}. Derived table and figure source CSVs are retained in \path{article/wip/final_results/} and are reproducible with \path{scripts/build_manuscript_revision_assets.py}.
+All paths above are relative to \path{results/article_final_v2/}. Presentation CSVs and final PDF figures are retained beside the two article source files in \path{article/wip/}; result-derived assets are reproducible with \path{scripts/build_manuscript_revision_assets.py} and \path{scripts/build_component_nonnegativity_heatmap.py}.
 
 \end{document}

@@ -5,17 +5,30 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{array}
+\usepackage{csvsimple}
 \usepackage{float}
 \usepackage{placeins}
 \usepackage{booktabs}
-\usepackage{multirow}
 \usepackage{graphicx}
-\usepackage{xcolor}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,fit}
-\usepackage{pgfplots}
-\usepgfplotslibrary{groupplots}
-\pgfplotsset{compat=1.18}
+
+% All displayed table rows are read from root-level CSV files.
+\newcommand{\csvcomma}{,}
+\newcommand{\csvrowstwo}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB}}
+\newcommand{\csvrowsthree}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC}}
+\newcommand{\csvrowsfour}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD}}
+\newcommand{\csvrowsfive}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE}}
+\newcommand{\csvrowssix}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE & \colF}}
+\newcommand{\csvrowsseven}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE & \colF & \colG}}
+\newcommand{\csvrowseight}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE & \colF & \colG & \colH}}
+\newcommand{\csvrowseleven}[1]{%
+  \csvreader[head to column names,late after line=\\]{#1}{}{\colA & \colB & \colC & \colD & \colE & \colF & \colG & \colH & \colI & \colJ & \colK}}
 
 %%% Author macros
 \def\tsc#1{\csdef{#1}{\textsc{\lowercase{#1}}\xspace}}
@@ -37,14 +50,6 @@
 }
 \ExplSyntaxOff
 
-\definecolor{DeepTeal}{HTML}{264653}
-\definecolor{MineralGreen}{HTML}{2A9D8F}
-\definecolor{MutedAmber}{HTML}{E9C46A}
-\definecolor{WarmSand}{HTML}{F4A261}
-\definecolor{CoralRust}{HTML}{E76F51}
-\definecolor{MutedPlum}{HTML}{6D597A}
-\definecolor{SteelBlue}{HTML}{577590}
-
 \begin{document}
 \let\WriteBookmarks\relax
 \def\floatpagepagefraction{1}
@@ -63,7 +68,7 @@ Artificial intelligence and machine learning tools are increasingly used as fast
 
 \begin{graphicalabstract}
 \centering
-% Vector PDF exported directly from graphical_abstract.svg for LaTeX compatibility.
+% External PDF asset kept beside this source file.
 \includegraphics[width=\textwidth]{graphical_abstract.pdf}
 \end{graphicalabstract}
 
@@ -85,51 +90,7 @@ activated sludge model \sep statistical surrogates \sep mass conservation \sep n
 \noindent Only nonstandard mathematical variables, sets, and operators are listed; process abbreviations and component names are defined in the text.
 \begin{tabbing}
 \hspace{4.4cm} \= \kill
-$A\in\mathbb{R}^{K\times F}$ \> Full-row-rank matrix of independent stoichiometric invariants \\
-$b_i\in\mathbb{R}^{K}$ \> Conservation target for sample $i$, $b_i=A c_{in,i}$ \\
-$c\in\mathbb{R}^{F}$ \> Generic ASM component-concentration vector \\
-$c_{in,i},c_{out,i}\in\mathbb{R}^{F}$ \> Influent and true steady-state effluent vectors for sample $i$ \\
-$c_{raw,i}^{(m)},c_{+,i}^{(m)}$ \> Raw prediction and positive provisional target \\
-$c_{cand,i}^{(m)},\tilde c_i^{(m)}$ \> Conservative candidate and final projected prediction \\
-$D_i$ \> Hydraulic dilution rate, $24\,\mathrm{h\,d}^{-1}/\mathrm{HRT}_i$ \\
-$d_{c,i}^{\mathrm{std},(m)}(\mathcal{T})$ \> Projection displacement standardized using reference set $\mathcal{T}$ \\
-$e_{S_O}\in\mathbb{R}^{F}$ \> Unit vector selecting the dissolved-oxygen component \\
-$F,K,P$ \> Numbers of ASM components, invariants, and processes; 20, 5, and 28 \\
-$f_m:\mathbb{R}^{22}\to\mathbb{R}^{F}$ \> Trained statistical surrogate indexed by $m$ \\
-$I_{comp}\in\mathbb{R}^{4\times F}$ \> Map from ASM components to COD, TN, TP, and TSS \\
-$\lambda_O\in\mathbb{R}^{P}$ \> Process-coordinate vector satisfying $\nu^\top\lambda_O=e_{S_O}$ \\
-$N$ \> Total observations at a data-scarcity scale \\
-$n,n_\zeta$ \> Observations in one ID validation fold and OOD regime $\zeta$ \\
-$\mathcal{T}$ \> Designated training reference set: $\mathcal{T}_{N,g}$ for ID or $\mathcal{T}_{\mathrm{ID}}$ for OOD \\
-$q,q_i^{*,(m)}$ \> Arbitrary and optimal coordinates, respectively, in the basis $Z$ \\
-$s_i^{(m)}$ \> Componentwise inverse of $c_{+,i}^{(m)}$ \\
-$u_i\in\mathbb{R}^{2}$ \> HRT and aeration variables for sample $i$ \\
-$V_0\in\mathbb{R}^{F\times K}$ \> Matrix whose orthonormal columns span $\operatorname{null}(\nu)$ \\
-$v_{mc,i}(c)$ \> Mass-conservation residual of vector $c$ for sample $i$ \\
-$v_{nn,i}^{\mathrm{std}}(c;\mathcal{T})$ \> Negative magnitude of $c$ standardized using reference set $\mathcal{T}$ \\
-$W_{s,i}^{(m)}$ \> Diagonal relative-scaling matrix formed from $s_i^{(m)}$ \\
-$x_i\in\mathbb{R}^{22}$ \> Concatenated operating and influent input for sample $i$ \\
-$y\in\mathbb{R}^{4}$ \> Generic vector of the four reported effluent-quality composites \\
-$Z\in\mathbb{R}^{F\times(F-K)}$ \> Matrix whose orthonormal columns span $\operatorname{null}(A)$ \\
-$\alpha_i^{(m)},\delta_i^{(m)}$ \> Backtracking factor and conservative candidate direction \\
-$\mathrm{nMSE},\mathrm{nRMSE},\mathrm{nMAE}$ \> Standardized error metrics defined in Equation~\eqref{eq:normalized_metrics} \\
-$R^2,\bar R^2$ \> Component and equal-weight macro-average coefficients of determination \\
-$\Delta\mathrm{nRMSE}_{m,N,g}$ \> Projected minus raw nRMSE for surrogate $m$, size $N$, and fold $g$ \\
-$\epsilon_{\mathrm{mach}}$ \> Machine precision for double-precision arithmetic \\
-$\boldsymbol{\varepsilon}_c$ \> Component floor vector; each entry is $10^{-8}$ in its native unit \\
-$\eta$ \> Numerical safety margin in positivity backtracking; $10^{-12}$ \\
-$\zeta$ \> OOD severity regime, mild or severe \\
-$\nu\in\mathbb{R}^{P\times F}$ \> ASM2d-TSN stoichiometric (Petersen) matrix \\
-$\rho_i\in\mathbb{R}^{P}$ \> Biological and chemical process-rate vector for sample $i$ \\
-$\sigma_j^{(\mathcal{T})},\boldsymbol{\sigma}^{(\mathcal{T})}$ \> Component SD and SD vector estimated from training reference set $\mathcal{T}$ \\
-$\tau_{mc},\boldsymbol{\tau}_{nn}$ \> Conservation and componentwise non-negativity tolerances \\
-$\omega_i$ \> Net dissolved-oxygen transfer rate due to aeration \\
-$\xi_{ij}^{(m,t,N,g)},\xi_{ij}^{(m,t,\zeta)}$ \> Standardized residual in an ID fold or OOD regime \\
-$\pi_{mc},\pi_{nn}$ \> Conservation and non-negativity violation frequencies with context indices \\
-$\mathcal{F}_i$ \> Conservative, non-negative feasible set for sample $i$ \\
-$\mathbb{1}[\cdot]$ \> Indicator function, equal to one when its condition is true \\
-$\oslash$ \> Elementwise division \\
-$i,j,h,p,m,t,\ell,g,\zeta$ \> Sample, component, invariant-row, process, surrogate, prediction-type, input-feature, fold, and OOD-regime indices \\
+\csvreader[head to column names,late after line=\\]{nomenclature.csv}{}{\colA \> \colB}
 \end{tabbing}
 
 \section{Introduction}
@@ -152,7 +113,7 @@ The remaining gap is whether a common procedure for enforcing both mass conserva
 
 \subsection{Simulated Activated Sludge Process and Dataset Generation}
 
-The in-distribution (ID) benchmark data were generated with a standalone, steady-state continuous stirred tank reactor (CSTR). The reactor was represented by Activated Sludge Model No.\ 2d with two-step nitrification (ASM2d-TSN). This model contains 20 components and 28 coupled processes spanning hydrolysis, heterotrophic and phosphate-accumulating-organism metabolism, two-step nitrification and denitrification, lysis, and precipitation--redissolution. The model basis follows Henze et al. (2006), while the two-step nitrification formulation, stoichiometry, and rate coefficients follow Guerrero et al. (2011).
+The in-distribution benchmark data were generated with a standalone, steady-state continuous stirred tank reactor (CSTR). The reactor was represented by Activated Sludge Model No.\ 2d with two-step nitrification (ASM2d-TSN). This model contains 20 components and 28 coupled processes spanning hydrolysis, heterotrophic and phosphate-accumulating-organism metabolism, two-step nitrification and denitrification, lysis, and precipitation--redissolution. The model basis follows Henze et al. (2006), while the two-step nitrification formulation, stoichiometry, and rate coefficients follow Guerrero et al. (2011).
 
 The dissolved components are dissolved oxygen ($S_O$), fermentable substrate ($S_F$), acetate ($S_A$), ammonium nitrogen ($S_{NH4}$), nitrite nitrogen ($S_{NO2}$), nitrate nitrogen ($S_{NO3}$), dinitrogen ($S_{N2}$), soluble phosphate ($S_{PO4}$), soluble inert organic matter ($S_I$), and alkalinity ($S_{ALK}$). The particulate components are particulate inert organic matter ($X_I$), slowly biodegradable substrate ($X_S$), heterotrophic biomass ($X_H$), phosphate-accumulating-organism biomass ($X_{PAO}$), stored polyphosphate ($X_{PP}$), stored polyhydroxyalkanoates ($X_{PHA}$), ammonia-oxidizing biomass ($X_{AOB}$), nitrite-oxidizing biomass ($X_{NOB}$), precipitated metal phosphate ($X_{MeP}$), and metal hydroxide ($X_{MeOH}$).
 
@@ -172,28 +133,7 @@ The simulation design sampled 22 continuous inputs: hydraulic retention time (HR
 \hline
 Variable & Category & Range & Unit \\
 \hline
-$\mathrm{HRT}$ & Operating & [6.0, 36.0] & h \\
-$u_{\mathrm{air}}$ & Operating & [0.5, 2.5] & -- \\
-$S_O$ & Influent dissolved & [0.0, 0.5] & g O$_2$/m$^3$ \\
-$S_F$ & Influent dissolved & [20.0, 180.0] & g COD/m$^3$ \\
-$S_A$ & Influent dissolved & [5.0, 80.0] & g COD/m$^3$ \\
-$S_{NH4}$ & Influent dissolved & [12.0, 55.0] & g N/m$^3$ \\
-$S_{NO2}$ & Influent dissolved & [0.0, 3.0] & g N/m$^3$ \\
-$S_{NO3}$ & Influent dissolved & [0.0, 8.0] & g N/m$^3$ \\
-$S_{N2}$ & Influent dissolved & [0.0, 2.0] & g N/m$^3$ \\
-$S_{PO4}$ & Influent dissolved & [2.0, 18.0] & g P/m$^3$ \\
-$S_I$ & Influent dissolved & [10.0, 90.0] & g COD/m$^3$ \\
-$S_{ALK}$ & Influent dissolved & [80.0, 260.0] & mol/m$^3$ \\
-$X_I$ & Influent particulate & [20.0, 120.0] & g COD/m$^3$ \\
-$X_S$ & Influent particulate & [60.0, 280.0] & g COD/m$^3$ \\
-$X_H$ & Influent particulate & [15.0, 100.0] & g COD/m$^3$ \\
-$X_{PAO}$ & Influent particulate & [5.0, 60.0] & g COD/m$^3$ \\
-$X_{PP}$ & Influent particulate & [2.0, 20.0] & g P/m$^3$ \\
-$X_{PHA}$ & Influent particulate & [1.0, 30.0] & g COD/m$^3$ \\
-$X_{AOB}$ & Influent particulate & [0.5, 8.0] & g COD/m$^3$ \\
-$X_{NOB}$ & Influent particulate & [0.5, 8.0] & g COD/m$^3$ \\
-$X_{MeP}$ & Influent particulate & [0.0, 12.0] & g TSS/m$^3$ \\
-$X_{MeOH}$ & Influent particulate & [0.0, 12.0] & g TSS/m$^3$ \\
+\csvrowsfour{table_simulation_domain.csv}
 \hline
 \end{tabular}
 \end{table}
@@ -209,21 +149,7 @@ For each sampled input, nonlinear least squares solved the steady-state balance 
 \hline
 Setting & Value or rule \\
 \hline
-Process model & Standalone steady-state continuous stirred tank reactor based on ASM2d-TSN \\
-ASM components & 20 effluent component targets and 20 influent component references \\
-Reaction processes & 28 coupled biological and chemical processes \\
-Process-rate handling & Mechanistic rates evaluated directly; no artificial clipping or rate ceiling \\
-Reported composites & COD, TN, TP, and TSS computed with $I_{comp}$ \\
-Sampling design & Latin hypercube sampling over 22 inputs \\
-Random seed & 42 \\
-Accepted samples & 10,000 converged steady states \\
-Steady-state solver & Nonlinear least squares under box constraints \\
-State bounds & $[10^{-8},1500]$ during the steady-state solve \\
-Solver tolerances & Variable, residual, and gradient tolerances of $10^{-9}$ \\
-Function evaluations & Maximum of 1200 per nonlinear solve \\
-Candidate attempts & Global cap of 25 times the target retained-row count \\
-Fallback initialization & 20-day stiff backward differentiation formula dynamic relaxation if two steady-state initializations fail \\
-Acceptance criterion & Maximum absolute residual no greater than $10^{-9}$ \\
+\csvrowstwo{table_simulation_settings.csv}
 \hline
 \end{tabular}
 \end{table}
@@ -280,19 +206,11 @@ Table~\ref{tab:invariant_matrix} reports the numerical basis in the fixed target
 \toprule
  & $S_O$ & $S_F$ & $S_A$ & $S_{NH4}$ & $S_{NO2}$ & $S_{NO3}$ & $S_{N2}$ & $S_{PO4}$ & $S_I$ & $S_{ALK}$ \\
 \midrule
-$a_1^\top$ & 0 & 0 & 0 & -0.493398 & -0.499144 & -0.499144 & -0.496271 & -0.016018 & 0.031680 & -0.040218 \\
-$a_2^\top$ & 0 & 0 & 0 & -0.033427 & -0.009065 & -0.009065 & -0.021246 & 0.683584 & -0.113953 & 0.170531 \\
-$a_3^\top$ & 0 & 0 & 0 & -0.015560 & 0.038009 & 0.038009 & 0.011224 & 0.018519 & 0.822862 & 0.374985 \\
-$a_4^\top$ & 0 & 0 & 0 & 0.108417 & -0.019450 & -0.019450 & 0.044483 & 0.150345 & 0.258480 & -0.895071 \\
-$a_5^\top$ & 0 & 0 & 0 & -0.006905 & -0.023309 & -0.023309 & -0.015107 & 0.049396 & 0.492034 & -0.114822 \\
+\csvrowseleven{table_invariant_matrix_dissolved.csv}
 \midrule
  & $X_I$ & $X_S$ & $X_H$ & $X_{PAO}$ & $X_{PP}$ & $X_{PHA}$ & $X_{AOB}$ & $X_{NOB}$ & $X_{MeP}$ & $X_{MeOH}$ \\
 \midrule
-$a_1^\top$ & -0.010099 & 0 & -0.035085 & -0.035085 & -0.017315 & 0 & -0.035085 & -0.035085 & 0.033138 & 0.051796 \\
-$a_2^\top$ & 0.006466 & 0 & 0.012294 & 0.012294 & 0.689085 & 0 & 0.012294 & 0.012294 & 0.088467 & -0.074856 \\
-$a_3^\top$ & 0.000531 & 0 & 0.001398 & 0.001398 & 0.030615 & 0 & 0.001398 & 0.001398 & 0.247874 & 0.341024 \\
-$a_4^\top$ & 0.002104 & 0 & 0.005543 & 0.005543 & 0.121472 & 0 & 0.005543 & 0.005543 & 0.179747 & 0.218521 \\
-$a_5^\top$ & 0.000155 & 0 & -0.000144 & -0.000144 & 0.045692 & 0 & -0.000144 & -0.000144 & -0.490609 & -0.705784 \\
+\csvrowseleven{table_invariant_matrix_particulate.csv}
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -381,7 +299,7 @@ A seed-42 permutation defined both the nested order and persistent master fold i
 
 Hyperparameters were selected without access to the scored outer fold. Within each outer training partition at the largest scale, a four-fold inner search minimized component-standardized mean squared error (nMSE). Preprocessing was refitted inside every inner-training split and then on the applicable outer-training subset. The selected setting was held fixed across the smaller nested subsets for that outer fold. The resulting curves therefore show controlled data scaling under fixed hyperparameters; they do not claim that every scarce-data setting received a separate optimal search.
 
-The preprocessing convention was specified for every surrogate. XGBoost, LightGBM, CatBoost, and Random Forest used inputs and targets in their physical units. AdaBoost and Extra Trees used componentwise target z-scores but did not standardize inputs. SVR, $k$-NN, PLS, Multi-task Elastic Net, Multi-task Lasso, MLP, and TabNet used componentwise z-scores for both inputs and targets. Each required transformation was fitted only on the applicable inner-training, outer-training, or full in-distribution training partition and then applied unchanged to the corresponding validation or OOD inputs. Target-scaled predictions were inverse-transformed to physical component units before projection, mass-conservation and non-negativity evaluation, and conversion to COD, TN, TP, and TSS. The component SDs used to calculate nMSE, nRMSE, and nMAE were estimated separately from the designated training reference set for every surrogate, irrespective of whether that surrogate standardized its training targets. No missing-value imputation, response-dependent outlier removal, or target filtering was used.
+The preprocessing convention was specified for every surrogate. XGBoost, LightGBM, CatBoost, and Random Forest used inputs and targets in their physical units. AdaBoost and Extra Trees used componentwise target z-scores but did not standardize inputs. SVR, $k$-NN, PLS, Multi-task Elastic Net, Multi-task Lasso, MLP, and TabNet used componentwise z-scores for both inputs and targets. Each required transformation was fitted only on the applicable inner-training, outer-training, or full in-distribution training partition and then applied unchanged to the corresponding validation or out-of-distribution inputs. Target-scaled predictions were inverse-transformed to physical component units before projection, mass-conservation and non-negativity evaluation, and conversion to COD, TN, TP, and TSS. The component SDs used to calculate nMSE, nRMSE, and nMAE were estimated separately from the designated training reference set for every surrogate, irrespective of whether that surrogate standardized its training targets. No missing-value imputation, response-dependent outlier removal, or target filtering was used.
 
 Tree inputs need no z-scoring because positive affine transformations preserve their ordering and candidate splits. XGBoost, LightGBM, CatBoost, and AdaBoost also fit the 20 components separately, so differently scaled outputs do not compete within one multi-output loss. Conversely, SVR, $k$-NN, PLS, the multi-task surrogates, MLP, and TabNet depend on distances, covariance, regularization, or joint optimization and benefit materially from scaling.
 
@@ -397,15 +315,7 @@ Tree inputs need no z-scoring because positive affine transformations preserve t
 \hline
 Protocol item & Rule used & Data involved & Leakage-control role \\
 \hline
-Scarcity grid & 11 nested totals from 500 to 10,000 & Seed-42 row permutation & Adds observations without replacing earlier subsets \\
-Outer evaluation & Five folds at every size & $0.8N$ train, $0.2N$ validation & Same folds for every surrogate and prediction type \\
-Inner selection & Four folds within each outer training partition & Largest-scale outer training rows only & Keeps scored outer folds unseen during tuning \\
-Feature scaling & Surrogate-specific z-score scaling & Fitted within each inner or outer training partition & Prevents validation-distribution leakage \\
-Target scaling & Surrogate-specific componentwise z-score scaling & Fitted within each inner or outer training partition & Keeps target preprocessing independent of scored responses \\
-Inverse transform & Applied before projection & Raw component predictions & Restores physical units for invariants \\
-Paired ablation & Raw and projected versions of one prediction & Identical validation samples & Isolates the effect of projection \\
-Fold retention & Store metrics and timings per fold & Five observations per surrogate--size cell & Supports descriptive mean $\pm$ sample SD \\
-Reporting map & Common $I_{comp}$ & Raw and projected components & Keeps composites secondary to component evaluation \\
+\csvrowsfour{table_data_protocol.csv}
 \hline
 \end{tabular}
 \end{table}
@@ -430,25 +340,12 @@ For reporting, ``Interpretable models'' denotes PLS, Multi-task Elastic Net, and
 \hline
 Surrogate & Benchmark category & Multi-output handling & Scaling & Selection \\
 \hline
-XGBoost & Boosting & One regressor per component & None & Inner Optuna \\
-LightGBM & Boosting & One regressor per component & None & Inner Optuna \\
-CatBoost & Boosting & One regressor per component & None & Inner Optuna \\
-AdaBoost & Boosting & One regressor per component & Training-partition target scaling & Inner Optuna \\
-Random Forest & Randomized tree ensembles & Native multi-output & None & Inner Optuna \\
-Extra Trees & Randomized tree ensembles & Native multi-output & Training-partition target scaling & Inner Optuna \\
-SVR & Kernel & One regressor per component & Training-partition input/target scaling & Inner Optuna \\
-$k$-NN & Instance based & Native multi-output & Training-partition input/target scaling & Inner Optuna \\
-PLS & Interpretable models & Joint 20-component regression & Training-partition input/target scaling & Inner Optuna \\
-Multi-task Elastic Net & Interpretable models & Joint 20-component regression & Training-partition input/target scaling & Inner Optuna \\
-Multi-task Lasso & Interpretable models & Joint 20-component regression & Training-partition input/target scaling & Inner Optuna \\
-MLP & Neural networks & Joint 20-component regression & Training-partition input/target scaling & Inner Optuna \\
-TabNet & Neural networks & Joint 20-component regression & Training-partition input/target scaling & Inner Optuna \\
-
+\csvrowsfive{table_surrogate_models.csv}
 \hline
 \end{tabular}}
 \end{table}
 
-Hyperparameter optimization for every benchmark surrogate used a seeded tree-structured Parzen estimator. Each surrogate had six separate 100-trial studies: one four-fold inner study inside each of the five largest-scale outer-training partitions and one four-fold study on the full in-distribution dataset for the OOD refit. The outer-fold studies minimized inner nMSE without access to their scored outer fold, and the full-data study did not use an OOD response. Each fold-specific setting was retained across all smaller nested subsets for that outer fold, allowing learning-curve changes to be attributed to sample size rather than to a changing search budget. In total, 7,800 trials were completed. MLP used all rows in the applicable training partition and stopped on training-loss convergence or at 250 epochs; validation-based early stopping was disabled. For TabNet, the epoch count was selected in the same search, patience was zero, and every refit used all rows available to that fit.
+Hyperparameter optimization for every benchmark surrogate used a seeded tree-structured Parzen estimator. Each surrogate had six separate 100-trial studies: one four-fold inner study inside each of the five largest-scale outer-training partitions and one four-fold study on the full in-distribution dataset for the out-of-distribution refit. The outer-fold studies minimized inner nMSE without access to their scored outer fold, and the full-data study did not use an out-of-distribution response. Each fold-specific setting was retained across all smaller nested subsets for that outer fold, allowing learning-curve changes to be attributed to sample size rather than to a changing search budget. In total, 7,800 trials were completed. MLP used all rows in the applicable training partition and stopped on training-loss convergence or at 250 epochs; validation-based early stopping was disabled. For TabNet, the epoch count was selected in the same search, patience was zero, and every refit used all rows available to that fit.
 
 \begin{table}[htbp]
 \centering
@@ -459,17 +356,7 @@ Hyperparameter optimization for every benchmark surrogate used a seeded tree-str
 \hline
 Setting & Value \\
 \hline
-Objective & Inner-fold nMSE across 20 effluent components \\
-Optimization direction & Minimize \\
-Sampler & Tree-structured Parzen estimator \\
-Pruning policy & None \\
-Study seed & 42 \\
-Studies per surrogate & Five outer-fold studies and one full-data study \\
-Trials per study & 100 \\
-Outer evaluation & Five-fold cross-validation \\
-Inner selection & Four-fold cross-validation within each outer training partition \\
-Search scale & Largest outer-training subset or full in-distribution dataset; outer settings fixed for smaller subsets \\
-Timeout & None \\
+\csvrowstwo{table_optuna_design.csv}
 \hline
 \end{tabular}
 \end{table}
@@ -486,20 +373,7 @@ Table~\ref{tab:model_hyperparameters} records the hyperparameter search domains 
 \hline
 Surrogate & Settings \\
 \hline
-XGBoost & squared-error objective on CPU; estimators 80--320; learning rate 0.01--0.2 (log); depth 3--8; child weight 0.5--8 (log); row and column subsampling 0.6--1; L1 penalty $10^{-6}$--1 (log); L2 penalty $10^{-3}$--10 (log); histogram or approximate trees \\
-LightGBM & regression objective on CPU; estimators 80--320; learning rate 0.01--0.2 (log); leaves 15--63; depth $\{-1,4,6,8,10\}$, where $-1$ means unbounded; minimum child rows 5--40; row and column subsampling 0.6--1 with subsampling frequency 1; L1 penalty $10^{-6}$--1 and L2 penalty $10^{-6}$--10 (both log) \\
-CatBoost & RMSE loss, Bayesian bootstrap, and CPU fitting; iterations 80--320; learning rate 0.01--0.2 (log); depth 4--8; L2 penalty 0.01--20 (log); bagging temperature 0--5; random strength $10^{-3}$--5 (log) \\
-AdaBoost & depth-three decision-tree base estimator; estimators 50--250; learning rate 0.01--1 (log); loss $\{$linear, square, exponential$\}$ \\
-Random Forest & estimators 100--400; depth $\{$unbounded, 6, 10, 14, 18$\}$; minimum split 2--10; minimum leaf 1--4; feature fraction 0.5--1; bootstrap true or false \\
-Extra Trees & estimators 100--400; depth $\{$unbounded, 6, 10, 14, 18$\}$; minimum split 2--10; minimum leaf 1--4; feature fraction 0.5--1; bootstrap true or false \\
-SVR & penalty 0.1--10 (log); epsilon-insensitive width 0.01--0.5 (log); kernel $\{$radial, linear$\}$; radial-kernel coefficient $\{$scale, auto$\}$; tolerance $10^{-3}$--$10^{-2}$ (log); shrinking enabled; 20,000 maximum iterations; 256 MB kernel cache per component regressor \\
-$k$-NN & neighbors 1--15; uniform or distance weights; automatic, ball-tree, kd-tree, or brute search; leaf size 15--60; Minkowski order $\{1,2,3\}$ when Minkowski distance is selected; Minkowski, Euclidean, or Manhattan distance \\
-PLS & components 1--6; maximum iterations 200--1000; tolerance $10^{-8}$--$10^{-4}$ (log); internal scaling disabled because external fold-local scaling was used \\
-Multi-task Elastic Net & software regularization parameter \texttt{alpha} $10^{-6}$--10 (log); row-group mixing ratio 0.05--0.95; cyclic coordinate descent with 20,000 maximum iterations and tolerance $10^{-6}$ \\
-Multi-task Lasso & software regularization parameter \texttt{alpha} $10^{-6}$--10 (log); cyclic coordinate descent with 20,000 maximum iterations and tolerance $10^{-6}$ \\
-MLP & fixed hidden widths $(128,64,32)$ and Adam solver; activation $\{$ReLU, tanh, logistic$\}$; squared-weight penalty $10^{-6}$--$10^{-2}$ (log); batch size $\{64,128,256\}$; learning rate $5\times10^{-4}$--$10^{-2}$ (log); training-loss tolerance $10^{-4}$--$10^{-3}$ (log); shuffle enabled; validation-based early stopping disabled; 15-epoch training-loss patience; maximum 250 epochs \\
-TabNet & equal decision and attention widths $\{8,16,24\}$; attentive steps 3--4; relaxation coefficient 1.0--2.0; sparsity coefficient $10^{-6}$--$10^{-2}$ (log); Adam learning rate 0.003--0.03 (log); sparsemax or entmax-1.5 masks; exactly 20--50 selected epochs; batch size $\{512,1024\}$; ghost-batch virtual size 128; patience 0 \\
-
+\csvrowstwo{table_model_hyperparameters.csv}
 \hline
 \end{tabular}
 \end{table}
@@ -508,7 +382,7 @@ The finite search domains in Table~\ref{tab:model_hyperparameters} define the ev
 
 \subsection{Surrogate Training, Prediction, and Projection Workflow}
 
-The same evaluation workflow is applied to every surrogate so that raw and projected predictions differ only by the post-prediction projection. Table~\ref{tab:modeling_workflow} summarizes cross-validation and evaluation beyond the training domain, hereafter called out-of-distribution (OOD) evaluation. Preprocessing is fitted within the relevant training fold. Projection is applied only after predictions have been returned to physical units.
+The same evaluation workflow is applied to every surrogate so that raw and projected predictions differ only by the post-prediction projection. Table~\ref{tab:modeling_workflow} summarizes cross-validation and evaluation beyond the training domain, hereafter called out-of-distribution evaluation. Preprocessing is fitted within the relevant training fold. Projection is applied only after predictions have been returned to physical units.
 
 \begin{table}[htbp]
 \centering
@@ -520,42 +394,14 @@ The same evaluation workflow is applied to every surrogate so that raw and proje
 \hline
 Step & Operation & Data used & Reproducibility and leakage-control note \\
 \hline
-1 & Select nested subset and outer fold & In-distribution mechanistic states & Same subset and validation indices for every surrogate \\
-2 & Select settings & Outer training partition only & Four-fold inner search for every surrogate \\
-3 & Fit preprocessing and surrogate & $0.8N$ outer training rows & Fold-local transforms and frozen outer-fold settings \\
-4 & Predict and inverse-transform & $0.2N$ outer validation rows & Raw component vector restored to physical units \\
-5 & Apply projection & $c_{raw,i}^{(m)}$, $c_{in,i}$, $A$, $Z$, $W_{s,i}^{(m)}$ & Underlying predictor remains unchanged \\
-6 & Score paired outputs & Same outer validation rows & Accuracy, violations, displacement, and timing by fold \\
-7 & Repeat at every size & Eleven nested totals & Descriptive mean $\pm$ sample SD across five folds \\
-8 & Select and refit final surrogates & All accepted in-distribution states & Separate full-data search; settings frozen before extrapolation testing \\
-9 & Evaluate extrapolation set & New states beyond in-distribution bounds & No refitting, recalibration, or target access \\
+\csvrowsfour{table_modeling_workflow.csv}
 \hline
 \end{tabular}
 \end{table}
 
 \begin{figure}[htbp]
 \centering
-\begin{tikzpicture}[
-  node distance=4mm and 4mm,
-  flowbox/.style={draw=DeepTeal, rounded corners=2pt, fill=DeepTeal!6,
-               text width=24mm, minimum height=11mm, align=center, font=\scriptsize},
-  proj/.style={flowbox, fill=MutedAmber!30, draw=CoralRust},
-  arrow/.style={-{Latex[length=2.1mm]}, thick, draw=MineralGreen}
-]
-\node[flowbox] (data) {Mechanistic in-distribution subset\\and outer fold};
-\node[flowbox, right=of data] (model) {Fold-local preprocessing\\and statistical surrogate};
-\node[flowbox, right=of model] (raw) {Raw physical\\component prediction};
-\node[proj, right=of raw] (project) {Kircher--Votsmeier\\projection};
-\node[flowbox, below=of raw] (score) {Paired accuracy, mass conservation,\\non-negativity, displacement,\\and latency};
-\draw[arrow] (data) -- (model);
-\draw[arrow] (model) -- (raw);
-\draw[arrow] (raw) -- (project);
-\draw[arrow] (raw) -- (score);
-\draw[arrow] (project) -- (score);
-\node[flowbox, below=of data] (ood) {Thirteen full-data refits\\$\rightarrow$ untouched extrapolation set};
-\draw[arrow] (data) -- (ood);
-\draw[arrow] (ood) -- (score);
-\end{tikzpicture}
+\includegraphics[width=\textwidth]{figure_evaluation_workflow.pdf}
 \caption{Evaluation workflow linking nested in-distribution cross-validation, paired raw/projected scoring, and external out-of-distribution validation.}
 \label{fig:evaluation_workflow}
 \end{figure}
@@ -589,7 +435,7 @@ R_{j,m,t,N,g}^{2}
 \bar R_{m,t,N,g}^{2}=\frac{1}{F}\sum_{j=1}^{F}R_{j,m,t,N,g}^{2}.
 \label{eq:coefficient_determination}
 \end{equation}
-A component with zero variance in the scored fold has undefined $R^2$, so the fold-level macro-average is not reported in that case. Component-specific errors in physical units and secondary metrics for the four reported water-quality quantities are retained for interpretation rather than mixed into the standardized primary score. For the detailed supplementary composite tables, $\mathrm{nRMSE}_q=\mathrm{RMSE}_q/\sigma_q^{(\mathcal{T})}$ denotes the physical-unit RMSE of composite $q\in\{\mathrm{COD},\mathrm{TN},\mathrm{TP},\mathrm{TSS}\}$ divided by its population SD in the applicable outer-training partition; OOD composite normalization uses the SD of all 10,000 ID targets. This secondary composite-specific quantity is distinct from the primary 20-component nRMSE in Equation~\eqref{eq:normalized_metrics}. Each ID metric is summarized descriptively as the mean $\pm$ sample SD of its five outer-fold values; no hypothesis tests or inferential rank claims are applied.
+A component with zero variance in the scored fold has undefined $R^2$, so the fold-level macro-average is not reported in that case. Component-specific errors in physical units and secondary metrics for the four reported water-quality quantities are retained for interpretation rather than mixed into the standardized primary score. For the detailed supplementary composite tables, $\mathrm{nRMSE}_q=\mathrm{RMSE}_q/\sigma_q^{(\mathcal{T})}$ denotes the physical-unit RMSE of composite $q\in\{\mathrm{COD},\mathrm{TN},\mathrm{TP},\mathrm{TSS}\}$ divided by its population SD in the applicable outer-training partition; out-of-distribution composite normalization uses the SD of all 10,000 in-distribution targets. This secondary composite-specific quantity is distinct from the primary 20-component nRMSE in Equation~\eqref{eq:normalized_metrics}. Each in-distribution metric is summarized descriptively as the mean $\pm$ sample SD of its five outer-fold values; no hypothesis tests or inferential rank claims are applied.
 
 Mass-conservation and non-negativity compliance is assessed before aggregation. With the fixed, full-precision orthonormal basis $A$, the first quantity below measures departure from the invariant affine space; the second measures the total standardized magnitude of negative components:
 \begin{equation}
@@ -618,7 +464,7 @@ d_{c,i}^{\mathrm{std},(m)}\!\left(\mathcal{T}_{N,g}\right)
 \end{equation}
 Negative $\Delta\mathrm{nRMSE}$ denotes an accuracy benefit from projection; positive values denote a cost. The five paired fold differences, rather than a difference of separately averaged scores, are summarized across folds. Physical-unit, per-component negative magnitudes and displacements are also retained as secondary diagnostics.
 
-Wall-clock timing is partitioned into preprocessing and surrogate fitting, raw batch inference, projection alone, and end-to-end projected inference. Hyperparameter-search duration is the cumulative duration of completed Optuna trials within each distinct study; it is reported separately and is never summed across dataset-size rows because each outer-fold search is reused at all eleven sizes. The ID timing protocol constructs a deterministic 512-row set by cycling through the outer validation inputs, thereby holding the number of scored rows constant even when a fold contains fewer than 512 unique observations. Five warm-up calls precede 30 repetitions for each timed path. The median 512-row latency within a fold is divided by 512 and reported in milliseconds per sample; the five fold medians are then summarized as the arithmetic mean $\pm$ sample SD. OOD timing uses the same batching and repetition protocol for each single full-data refit but has no fold uncertainty. Projection timing includes scaling, the weighted solve, mass-conservation and non-negativity checks, and positivity backtracking. TabNet uses synchronous inference; no accelerator transfer or asynchronous-device timing is involved.
+Wall-clock timing is partitioned into preprocessing and surrogate fitting, raw batch inference, projection alone, and end-to-end projected inference. Hyperparameter-search duration is the cumulative duration of completed Optuna trials within each distinct study; it is reported separately and is never summed across dataset-size rows because each outer-fold search is reused at all eleven sizes. The in-distribution timing protocol constructs a deterministic 512-row set by cycling through the outer validation inputs, thereby holding the number of scored rows constant even when a fold contains fewer than 512 unique observations. Five warm-up calls precede 30 repetitions for each timed path. The median 512-row latency within a fold is divided by 512 and reported in milliseconds per sample; the five fold medians are then summarized as the arithmetic mean $\pm$ sample SD. Out-of-distribution timing uses the same batching and repetition protocol for each single full-data refit but has no fold uncertainty. Projection timing includes scaling, the weighted solve, mass-conservation and non-negativity checks, and positivity backtracking.
 
 \begin{table}[htbp]
 \centering
@@ -630,64 +476,50 @@ Wall-clock timing is partitioned into preprocessing and surrogate fitting, raw b
 \hline
 Metric & Definition & Computed on & Interpretation \\
 \hline
-nMSE & Mean squared standardized component error & 20 ASM components & Penalizes large standardized errors \\
-nRMSE & Square root of nMSE & 20 ASM components & Primary accuracy score \\
-nMAE & Mean absolute standardized component error & 20 ASM components & Robust average standardized deviation \\
-$R^2$ & Equal-weight macro-average of component $R^2$ & 20 ASM components & Explained component variation \\
-$v_{mc}$ & $\|Ac-b_i\|_2$ & ASM components & Magnitude of conservation residual \\
-$v_{nn}^{\mathrm{std}}$ & $\|\min(c\oslash\boldsymbol{\sigma}^{(\mathcal{T})},\mathbf{0})\|_1$ & Standardized ASM components & Magnitude of negative concentrations \\
-$\pi_{mc}$ & Fraction with $v_{mc}>\tau_{mc}$ & ASM components & Conservation-violation frequency \\
-$\pi_{nn}$ & Fraction with any $c_j<-\tau_{nn,j}$ & ASM components & Non-negativity-violation frequency \\
-$\Delta\mathrm{nRMSE}$ & Projected nRMSE minus raw nRMSE & Paired fold predictions & Accuracy benefit ($<0$) or cost ($>0$) \\
-$d_c^{\mathrm{std},(m)}$ & $\|(\tilde c^{(m)}-c_{raw}^{(m)})\oslash\boldsymbol{\sigma}^{(\mathcal{T})}\|_2$ & Standardized ASM components & Size of component-space projection displacement \\
-Preparation time & Preprocessing plus fit or context construction, excluding search & Training fold & Surrogate preparation cost \\
-Inference latency & Raw, projection-only, and end-to-end time & Validation batch & Deployment cost \\
+\csvrowsfour{table_evaluation_metrics.csv}
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Out-of-Distribution Extrapolation Design}
 
-After cross-validation, one final setting per surrogate is selected by a four-fold search that uses only the 10,000 in-distribution states and the same objective and search budget. Each surrogate and its preprocessing are then refitted on the complete in-distribution pool before any OOD target is accessed.
+After cross-validation, one final setting per surrogate is selected by a four-fold search that uses only the 10,000 in-distribution states and the same objective and search budget. Each surrogate and its preprocessing are then refitted on the complete in-distribution pool before any out-of-distribution target is accessed.
 
-The OOD validation set is generated with new mechanistic simulations. No OOD response is used for refitting, scaling, calibration, or hyperparameter selection. Four prespecified input features are perturbed beyond their configured maxima, while the remaining features stay inside their original ranges. For candidate $i$ and perturbed feature $\ell$ with ID bounds $[L_\ell,U_\ell]$, the normalized upper-bound exceedance is $(x_{i\ell}-U_\ell)/(U_\ell-L_\ell)$. Mild excursions place this quantity in $[0.10,0.25]$, and severe excursions place it in $[0.35,0.60]$. Candidate generation targets a 70\% one-variable and 30\% two-variable mixture; realized candidate and retained-set proportions are reported separately. Every retained point is therefore outside the in-distribution hyperrectangle and, consequently, outside the convex hull of the training data. OOD standardized errors use $\boldsymbol{\sigma}^{(\mathcal{T}_{\mathrm{ID}})}$, the population component SDs estimated from all 10,000 in-distribution targets.
+The out-of-distribution validation set is generated with new mechanistic simulations. No out-of-distribution response is used for refitting, scaling, calibration, or hyperparameter selection. Four prespecified input features are perturbed beyond their configured maxima, while the remaining features stay inside their original ranges. For candidate $i$ and perturbed feature $\ell$ with in-distribution bounds $[L_\ell,U_\ell]$, the normalized upper-bound exceedance is $(x_{i\ell}-U_\ell)/(U_\ell-L_\ell)$. Mild excursions place this quantity in $[0.10,0.25]$, and severe excursions place it in $[0.35,0.60]$. Candidate generation targets a 70\% one-variable and 30\% two-variable mixture; realized candidate and retained-set proportions are reported separately. Every retained point is therefore outside the in-distribution hyperrectangle and, consequently, outside the convex hull of the training data. Out-of-distribution standardized errors use $\boldsymbol{\sigma}^{(\mathcal{T}_{\mathrm{in\text{-}distribution}})}$, the population component SDs estimated from all 10,000 in-distribution targets.
 
-For OOD regime $\zeta\in\{\mathrm{mild},\mathrm{severe}\}$, let $n_\zeta=600$ and define
+For out-of-distribution regime $\zeta\in\{\mathrm{mild},\mathrm{severe}\}$, let $n_\zeta=600$ and define
 \begin{equation}
 \xi_{ij}^{(m,t,\zeta)}
 =\frac{c_{ij}^{(m,t)}-c_{out,ij}}
-{\sigma_j^{(\mathcal{T}_{\mathrm{ID}})}}.
+{\sigma_j^{(\mathcal{T}_{\mathrm{in\text{-}distribution}})}}.
 \end{equation}
-The nMSE, nRMSE, nMAE, $R^2$, and violation-frequency equations above then apply with the ID context $(N,g)$ replaced by $\zeta$, with $n=n_\zeta$ and $\mathcal{T}=\mathcal{T}_{\mathrm{ID}}$. These OOD quantities are summarized over the $n_\zeta$ cases and are not averaged across folds.
+The nMSE, nRMSE, nMAE, $R^2$, and violation-frequency equations above then apply with the in-distribution context $(N,g)$ replaced by $\zeta$, with $n=n_\zeta$ and $\mathcal{T}=\mathcal{T}_{\mathrm{in\text{-}distribution}}$. These out-of-distribution quantities are summarized over the $n_\zeta$ cases and are not averaged across folds.
 
 \begin{table}[htbp]
 \centering
-\caption{Out-of-distribution (OOD) input intervals. Values are fixed design bounds rather than performance results.}
+\caption{Out-of-distribution input intervals. Values are fixed design bounds rather than performance results.}
 \label{tab:ood_domain}
 \scriptsize
 \begin{tabular}{lllll}
 \toprule
 Input & In-distribution interval & Mild extrapolation interval & Severe extrapolation interval & Unit \\
 \midrule
-HRT & $[6,36]$ & $[39,43.5]$ & $[46.5,54]$ & h \\
-$u_{\mathrm{air}}$ & $[0.5,2.5]$ & $[2.7,3.0]$ & $[3.2,3.7]$ & -- \\
-$S_{NH4}$ & $[12,55]$ & $[59.3,65.8]$ & $[70.1,80.8]$ & g N/m$^3$ \\
-$X_S$ & $[60,280]$ & $[302,335]$ & $[357,412]$ & g COD/m$^3$ \\
+\csvrowsfive{table_ood_domain.csv}
 \bottomrule
 \end{tabular}
 \end{table}
 
-The target is 600 retained steady states per severity band. The same solver, initialization sequence, and residual rule used for in-distribution generation are retained. Attempted, solver-accepted, solver-failed, valid-unselected, and retained counts are reported separately because a parallel final batch can contain valid candidates beyond the target. OOD comparison uses nMSE, nRMSE, nMAE, mass-conservation and non-negativity violation magnitudes and rates, and projection displacement on identical raw/projected sample pairs. These results are descriptive over 600 cases from one full-data refit per surrogate; they are not five-fold uncertainty estimates. The coefficient of determination is secondary because a deliberately shifted response distribution changes its denominator. Mass-conservation and non-negativity compliance and predictive extrapolation are interpreted separately.
+The target is 600 retained steady states per severity band. The same solver, initialization sequence, and residual rule used for in-distribution generation are retained. Attempted, solver-accepted, solver-failed, valid-unselected, and retained counts are reported separately because a parallel final batch can contain valid candidates beyond the target. Out-of-distribution comparison uses nMSE, nRMSE, nMAE, mass-conservation and non-negativity violation magnitudes and rates, and projection displacement on identical raw/projected sample pairs. These results are descriptive over 600 cases from one full-data refit per surrogate; they are not five-fold uncertainty estimates. The coefficient of determination is secondary because a deliberately shifted response distribution changes its denominator. Mass-conservation and non-negativity compliance and predictive extrapolation are interpreted separately.
 
 \subsection{Computational Environment and Reproducibility}
 
-All pseudorandom streams are reproducibly derived from root seed 42 and preserve the shared subset and fold indices. Fixed seed 42 was supplied to XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, Extra Trees, MLP, and TabNet; the multi-task solvers used deterministic cyclic coordinate descent, while SVR, $k$-NN, and PLS were deterministic for fixed data and parameters. TabNet additionally used deterministic PyTorch operations with fixed NumPy and PyTorch seeds. Double precision was used for mechanistic states, invariant construction, preprocessing, returned predictions, projection, and metrics; TabNet's internal tensors used single precision. The archived run manifest records the processor, installed memory, operating system, package versions, precision, device, and thread limits. Timing values are specific to the workstation and batching protocol and are not transferable performance measurements.
+All pseudorandom streams are reproducibly derived from root seed 42 and preserve the shared subset and fold indices. Fixed seed 42 was supplied to XGBoost, LightGBM, CatBoost, AdaBoost, Random Forest, Extra Trees, MLP, and TabNet; the multi-task solvers used deterministic cyclic coordinate descent, while SVR, $k$-NN, and PLS were deterministic for fixed data and parameters. TabNet additionally used deterministic PyTorch operations with fixed NumPy and PyTorch seeds. Double precision was used for mechanistic states, invariant construction, preprocessing, returned predictions, projection, and metrics; TabNet's internal tensors used single precision. The archived run manifest records package versions and precision. Timing values are specific to the stated batching protocol and are not transferable performance measurements.
 
 \section{Results and Discussion}
 
 \subsection{Benchmark Dataset and Invariant Verification}
 
-The completed benchmark contained 10,000 in-distribution states and 600 states in each OOD regime. Every mechanistic candidate in these three sets met the steady-state acceptance criterion and was retained (Table~\ref{tab:dataset_validation}). All retained effluent components were positive. The largest observed invariant residual was $4.90\times10^{-11}$ in-distribution, $5.67\times10^{-11}$ for mild extrapolation, and $2.91\times10^{-10}$ for severe extrapolation, all below the mechanistic acceptance tolerance of $10^{-9}$. One severe-OOD reference state consequently exceeded the separate $10^{-10}$ projection acceptance tolerance; that tolerance is applied to projected surrogate outputs rather than to mechanistic-state acceptance. The stored full-precision invariant operator used in the benchmark satisfies $\max_{h,p}|(A\nu^\top)_{hp}|=4.25\times10^{-16}$.
+The completed benchmark contained 10,000 in-distribution states and 600 states in each out-of-distribution regime. Every mechanistic candidate in these three sets met the steady-state acceptance criterion and was retained (Table~\ref{tab:dataset_validation}). All retained effluent components were positive. The largest observed invariant residual was $4.90\times10^{-11}$ in-distribution, $5.67\times10^{-11}$ for mild extrapolation, and $2.91\times10^{-10}$ for severe extrapolation, all below the mechanistic acceptance tolerance of $10^{-9}$. One severe out-of-distribution reference state consequently exceeded the separate $10^{-10}$ projection acceptance tolerance; that tolerance is applied to projected surrogate outputs rather than to mechanistic-state acceptance. The stored full-precision invariant operator used in the benchmark satisfies $\max_{h,p}|(A\nu^\top)_{hp}|=4.25\times10^{-16}$.
 
 \FloatBarrier
 \begin{table}[H]
@@ -699,9 +531,7 @@ The completed benchmark contained 10,000 in-distribution states and 600 states i
 \toprule
 Dataset & Attempted & Retained & Acceptance (\%) & Maximum invariant residual & Minimum component \\
 \midrule
-In-distribution & 10,000 & 10,000 & 100.0 & $4.90\times10^{-11}$ & $8.75\times10^{-4}$ \\
-Mild out-of-distribution & 600 & 600 & 100.0 & $5.67\times10^{-11}$ & $1.62\times10^{-3}$ \\
-Severe out-of-distribution & 600 & 600 & 100.0 & $2.91\times10^{-10}$ & $1.01\times10^{-3}$ \\
+\csvrowssix{table_dataset_validation.csv}
 \bottomrule
 \end{tabular}
 \end{table}
@@ -720,19 +550,7 @@ At the largest in-distribution sample size, MLP had the lowest observed raw and 
 \toprule
 Surrogate & Raw nRMSE & Projected nRMSE & $\Delta$ nRMSE & Raw macro-$R^2$ & Projected macro-$R^2$ \\
 \midrule
-XGBoost & $0.254\pm0.006$ & $0.255\pm0.006$ & $+0.001$ & $0.935\pm0.003$ & $0.935\pm0.003$ \\
-LightGBM & $0.249\pm0.008$ & $0.250\pm0.007$ & $+0.001$ & $0.938\pm0.004$ & $0.937\pm0.004$ \\
-CatBoost & $0.230\pm0.006$ & $0.229\pm0.006$ & $-0.001$ & $0.947\pm0.002$ & $0.947\pm0.002$ \\
-AdaBoost & $0.525\pm0.004$ & $0.581\pm0.028$ & $+0.056$ & $0.724\pm0.004$ & $0.660\pm0.035$ \\
-Random Forest & $0.718\pm0.005$ & $0.813\pm0.020$ & $+0.095$ & $0.484\pm0.004$ & $0.332\pm0.053$ \\
-Extra Trees & $0.563\pm0.005$ & $0.608\pm0.025$ & $+0.044$ & $0.683\pm0.002$ & $0.627\pm0.037$ \\
-SVR & $0.364\pm0.011$ & $0.356\pm0.011$ & $-0.008$ & $0.868\pm0.002$ & $0.874\pm0.002$ \\
-$k$-NN & $0.607\pm0.007$ & $0.621\pm0.021$ & $+0.014$ & $0.632\pm0.001$ & $0.613\pm0.026$ \\
-PLS & $0.721\pm0.006$ & $0.745\pm0.031$ & $+0.024$ & $0.480\pm0.002$ & $0.446\pm0.033$ \\
-Multi-task Elastic Net & $0.536\pm0.008$ & $0.516\pm0.008$ & $-0.020$ & $0.713\pm0.003$ & $0.734\pm0.003$ \\
-Multi-task Lasso & $0.536\pm0.008$ & $0.516\pm0.008$ & $-0.020$ & $0.713\pm0.003$ & $0.734\pm0.003$ \\
-MLP & $0.150\pm0.012$ & $0.149\pm0.012$ & $-0.002$ & $0.977\pm0.003$ & $0.978\pm0.003$ \\
-TabNet & $0.272\pm0.027$ & $0.275\pm0.024$ & $+0.003$ & $0.926\pm0.013$ & $0.923\pm0.014$ \\
+\csvrowssix{table_full_size_accuracy.csv}
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -744,16 +562,16 @@ The aggregate score concealed substantial component-to-component variation. Supp
 
 Raw nRMSE decreased between $N=500$ and $N=10{,}000$ for every surrogate (Figure~\ref{fig:learning_curves}), although several curves had small local non-monotonic changes. XGBoost and LightGBM had the lowest observed mean raw nRMSE at $N=500$ (0.435 and 0.439, respectively). MLP improved from 0.524 to 0.150 and had the lowest observed full-size error.
 
-The accepted CPU-bounded TabNet surrogate was the clearest exception to an apparent full-size plateau. Its raw nRMSE fell from 0.938 at $N=500$ to 0.272 at $N=10{,}000$, the largest endpoint reduction among the 13 surrogates. More importantly, it still fell from 0.298 at $N=9{,}050$ to 0.272 at $N=10{,}000$; this last-step gain of 0.0266 was approximately five times the next-largest gain. TabNet therefore joined the five lowest-error surrogates at the available data limit but did not equal MLP's nRMSE of 0.150, and no equivalence claim is supported without inferential testing. The continuing slope indicates that the evaluated TabNet configuration had not visibly exhausted useful information by 10,000 states. In practice, that makes it data hungry relative to the boosting surrogates and MLP: obtaining its asymptotic benefit may require more mechanistic simulations or plant observations, more storage and curation, and greater CPU training cost. This conclusion is conditional on the accepted 20--50-epoch CPU search; a larger experiment is needed to distinguish architectural sample demand from the imposed computational budget.
+The TabNet surrogate was the clearest exception to an apparent full-size plateau. Its raw nRMSE fell from 0.938 at $N=500$ to 0.272 at $N=10{,}000$, the largest endpoint reduction among the 13 surrogates. More importantly, it still fell from 0.298 at $N=9{,}050$ to 0.272 at $N=10{,}000$; this last-step gain of 0.0266 was approximately five times the next-largest gain. TabNet therefore joined the five lowest-error surrogates at the available data limit but did not equal MLP's nRMSE of 0.150, and no equivalence claim is supported without inferential testing. The continuing slope indicates that the evaluated TabNet configuration had not visibly exhausted useful information by 10,000 states. In practice, that makes it data hungry relative to the boosting surrogates and MLP: obtaining its asymptotic benefit may require more mechanistic simulations or plant observations, more storage and curation, and greater training cost.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.96\textwidth]{final_results/figure_learning_curves.pdf}
+\includegraphics[width=0.96\textwidth]{figure_learning_curves.pdf}
 \caption{In-distribution learning curves for raw predictions. Lines show five-fold mean nRMSE and shaded regions show $\pm$ one sample SD across folds.}
 \label{fig:learning_curves}
 \end{figure}
 
-\subsection{Mass-Conservation and Non-Negativity Enforcement and Projection Effects}
+\subsection{Mass-Conservation and Non-Negativity Enforcement Effects}
 
 Every raw prediction set violated the declared mass-conservation tolerance for every surrogate and data size. Raw non-negativity violations were surrogate-dependent: at $N=10{,}000$, they were absent for AdaBoost, Random Forest, Extra Trees, and $k$-NN but affected 39.0--76.8\% of validation rows for the remaining surrogates (Table~\ref{tab:projection_physics}). Projection eliminated both mass-conservation and non-negativity violations in all 750,750 in-distribution predictions. The maximum projected conservation residual was $2.06\times10^{-13}$, and no projected concentration was negative.
 
@@ -768,19 +586,7 @@ Every raw prediction set violated the declared mass-conservation tolerance for e
 \toprule
 Surrogate & Raw mass violation (\%) & Raw non-negativity violation (\%) & Maximum projected $v_{mc}$ & Backtracking (\%) & Mean $d_c^{\mathrm{std}}$ \\
 \midrule
-XGBoost & 100.0 & 39.7 & $1.54\times10^{-13}$ & 0.00 & 0.300 \\
-LightGBM & 100.0 & 39.0 & $1.61\times10^{-13}$ & 0.00 & 0.301 \\
-CatBoost & 100.0 & 59.1 & $1.67\times10^{-13}$ & 0.00 & 0.242 \\
-AdaBoost & 100.0 & 0.0 & $1.47\times10^{-13}$ & 0.30 & 0.901 \\
-Random Forest & 100.0 & 0.0 & $1.73\times10^{-13}$ & 1.42 & 2.002 \\
-Extra Trees & 100.0 & 0.0 & $1.72\times10^{-13}$ & 0.88 & 1.528 \\
-SVR & 100.0 & 76.8 & $1.58\times10^{-13}$ & 0.01 & 0.363 \\
-$k$-NN & 100.0 & 0.0 & $1.62\times10^{-13}$ & 0.25 & 1.192 \\
-PLS & 100.0 & 54.3 & $1.47\times10^{-13}$ & 0.93 & 1.808 \\
-Multi-task Elastic Net & 100.0 & 71.1 & $1.56\times10^{-13}$ & 0.00 & 0.482 \\
-Multi-task Lasso & 100.0 & 71.0 & $1.72\times10^{-13}$ & 0.00 & 0.482 \\
-MLP & 100.0 & 58.6 & $1.74\times10^{-13}$ & 0.00 & 0.189 \\
-TabNet & 100.0 & 60.5 & $1.46\times10^{-13}$ & 0.04 & 0.545 \\
+\csvrowssix{table_projection_physics.csv}
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -792,10 +598,19 @@ The rising non-negativity incidence for some high-accuracy surrogates is not evi
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.96\textwidth]{final_results/figure_violation_rates_by_sample_size.pdf}
+\includegraphics[width=0.96\textwidth]{figure_violation_rates_by_sample_size.pdf}
 \caption{In-distribution mass-conservation and non-negativity violation rates across nested sample totals. Curves are five-fold means. All 13 raw mass-conservation curves coincide at 100\%, all projected mass-conservation and non-negativity curves coincide at 0\%, and the remaining curves show raw non-negativity violations.}
 \label{fig:violation_trajectories}
 \end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{figure_component_nonnegativity_violations_id.pdf}
+\caption{Component-level raw non-negativity violations at $N=10{,}000$. Rows are surrogates and columns are effluent components. Each cell is the five-fold mean percentage of validation predictions in which that component was below the declared non-negativity tolerance. Projected values are not shown because every projected component had a 0\% violation rate.}
+\label{fig:component_nonnegativity_violations}
+\end{figure}
+
+Figure~\ref{fig:component_nonnegativity_violations} localizes the row-level rates in Table~\ref{tab:projection_physics}. AdaBoost, Random Forest, Extra Trees, and $k$-NN had zero violations for all 20 components. Among the remaining surrogates, violations were concentrated in a subset of low-valued components. Across all 13 surrogates, $S_A$ had the highest mean component-level rate (15.5\%) and reached 35.1\% for SVR; $S_{NH4}$, $S_{NO3}$, and $S_{NO2}$ followed at 9.7\%, 9.3\%, and 8.8\%, respectively. No raw violation occurred in $S_{ALK}$, $X_I$, or $X_H$. Thus, the row-level percentages reflect recurring boundary crossings in particular outputs rather than uniform negativity across the component vector. Any such crossing still makes the raw state inadmissible, while projection reduced every surrogate--component cell to zero.
 
 The accuracy effect in Figure~\ref{fig:projection_change} was governed by how each surrogate's error aligned with the feasible affine space and by the standardized weighting and positivity backtracking, rather than by surrogate family alone. Multi-task Elastic Net and Multi-task Lasso benefited at all eleven sizes and in all five full-size folds. Their joint linear fits can retain systematic cross-component residuals outside the conservation subspace; because the mechanistic target lies inside that subspace, projection removes a repeatable error direction. Neither surrogate required positivity backtracking, so this reconciliation was not diluted by a subsequent move toward the influent anchor. PLS shows why linearity alone is insufficient: it improved 16 of 20 component nRMSE values, but its larger displacement and backtracking-induced $S_F$ and $X_H$ losses produced a $+0.024$ aggregate nRMSE cost.
 
@@ -803,7 +618,7 @@ SVR changed from projection costs at $N=1{,}450$--4,300 to benefits at every siz
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.94\textwidth]{final_results/figure_projection_change.pdf}
+\includegraphics[width=0.94\textwidth]{figure_projection_change.pdf}
 \caption{Change in in-distribution nRMSE after projection for every surrogate and nested sample total. Each cell is projected minus raw five-fold mean nRMSE; negative values indicate lower error after projection.}
 \label{fig:projection_change}
 \end{figure}
@@ -814,7 +629,7 @@ The two largest recurring losses have different explanations. Effluent $S_F$ was
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.98\textwidth]{final_results/figure_component_projection_effects_id.pdf}
+\includegraphics[width=0.98\textwidth]{figure_component_projection_effects_id.pdf}
 \caption{Component-level change in in-distribution nRMSE at $N=10{,}000$. Each cell is the mean of five paired fold differences (projected minus raw); blue denotes lower error and red denotes higher error. The symmetric-log color scale displays small and large changes without clipping.}
 \label{fig:id_component_projection_effects}
 \end{figure}
@@ -827,7 +642,7 @@ Training-time scaling differed much more strongly than inference latency (Figure
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.96\textwidth]{final_results/figure_training_time_scaling.pdf}
+\includegraphics[width=0.96\textwidth]{figure_training_time_scaling.pdf}
 \caption{In-distribution preprocessing and surrogate-fitting time across nested sample totals. Lines show five-fold means, shaded regions show $\pm$ one sample SD, and the vertical axis is logarithmic. Hyperparameter-search time is excluded.}
 \label{fig:training_time_scaling}
 \end{figure}
@@ -836,7 +651,7 @@ At $N=10{,}000$, complete 20-component raw inference ranged from approximately 0
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.94\textwidth]{final_results/figure_inference_latency.pdf}
+\includegraphics[width=0.94\textwidth]{figure_inference_latency.pdf}
 \caption{Complete 20-component raw surrogate-inference latency at $N=10{,}000$. Bars show the five-fold mean and error bars show $\pm$ one sample SD of fold medians.}
 \label{fig:inference_latency}
 \end{figure}
@@ -855,19 +670,7 @@ Error increased from mild to severe extrapolation for every raw and projected su
 \toprule
 Surrogate & Mild raw & Mild projected & Severe raw & Severe projected \\
 \midrule
-XGBoost & 0.424 & 0.420 & 0.861 & 0.853 \\
-LightGBM & 0.419 & 0.413 & 0.848 & 0.842 \\
-CatBoost & 0.393 & 0.387 & 0.836 & 0.828 \\
-AdaBoost & 0.692 & 0.711 & 1.036 & 1.139 \\
-Random Forest & 0.908 & 0.996 & 1.242 & 1.489 \\
-Extra Trees & 0.717 & 0.679 & 1.084 & 1.222 \\
-SVR & 0.555 & 0.538 & 0.989 & 0.948 \\
-$k$-NN & 0.760 & 0.732 & 1.113 & 1.147 \\
-PLS & 0.908 & 0.841 & 1.267 & 1.190 \\
-Multi-task Elastic Net & 0.750 & 0.688 & 1.146 & 1.044 \\
-Multi-task Lasso & 0.751 & 0.688 & 1.146 & 1.044 \\
-MLP & 0.255 & 0.251 & 0.531 & 0.521 \\
-TabNet & 0.336 & 0.333 & 0.563 & 0.547 \\
+\csvrowsfive{table_ood_accuracy.csv}
 \bottomrule
 \end{tabular}
 \end{table}
@@ -877,25 +680,25 @@ Aggregate improvements again coexisted with opposing component effects (Figure~\
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.98\textwidth]{final_results/figure_ood_component_projection_effects.pdf}
+\includegraphics[width=0.98\textwidth]{figure_ood_component_projection_effects.pdf}
 \caption{Component-level change in nRMSE after projection for mild and severe extrapolation. Each cell uses the same 600 mechanistic cases before and after projection; blue denotes lower error and red denotes higher error. The common symmetric-log color scale permits direct comparison without clipping.}
 \label{fig:ood_component_projection_effects}
 \end{figure}
 
-Every raw OOD prediction set violated mass conservation. Projection produced zero mass-conservation and non-negativity violations across all 15,600 OOD surrogate predictions, with a maximum projected conservation residual of $1.72\times10^{-13}$. Backtracking was activated for 68 predictions (0.436\%). The results therefore establish transfer of simultaneous mass-conservation and non-negativity enforcement beyond the training envelope, but not a uniform improvement in extrapolative accuracy.
+Every raw out-of-distribution prediction set violated mass conservation. Projection produced zero mass-conservation and non-negativity violations across all 15,600 out-of-distribution surrogate predictions, with a maximum projected conservation residual of $1.72\times10^{-13}$. Backtracking was activated for 68 predictions (0.436\%). The results therefore establish transfer of simultaneous mass-conservation and non-negativity enforcement beyond the training envelope, but not a uniform improvement in extrapolative accuracy.
 
 \subsection{Cross-Surrogate Synthesis, Implications, and Limitations}
 
-The common finding across architectures was structural rather than predictive: projection enforced mass conservation and non-negativity for every evaluated output, whereas the change in error depended on the surrogate, component, sample size, and evaluation domain. A surrogate can produce no negative raw component and still violate mass conservation, as occurred for AdaBoost, Random Forest, Extra Trees, and $k$-NN. Conversely, the two multi-task linear surrogates produced frequent negative raw components but benefited from projection in ID and OOD accuracy. This distinction supports treating projection as a common mass-conservation and non-negativity safeguard rather than as a general-purpose accuracy enhancer. The strongest practical case is therefore not that projection always improves a statistical score, but that it prevents an accurate yet physically inadmissible state from entering downstream activated-sludge interpretation, optimization, or control.
+The common finding across architectures was structural rather than predictive: projection enforced mass conservation and non-negativity for every evaluated output, whereas the change in error depended on the surrogate, component, sample size, and evaluation domain. A surrogate can produce no negative raw component and still violate mass conservation, as occurred for AdaBoost, Random Forest, Extra Trees, and $k$-NN. Conversely, the two multi-task linear surrogates produced frequent negative raw components but benefited from projection in in-distribution and out-of-distribution accuracy. This distinction supports treating projection as a common mass-conservation and non-negativity safeguard rather than as a general-purpose accuracy enhancer. The strongest practical case is therefore not that projection always improves a statistical score, but that it prevents an accurate yet physically inadmissible state from entering downstream activated-sludge interpretation, optimization, or control.
 
-The evidence is based on simulated steady states rather than plant observations or dynamic trajectories. Satisfaction of five invariants and non-negativity does not imply full kinetic, thermodynamic, or operational feasibility, and a projected state can remain far from the mechanistic solution. OOD conclusions are specific to one simulated realization, four perturbed inputs, and the stated exterior intervals. Surrogate comparisons are conditional on the surrogate-specific preprocessing policies, bounded hyperparameter domains, one random initialization for each neural-network fit, the common search budget, and the implementations in Tables~\ref{tab:surrogate_models} and~\ref{tab:model_hyperparameters}; in particular, Random Forest and Extra Trees used different target-scaling policies, and the TabNet conclusion is conditional on its CPU-bounded widths, steps, and epochs. Timing comparisons depend on the stated hardware, batching, and thread controls. Complete fold-, component-, and sample-level records are retained as machine-readable source data.
+The evidence is based on simulated steady states rather than plant observations or dynamic trajectories. Satisfaction of five invariants and non-negativity does not imply full kinetic, thermodynamic, or operational feasibility, and a projected state can remain far from the mechanistic solution. Out-of-distribution conclusions are specific to one simulated realization, four perturbed inputs, and the stated exterior intervals. Surrogate comparisons are conditional on the surrogate-specific preprocessing policies, bounded hyperparameter domains, one random initialization for each neural-network fit, the common search budget, and the implementations in Tables~\ref{tab:surrogate_models} and~\ref{tab:model_hyperparameters}; in particular, Random Forest and Extra Trees used different target-scaling policies, and the TabNet conclusion is conditional on its evaluated widths, steps, and epochs. Timing comparisons depend on the stated batching protocol. Complete fold-, component-, and sample-level records are retained as machine-readable source data.
 
 \FloatBarrier
 \section{Conclusion}
 
 The Kircher--Votsmeier post-prediction projection transferred successfully to 20-component activated-sludge surrogate outputs. Across 13 statistical surrogates, eleven in-distribution sample sizes, and two extrapolation regimes, every projected output conserved the five declared stoichiometric invariants within tolerance and contained no negative concentration. Simultaneous enforcement of mass conservation and non-negativity required no retraining or redesign of the underlying predictors.
 
-Predictive performance remained an empirical property of the surrogate and domain. At $N=10{,}000$, projection reduced nRMSE for five surrogates and increased it for eight; across OOD regimes it reduced nRMSE in 20 of 26 comparisons. MLP had the lowest observed full-size ID and OOD errors, while the evaluated TabNet configuration remained data hungry and had not visibly plateaued at 10,000 states. The mass-conservation and non-negativity result held equally for all surrogate families. Projection can therefore serve as a common enforcement layer for heterogeneous wastewater surrogates, provided that satisfaction of these two requirements is not interpreted as proof of predictive, kinetic, or process-level validity.
+Predictive performance remained an empirical property of the surrogate and domain. At $N=10{,}000$, projection reduced nRMSE for five surrogates and increased it for eight; across out-of-distribution regimes it reduced nRMSE in 20 of 26 comparisons. MLP had the lowest observed full-size in-distribution and out-of-distribution errors, while the evaluated TabNet configuration remained data hungry and had not visibly plateaued at 10,000 states. The mass-conservation and non-negativity result held equally for all surrogate families. Projection can therefore serve as a common enforcement layer for heterogeneous wastewater surrogates, provided that satisfaction of these two requirements is not interpreted as proof of predictive, kinetic, or process-level validity.
 
 \section*{References}
 

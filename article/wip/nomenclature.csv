@@ -1,0 +1,48 @@
+colA,colB
+$A\in\mathbb{R}^{K\times F}$,Full-row-rank matrix of independent stoichiometric invariants
+$b_i\in\mathbb{R}^{K}$,Conservation target for sample $i$\csvcomma{} $b_i=A c_{in\csvcomma{}i}$
+$c\in\mathbb{R}^{F}$,Generic ASM component-concentration vector
+$c_{in\csvcomma{}i}\csvcomma{}c_{out\csvcomma{}i}\in\mathbb{R}^{F}$,Influent and true steady-state effluent vectors for sample $i$
+$c_{raw\csvcomma{}i}^{(m)}\csvcomma{}c_{+\csvcomma{}i}^{(m)}$,Raw prediction and positive provisional target
+$c_{cand\csvcomma{}i}^{(m)}\csvcomma{}\tilde c_i^{(m)}$,Conservative candidate and final projected prediction
+$D_i$,"Hydraulic dilution rate\csvcomma{} $24\,\mathrm{h\,d}^{-1}/\mathrm{HRT}_i$"
+$d_{c\csvcomma{}i}^{\mathrm{std}\csvcomma{}(m)}(\mathcal{T})$,Projection displacement standardized using reference set $\mathcal{T}$
+$e_{S_O}\in\mathbb{R}^{F}$,Unit vector selecting the dissolved-oxygen component
+$F\csvcomma{}K\csvcomma{}P$,Numbers of ASM components\csvcomma{} invariants\csvcomma{} and processes; 20\csvcomma{} 5\csvcomma{} and 28
+$f_m:\mathbb{R}^{22}\to\mathbb{R}^{F}$,Trained statistical surrogate indexed by $m$
+$I_{comp}\in\mathbb{R}^{4\times F}$,Map from ASM components to COD\csvcomma{} TN\csvcomma{} TP\csvcomma{} and TSS
+$\lambda_O\in\mathbb{R}^{P}$,Process-coordinate vector satisfying $\nu^\top\lambda_O=e_{S_O}$
+$N$,Total observations at a data-scarcity scale
+$n\csvcomma{}n_\zeta$,Observations in one in-distribution validation fold and out-of-distribution regime $\zeta$
+$\mathcal{T}$,Designated training reference set: $\mathcal{T}_{N\csvcomma{}g}$ for in-distribution or $\mathcal{T}_{\mathrm{in\text{-}distribution}}$ for out-of-distribution
+$q\csvcomma{}q_i^{*\csvcomma{}(m)}$,Arbitrary and optimal coordinates\csvcomma{} respectively\csvcomma{} in the basis $Z$
+$s_i^{(m)}$,Componentwise inverse of $c_{+\csvcomma{}i}^{(m)}$
+$u_i\in\mathbb{R}^{2}$,HRT and aeration variables for sample $i$
+$V_0\in\mathbb{R}^{F\times K}$,Matrix whose orthonormal columns span $\operatorname{null}(\nu)$
+$v_{mc\csvcomma{}i}(c)$,Mass-conservation residual of vector $c$ for sample $i$
+$v_{nn\csvcomma{}i}^{\mathrm{std}}(c;\mathcal{T})$,Negative magnitude of $c$ standardized using reference set $\mathcal{T}$
+$W_{s\csvcomma{}i}^{(m)}$,Diagonal relative-scaling matrix formed from $s_i^{(m)}$
+$x_i\in\mathbb{R}^{22}$,Concatenated operating and influent input for sample $i$
+$y\in\mathbb{R}^{4}$,Generic vector of the four reported effluent-quality composites
+$Z\in\mathbb{R}^{F\times(F-K)}$,Matrix whose orthonormal columns span $\operatorname{null}(A)$
+$\alpha_i^{(m)}\csvcomma{}\delta_i^{(m)}$,Backtracking factor and conservative candidate direction
+$\mathrm{nMSE}\csvcomma{}\mathrm{nRMSE}\csvcomma{}\mathrm{nMAE}$,Standardized error metrics defined in Equation~\eqref{eq:normalized_metrics}
+$R^2\csvcomma{}\bar R^2$,Component and equal-weight macro-average coefficients of determination
+$\Delta\mathrm{nRMSE}_{m\csvcomma{}N\csvcomma{}g}$,Projected minus raw nRMSE for surrogate $m$\csvcomma{} size $N$\csvcomma{} and fold $g$
+$\epsilon_{\mathrm{mach}}$,Machine precision for double-precision arithmetic
+$\boldsymbol{\varepsilon}_c$,Component floor vector; each entry is $10^{-8}$ in its native unit
+$\eta$,Numerical safety margin in positivity backtracking; $10^{-12}$
+$\zeta$,Out-of-distribution severity regime\csvcomma{} mild or severe
+$\nu\in\mathbb{R}^{P\times F}$,ASM2d-TSN stoichiometric (Petersen) matrix
+$\rho_i\in\mathbb{R}^{P}$,Biological and chemical process-rate vector for sample $i$
+$\sigma_j^{(\mathcal{T})}\csvcomma{}\boldsymbol{\sigma}^{(\mathcal{T})}$,Component SD and SD vector estimated from training reference set $\mathcal{T}$
+$\tau_{mc}\csvcomma{}\boldsymbol{\tau}_{nn}$,Conservation and componentwise non-negativity tolerances
+$\omega_i$,Net dissolved-oxygen transfer rate due to aeration
+$\xi_{ij}^{(m\csvcomma{}t\csvcomma{}N\csvcomma{}g)}\csvcomma{}\xi_{ij}^{(m\csvcomma{}t\csvcomma{}\zeta)}$,Standardized residual in an in-distribution fold or out-of-distribution regime
+$\pi_{mc}\csvcomma{}\pi_{nn}$,Conservation and non-negativity violation frequencies with context indices
+$\mathcal{F}_i$,Conservative\csvcomma{} non-negative feasible set for sample $i$
+$\mathbb{1}[\cdot]$,Indicator function\csvcomma{} equal to one when its condition is true
+$\oslash$,Elementwise division
+$i\csvcomma{}j\csvcomma{}h\csvcomma{}p$,Sample\csvcomma{} component\csvcomma{} invariant-row\csvcomma{} and process indices
+$m\csvcomma{}t\csvcomma{}\ell\csvcomma{}g$,Surrogate\csvcomma{} prediction-type\csvcomma{} input-feature\csvcomma{} and fold indices
+$\zeta$,Out-of-distribution-regime index

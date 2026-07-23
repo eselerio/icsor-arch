@@ -1,0 +1,261 @@
+model,model_key,component,sample_size,folds,raw_negative_predictions,validation_predictions,raw_nonnegativity_violation_percent_mean,raw_nonnegativity_violation_percent_sample_sd
+XGBoost,xgboost_regressor,S_O,10000,5,62,10000,0.62,0.3174114049620776
+XGBoost,xgboost_regressor,S_F,10000,5,2,10000,0.02,0.0447213595499958
+XGBoost,xgboost_regressor,S_A,10000,5,979,10000,9.790000000000001,3.0461861400774572
+XGBoost,xgboost_regressor,S_NH4,10000,5,854,10000,8.540000000000001,2.218783450452071
+XGBoost,xgboost_regressor,S_NO2,10000,5,1163,10000,11.629999999999999,1.2412695114277152
+XGBoost,xgboost_regressor,S_NO3,10000,5,1103,10000,11.03,0.8621194812785522
+XGBoost,xgboost_regressor,S_N2,10000,5,281,10000,2.81,0.815781833580523
+XGBoost,xgboost_regressor,S_PO4,10000,5,205,10000,2.05,0.5968668193156661
+XGBoost,xgboost_regressor,S_I,10000,5,0,10000,0.0,0.0
+XGBoost,xgboost_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+XGBoost,xgboost_regressor,X_I,10000,5,0,10000,0.0,0.0
+XGBoost,xgboost_regressor,X_S,10000,5,0,10000,0.0,0.0
+XGBoost,xgboost_regressor,X_H,10000,5,0,10000,0.0,0.0
+XGBoost,xgboost_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+XGBoost,xgboost_regressor,X_PP,10000,5,306,10000,3.06,0.32093613071762417
+XGBoost,xgboost_regressor,X_PHA,10000,5,550,10000,5.5,0.8881159834165807
+XGBoost,xgboost_regressor,X_AOB,10000,5,0,10000,0.0,0.0
+XGBoost,xgboost_regressor,X_NOB,10000,5,0,10000,0.0,0.0
+XGBoost,xgboost_regressor,X_MeP,10000,5,6,10000,0.06000000000000001,0.041833001326703784
+XGBoost,xgboost_regressor,X_MeOH,10000,5,63,10000,0.63,0.2841654447676564
+LightGBM,lightgbm_regressor,S_O,10000,5,125,10000,1.25,0.4168333000133267
+LightGBM,lightgbm_regressor,S_F,10000,5,13,10000,0.13,0.11510864433221338
+LightGBM,lightgbm_regressor,S_A,10000,5,758,10000,7.58,1.3904136075283497
+LightGBM,lightgbm_regressor,S_NH4,10000,5,1048,10000,10.48,0.4932038118263079
+LightGBM,lightgbm_regressor,S_NO2,10000,5,1005,10000,10.05,1.4469796128487782
+LightGBM,lightgbm_regressor,S_NO3,10000,5,1143,10000,11.43,0.9922197337283717
+LightGBM,lightgbm_regressor,S_N2,10000,5,340,10000,3.4,0.19685019685029534
+LightGBM,lightgbm_regressor,S_PO4,10000,5,229,10000,2.29,0.5594640292279747
+LightGBM,lightgbm_regressor,S_I,10000,5,0,10000,0.0,0.0
+LightGBM,lightgbm_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+LightGBM,lightgbm_regressor,X_I,10000,5,0,10000,0.0,0.0
+LightGBM,lightgbm_regressor,X_S,10000,5,0,10000,0.0,0.0
+LightGBM,lightgbm_regressor,X_H,10000,5,0,10000,0.0,0.0
+LightGBM,lightgbm_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+LightGBM,lightgbm_regressor,X_PP,10000,5,347,10000,3.47,0.5729310604252488
+LightGBM,lightgbm_regressor,X_PHA,10000,5,623,10000,6.2299999999999995,0.5652433104425038
+LightGBM,lightgbm_regressor,X_AOB,10000,5,0,10000,0.0,0.0
+LightGBM,lightgbm_regressor,X_NOB,10000,5,0,10000,0.0,0.0
+LightGBM,lightgbm_regressor,X_MeP,10000,5,4,10000,0.04,0.041833001326703784
+LightGBM,lightgbm_regressor,X_MeOH,10000,5,40,10000,0.4,0.18708286933869703
+CatBoost,catboost_regressor,S_O,10000,5,125,10000,1.25,0.36912057650583513
+CatBoost,catboost_regressor,S_F,10000,5,1,10000,0.01,0.022360679774997897
+CatBoost,catboost_regressor,S_A,10000,5,1919,10000,19.19,1.2116104984688745
+CatBoost,catboost_regressor,S_NH4,10000,5,1407,10000,14.069999999999999,1.5085589149913907
+CatBoost,catboost_regressor,S_NO2,10000,5,1579,10000,15.790000000000001,0.8042076846188425
+CatBoost,catboost_regressor,S_NO3,10000,5,1398,10000,13.98,0.7661592523751183
+CatBoost,catboost_regressor,S_N2,10000,5,488,10000,4.88,0.919646671281966
+CatBoost,catboost_regressor,S_PO4,10000,5,364,10000,3.6399999999999997,0.45194026153906663
+CatBoost,catboost_regressor,S_I,10000,5,0,10000,0.0,0.0
+CatBoost,catboost_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+CatBoost,catboost_regressor,X_I,10000,5,0,10000,0.0,0.0
+CatBoost,catboost_regressor,X_S,10000,5,0,10000,0.0,0.0
+CatBoost,catboost_regressor,X_H,10000,5,0,10000,0.0,0.0
+CatBoost,catboost_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+CatBoost,catboost_regressor,X_PP,10000,5,431,10000,4.3100000000000005,0.7101056259458871
+CatBoost,catboost_regressor,X_PHA,10000,5,742,10000,7.42,0.5155094567512797
+CatBoost,catboost_regressor,X_AOB,10000,5,0,10000,0.0,0.0
+CatBoost,catboost_regressor,X_NOB,10000,5,0,10000,0.0,0.0
+CatBoost,catboost_regressor,X_MeP,10000,5,20,10000,0.2,0.07905694150420949
+CatBoost,catboost_regressor,X_MeOH,10000,5,145,10000,1.45,0.23452078799117146
+AdaBoost,adaboost_regressor,S_O,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_F,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_A,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_NH4,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_NO2,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_NO3,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_N2,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_PO4,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_I,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_I,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_S,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_H,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_PP,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_PHA,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_AOB,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_NOB,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_MeP,10000,5,0,10000,0.0,0.0
+AdaBoost,adaboost_regressor,X_MeOH,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_O,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_F,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_A,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_NH4,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_NO2,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_NO3,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_N2,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_PO4,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_I,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_I,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_S,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_H,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_PP,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_PHA,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_AOB,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_NOB,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_MeP,10000,5,0,10000,0.0,0.0
+Random Forest,random_forest_regressor,X_MeOH,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_O,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_F,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_A,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_NH4,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_NO2,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_NO3,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_N2,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_PO4,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_I,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_I,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_S,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_H,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_PP,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_PHA,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_AOB,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_NOB,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_MeP,10000,5,0,10000,0.0,0.0
+Extra Trees,extra_trees_regressor,X_MeOH,10000,5,0,10000,0.0,0.0
+SVR,svr_regressor,S_O,10000,5,797,10000,7.970000000000001,0.4644889664997433
+SVR,svr_regressor,S_F,10000,5,61,10000,0.6100000000000001,0.29025850547399984
+SVR,svr_regressor,S_A,10000,5,3513,10000,35.13,0.7934103604062636
+SVR,svr_regressor,S_NH4,10000,5,1960,10000,19.6,0.8529361054615996
+SVR,svr_regressor,S_NO2,10000,5,1813,10000,18.130000000000003,1.018945533382428
+SVR,svr_regressor,S_NO3,10000,5,1588,10000,15.88,0.48036444497901815
+SVR,svr_regressor,S_N2,10000,5,843,10000,8.430000000000001,0.35637059362411017
+SVR,svr_regressor,S_PO4,10000,5,460,10000,4.6,0.41079191812887456
+SVR,svr_regressor,S_I,10000,5,0,10000,0.0,0.0
+SVR,svr_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+SVR,svr_regressor,X_I,10000,5,0,10000,0.0,0.0
+SVR,svr_regressor,X_S,10000,5,96,10000,0.96,0.3507135583350036
+SVR,svr_regressor,X_H,10000,5,0,10000,0.0,0.0
+SVR,svr_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+SVR,svr_regressor,X_PP,10000,5,417,10000,4.17,0.5251190341246451
+SVR,svr_regressor,X_PHA,10000,5,988,10000,9.879999999999999,0.305368629692049
+SVR,svr_regressor,X_AOB,10000,5,7,10000,0.07,0.044721359549995794
+SVR,svr_regressor,X_NOB,10000,5,2,10000,0.02,0.027386127875258306
+SVR,svr_regressor,X_MeP,10000,5,36,10000,0.36,0.11401754250991379
+SVR,svr_regressor,X_MeOH,10000,5,431,10000,4.3100000000000005,0.3416869912653978
+k-NN,knn_regressor,S_O,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_F,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_A,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_NH4,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_NO2,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_NO3,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_N2,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_PO4,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_I,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_I,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_S,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_H,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_PP,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_PHA,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_AOB,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_NOB,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_MeP,10000,5,0,10000,0.0,0.0
+k-NN,knn_regressor,X_MeOH,10000,5,0,10000,0.0,0.0
+PLS,pls_regressor,S_O,10000,5,1491,10000,14.91,0.6338375186118282
+PLS,pls_regressor,S_F,10000,5,2,10000,0.02,0.027386127875258306
+PLS,pls_regressor,S_A,10000,5,2643,10000,26.43,1.465690963334359
+PLS,pls_regressor,S_NH4,10000,5,1454,10000,14.540000000000001,1.2764207770167328
+PLS,pls_regressor,S_NO2,10000,5,702,10000,7.0200000000000005,0.7421253263431995
+PLS,pls_regressor,S_NO3,10000,5,1373,10000,13.73,0.8445412956155547
+PLS,pls_regressor,S_N2,10000,5,337,10000,3.37,0.4162331077653483
+PLS,pls_regressor,S_PO4,10000,5,364,10000,3.6399999999999997,0.4865696250281145
+PLS,pls_regressor,S_I,10000,5,4,10000,0.04,0.041833001326703784
+PLS,pls_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+PLS,pls_regressor,X_I,10000,5,0,10000,0.0,0.0
+PLS,pls_regressor,X_S,10000,5,1116,10000,11.16,0.9323357764239241
+PLS,pls_regressor,X_H,10000,5,0,10000,0.0,0.0
+PLS,pls_regressor,X_PAO,10000,5,9,10000,0.09,0.022360679774997897
+PLS,pls_regressor,X_PP,10000,5,52,10000,0.52,0.1753567791675018
+PLS,pls_regressor,X_PHA,10000,5,590,10000,5.9,0.387298334620742
+PLS,pls_regressor,X_AOB,10000,5,9,10000,0.09,0.04183300132670378
+PLS,pls_regressor,X_NOB,10000,5,0,10000,0.0,0.0
+PLS,pls_regressor,X_MeP,10000,5,0,10000,0.0,0.0
+PLS,pls_regressor,X_MeOH,10000,5,685,10000,6.85,1.1113055385446438
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_O,10000,5,1585,10000,15.85,0.7416198487095667
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_F,10000,5,560,10000,5.6,0.755810822891549
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_A,10000,5,2784,10000,27.839999999999996,1.1828989813166644
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_NH4,10000,5,1837,10000,18.369999999999997,0.7718484307168088
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_NO2,10000,5,1100,10000,11.0,0.8710625695092175
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_NO3,10000,5,1486,10000,14.86,1.0561723344227498
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_N2,10000,5,515,10000,5.15,0.3758324094593228
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_PO4,10000,5,563,10000,5.63,0.5837379549078512
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_I,10000,5,0,10000,0.0,0.0
+Multi-task Elastic Net,multitask_elastic_net_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_I,10000,5,0,10000,0.0,0.0
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_S,10000,5,1474,10000,14.74,1.1132160616879363
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_H,10000,5,0,10000,0.0,0.0
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_PP,10000,5,222,10000,2.2199999999999998,0.38665229858362393
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_PHA,10000,5,985,10000,9.85,0.9440603794249603
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_AOB,10000,5,29,10000,0.29,0.11937336386313324
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_NOB,10000,5,9,10000,0.09,0.0651920240520265
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_MeP,10000,5,76,10000,0.76,0.2678619047195775
+Multi-task Elastic Net,multitask_elastic_net_regressor,X_MeOH,10000,5,1308,10000,13.080000000000002,0.608892437134836
+Multi-task Lasso,multitask_lasso_regressor,S_O,10000,5,1585,10000,15.85,0.7416198487095667
+Multi-task Lasso,multitask_lasso_regressor,S_F,10000,5,559,10000,5.59,0.7659960835409018
+Multi-task Lasso,multitask_lasso_regressor,S_A,10000,5,2784,10000,27.839999999999996,1.1828989813166644
+Multi-task Lasso,multitask_lasso_regressor,S_NH4,10000,5,1837,10000,18.369999999999997,0.7718484307168088
+Multi-task Lasso,multitask_lasso_regressor,S_NO2,10000,5,1098,10000,10.98,0.8934483756770726
+Multi-task Lasso,multitask_lasso_regressor,S_NO3,10000,5,1486,10000,14.86,1.0561723344227498
+Multi-task Lasso,multitask_lasso_regressor,S_N2,10000,5,514,10000,5.14,0.38307962618755914
+Multi-task Lasso,multitask_lasso_regressor,S_PO4,10000,5,562,10000,5.62,0.572931060425249
+Multi-task Lasso,multitask_lasso_regressor,S_I,10000,5,0,10000,0.0,0.0
+Multi-task Lasso,multitask_lasso_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+Multi-task Lasso,multitask_lasso_regressor,X_I,10000,5,0,10000,0.0,0.0
+Multi-task Lasso,multitask_lasso_regressor,X_S,10000,5,1474,10000,14.74,1.09052739534594
+Multi-task Lasso,multitask_lasso_regressor,X_H,10000,5,0,10000,0.0,0.0
+Multi-task Lasso,multitask_lasso_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+Multi-task Lasso,multitask_lasso_regressor,X_PP,10000,5,221,10000,2.21,0.38955102361564903
+Multi-task Lasso,multitask_lasso_regressor,X_PHA,10000,5,985,10000,9.85,0.9440603794249603
+Multi-task Lasso,multitask_lasso_regressor,X_AOB,10000,5,29,10000,0.29,0.11937336386313324
+Multi-task Lasso,multitask_lasso_regressor,X_NOB,10000,5,9,10000,0.09,0.0651920240520265
+Multi-task Lasso,multitask_lasso_regressor,X_MeP,10000,5,75,10000,0.75,0.2783882181415011
+Multi-task Lasso,multitask_lasso_regressor,X_MeOH,10000,5,1308,10000,13.080000000000002,0.608892437134836
+MLP,ann_deep_regressor,S_O,10000,5,142,10000,1.42,0.6870225614927067
+MLP,ann_deep_regressor,S_F,10000,5,115,10000,1.15,0.2549509756796392
+MLP,ann_deep_regressor,S_A,10000,5,2309,10000,23.09,9.41822700936859
+MLP,ann_deep_regressor,S_NH4,10000,5,1020,10000,10.2,3.444379479674097
+MLP,ann_deep_regressor,S_NO2,10000,5,1638,10000,16.380000000000003,5.293462949714487
+MLP,ann_deep_regressor,S_NO3,10000,5,1438,10000,14.38,2.753543171987685
+MLP,ann_deep_regressor,S_N2,10000,5,223,10000,2.23,0.6582172893505608
+MLP,ann_deep_regressor,S_PO4,10000,5,323,10000,3.2299999999999995,0.7521635460456725
+MLP,ann_deep_regressor,S_I,10000,5,0,10000,0.0,0.0
+MLP,ann_deep_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+MLP,ann_deep_regressor,X_I,10000,5,0,10000,0.0,0.0
+MLP,ann_deep_regressor,X_S,10000,5,3,10000,0.030000000000000006,0.0447213595499958
+MLP,ann_deep_regressor,X_H,10000,5,0,10000,0.0,0.0
+MLP,ann_deep_regressor,X_PAO,10000,5,0,10000,0.0,0.0
+MLP,ann_deep_regressor,X_PP,10000,5,492,10000,4.92,1.2661950876543473
+MLP,ann_deep_regressor,X_PHA,10000,5,782,10000,7.82,2.9513979738422265
+MLP,ann_deep_regressor,X_AOB,10000,5,0,10000,0.0,0.0
+MLP,ann_deep_regressor,X_NOB,10000,5,1,10000,0.01,0.0223606797749979
+MLP,ann_deep_regressor,X_MeP,10000,5,23,10000,0.22999999999999998,0.16807736313971613
+MLP,ann_deep_regressor,X_MeOH,10000,5,257,10000,2.5700000000000003,1.303648725692623
+TabNet,tabnet_regressor,S_O,10000,5,461,10000,4.61,4.301075446908598
+TabNet,tabnet_regressor,S_F,10000,5,220,10000,2.2,2.2888315796493197
+TabNet,tabnet_regressor,S_A,10000,5,2402,10000,24.02,12.912619796152908
+TabNet,tabnet_regressor,S_NH4,10000,5,1145,10000,11.45,9.7315851740608
+TabNet,tabnet_regressor,S_NO2,10000,5,1306,10000,13.059999999999999,6.05603005276559
+TabNet,tabnet_regressor,S_NO3,10000,5,1024,10000,10.24,6.315793695174028
+TabNet,tabnet_regressor,S_N2,10000,5,527,10000,5.2700000000000005,3.5223571653084815
+TabNet,tabnet_regressor,S_PO4,10000,5,390,10000,3.9,1.9016440255736609
+TabNet,tabnet_regressor,S_I,10000,5,2,10000,0.02,0.027386127875258306
+TabNet,tabnet_regressor,S_ALK,10000,5,0,10000,0.0,0.0
+TabNet,tabnet_regressor,X_I,10000,5,0,10000,0.0,0.0
+TabNet,tabnet_regressor,X_S,10000,5,215,10000,2.15,2.179449471770337
+TabNet,tabnet_regressor,X_H,10000,5,0,10000,0.0,0.0
+TabNet,tabnet_regressor,X_PAO,10000,5,3,10000,0.03,0.0670820393249937
+TabNet,tabnet_regressor,X_PP,10000,5,310,10000,3.1,0.8573214099741122
+TabNet,tabnet_regressor,X_PHA,10000,5,709,10000,7.090000000000001,3.8644857355151405
+TabNet,tabnet_regressor,X_AOB,10000,5,2,10000,0.02,0.0447213595499958
+TabNet,tabnet_regressor,X_NOB,10000,5,4,10000,0.04,0.06519202405202648
+TabNet,tabnet_regressor,X_MeP,10000,5,36,10000,0.36,0.354259791678367
+TabNet,tabnet_regressor,X_MeOH,10000,5,360,10000,3.6,3.093743686862246
